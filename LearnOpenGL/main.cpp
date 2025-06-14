@@ -24,6 +24,7 @@ const char* fragmentShaderSource = "#version 330 core\n"
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
 void validateShaderCompilation(unsigned int shaderID, const char* shaderType);
+void validateProgramCompilation(unsigned int programID);
 
 int main()
 {
@@ -81,6 +82,19 @@ int main()
 		glCompileShader(fragmentShader);
 		validateShaderCompilation(fragmentShader, "FRAGMENT");
 
+		unsigned int shaderProgram;
+		shaderProgram = glCreateProgram();
+		glAttachShader(shaderProgram, vertexShader);
+		glAttachShader(shaderProgram, fragmentShader);
+		glLinkProgram(shaderProgram);
+		validateProgramCompilation(shaderProgram);
+
+		glUseProgram(shaderProgram);
+		glDeleteShader(vertexShader);
+		glDeleteShader(fragmentShader);
+
+
+
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
@@ -111,5 +125,17 @@ void validateShaderCompilation(unsigned int shaderID, const char* shaderType)
 	{
 		glGetShaderInfoLog(shaderID, 512, NULL, infoLog);
 		cout << "ERROR::SHADER::" << shaderType << "::COMPILATION_FAILED\n" << infoLog << endl;
+	}
+}
+
+void validateProgramCompilation(unsigned int programID)
+{
+	int success;
+	char infoLog[512];
+	glGetProgramiv(programID, GL_LINK_STATUS, &success);
+	if (!success)
+	{
+		glGetProgramInfoLog(programID, 512, NULL, infoLog);
+		cout << "ERROR::SHADER_PROGRAM::COMPILATION_FAILED\n" << infoLog << endl;
 	}
 }
