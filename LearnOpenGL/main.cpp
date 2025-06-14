@@ -14,9 +14,16 @@ const char* vertexShaderSource = "#version 330 core\n"
 	"{\n"
 	"	gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
 	"}\0";
+const char* fragmentShaderSource = "#version 330 core\n"
+	"out vec4 FragColor;\n"
+	"void main()\n"
+	"{\n"
+	"	FragColor = vec4(0.59f, 0.65f, 0.50f, 1.00f);\n"
+	"}\0";
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
+void validateShaderCompilation(unsigned int shaderID, const char* shaderType);
 
 int main()
 {
@@ -66,15 +73,13 @@ int main()
 		vertexShader = glCreateShader(GL_VERTEX_SHADER);
 		glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
 		glCompileShader(vertexShader);
+		validateShaderCompilation(vertexShader, "VERTEX");
 
-		int success;
-		char infoLog[512];
-		glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-		if (!success)
-		{
-			glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-			cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << endl;
-		}
+		unsigned int fragmentShader;
+		fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+		glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+		glCompileShader(fragmentShader);
+		validateShaderCompilation(fragmentShader, "FRAGMENT");
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
@@ -94,5 +99,17 @@ void processInput(GLFWwindow* window)
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 	{
 		glfwSetWindowShouldClose(window, true);
+	}
+}
+
+void validateShaderCompilation(unsigned int shaderID, const char* shaderType)
+{
+	int success;
+	char infoLog[512];
+	glGetShaderiv(shaderID, GL_COMPILE_STATUS, &success);
+	if (!success)
+	{
+		glGetShaderInfoLog(shaderID, 512, NULL, infoLog);
+		cout << "ERROR::SHADER::" << shaderType << "::COMPILATION_FAILED\n" << infoLog << endl;
 	}
 }
