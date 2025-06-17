@@ -11,4 +11,6 @@ My first rectangle, wireframe
 
 ![My first rectangle, in wireframe](https://github.com/user-attachments/assets/9c1ade1e-69f9-4277-a177-6653dc0642d5)
 
+Exercise from end of Hello Triangle section, two triangles using more vertices and glDrawArray
 
+![Two Triangles](https://github.com/user-attachments/assets/1f486ffa-1754-47e1-990d-97406d0b5935)
