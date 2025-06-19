@@ -32,3 +32,4 @@ My first rectangle, wireframe
 
 **Exercise #3** (end of Hello Triangle) - Create two shader programs where the second program uses a different fragment shader that outputs the color yellow; draw both triangles again where one outputs the color yellow.
 
+![image](https://github.com/user-attachments/assets/67acae05-d8e1-4b11-a6ab-3ff5ef4997ca)
