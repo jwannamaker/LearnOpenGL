@@ -1,7 +1,8 @@
 #include <iostream>
-#include <array>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+
+#define M_PI acos(-1.0)
 
 using namespace std;
 
@@ -11,21 +12,18 @@ const unsigned int WINDOW_HEIGHT = 600;
 
 const char* vertexShaderSource = "#version 330 core\n"
 	"layout (location = 0) in vec3 aPos;\n"
+	"out vec4 vertexColor;\n"
 	"void main()\n"
 	"{\n"
-	"	gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+	"	gl_Position = vec4(aPos.xyz, 1.0);\n"
+	"	vertexColor = vec4((aPos.x), sin(aPos.y), sin(aPos.z), 1.0);\n"
 	"}\0";
-const char* yellowFragmentShaderSource = "#version 330 core\n"
+const char* fragmentShaderSource = "#version 330 core\n"
 	"out vec4 FragColor;\n"
+	"uniform vec4 customColor;\n"
 	"void main()\n"
 	"{\n"
-	"	FragColor = vec4(0.82f, 0.68f, 0.51f, 1.00f);\n"
-	"}\0";
-const char* greenFragmentShaderSource = "#version 330 core\n"
-	"out vec4 FragColor;\n"
-	"void main()\n"
-	"{\n"
-	"	FragColor = vec4(0.59f, 0.65f, 0.50f, 1.00f);\n"
+	"	FragColor = customColor;\n"
 	"}\0";
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
@@ -65,29 +63,17 @@ int main()
 	glCompileShader(vertexShader);
 	validateShaderCompilation(vertexShader, "VERTEX");
 
-	unsigned int yellowFragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(yellowFragmentShader, 1, &yellowFragmentShaderSource, NULL);
-	glCompileShader(yellowFragmentShader);
-	validateShaderCompilation(yellowFragmentShader, "FRAGMENT");
+	unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+	glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+	glCompileShader(fragmentShader);
+	validateShaderCompilation(fragmentShader, "FRAGMENT");
 
-	unsigned int greenFragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(greenFragmentShader, 1, &greenFragmentShaderSource, NULL);
-	glCompileShader(greenFragmentShader);
-	validateShaderCompilation(greenFragmentShader, "FRAGMENT");
-
-	unsigned int yellowShaderProgram = glCreateProgram();
-	glAttachShader(yellowShaderProgram, vertexShader);
-	glAttachShader(yellowShaderProgram, yellowFragmentShader);
-	glLinkProgram(yellowShaderProgram);
-	validateProgramCompilation(yellowShaderProgram);
-	glDeleteShader(yellowFragmentShader);
-
-	unsigned int greenShaderProgram = glCreateProgram();
-	glAttachShader(greenShaderProgram, vertexShader);
-	glAttachShader(greenShaderProgram, greenFragmentShader);
-	glLinkProgram(greenShaderProgram);
-	validateProgramCompilation(greenShaderProgram);
-	glDeleteShader(greenFragmentShader);
+	unsigned int shaderProgram = glCreateProgram();
+	glAttachShader(shaderProgram, vertexShader);
+	glAttachShader(shaderProgram, fragmentShader);
+	glLinkProgram(shaderProgram);
+	validateProgramCompilation(shaderProgram);
+	glDeleteShader(fragmentShader);
 	glDeleteShader(vertexShader);
 
 	// Setup vertex data/buffers and configure vertex attributes
@@ -119,6 +105,11 @@ int main()
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void*)0);
 	glEnableVertexAttribArray(0);
 
+	GLfloat timeValue;
+	GLfloat redValue;
+	GLfloat blueValue;
+	int vertexColorLocation;
+
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	while (!glfwWindowShouldClose(window))
 	{
@@ -127,11 +118,17 @@ int main()
 		glClearColor(0.4f, 0.45f, 0.502f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		glUseProgram(yellowShaderProgram);
+		timeValue = glfwGetTime();
+		redValue = (sin(timeValue) / 2.0f) + 0.5f;	// Scale & translate sin(x) --> range [0.0f - 1.0f]
+		blueValue = (sin(timeValue + M_PI) / 2.0f) + 0.5f; 
+		vertexColorLocation = glGetUniformLocation(shaderProgram, "customColor");
+		glUseProgram(shaderProgram);
+
+		glUniform4f(vertexColorLocation, redValue, 0.0f, blueValue, 1.0f);
 		glBindVertexArray(VAO[0]);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 
-		glUseProgram(greenShaderProgram);
+		glUniform4f(vertexColorLocation, blueValue, 0.0f, redValue, 1.0f);
 		glBindVertexArray(VAO[1]);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 
