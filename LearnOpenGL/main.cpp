@@ -12,18 +12,19 @@ const unsigned int WINDOW_HEIGHT = 600;
 
 const char* vertexShaderSource = "#version 330 core\n"
 	"layout (location = 0) in vec3 aPos;\n"
-	"out vec4 vertexColor;\n"
+	"layout (location = 1) in vec3 aColor;\n"
+	"out vec3 customColor;\n"
 	"void main()\n"
 	"{\n"
-	"	gl_Position = vec4(aPos.xyz, 1.0);\n"
-	"	vertexColor = vec4((aPos.x), sin(aPos.y), sin(aPos.z), 1.0);\n"
+	"	gl_Position = vec4(aPos, 1.0);\n"
+	"	customColor = aColor;\n"
 	"}\0";
 const char* fragmentShaderSource = "#version 330 core\n"
 	"out vec4 FragColor;\n"
-	"uniform vec4 customColor;\n"
+	"in vec3 customColor;\n"
 	"void main()\n"
 	"{\n"
-	"	FragColor = customColor;\n"
+	"	FragColor = vec4(customColor, 1.0);\n"
 	"}\0";
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
@@ -78,14 +79,16 @@ int main()
 
 	// Setup vertex data/buffers and configure vertex attributes
 	GLfloat leftVertices[] = {
-		-0.75f, 0.0f, 0.0f,
-		-0.25f, 0.5f, 0.0f,
-		-0.25f, -0.5f, 0.0f
+		// positions			// colors
+		-0.75f,  0.0f,  0.0f,	1.0f, 0.0f, 0.0f,
+		-0.25f,  0.5f,  0.0f,	0.0f, 1.0f, 0.0f,
+		-0.25f, -0.5f,  0.0f,	0.0f, 0.0f, 1.0f
 	};
 	GLfloat rightVertices[] = {
-		0.75f, 0.0f, 0.0f,
-		0.25f, 0.5f, 0.0f,
-		0.25f, -0.5f, 0.0f
+		// positions			// colors
+		0.75f,  0.0f,  0.0f,	1.0f, 0.0f, 0.0f,
+		0.25f,  0.5f,  0.0f,	0.0f, 1.0f, 0.0f,
+		0.25f, -0.5f,  0.0f,	0.0f, 0.0f, 1.0f
 	};
 
 	GLuint VAO[2];
@@ -96,14 +99,18 @@ int main()
 	glBindVertexArray(VAO[0]);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO[0]);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(leftVertices), leftVertices, GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)0);
 	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
+	glEnableVertexAttribArray(1);
 
 	glBindVertexArray(VAO[1]);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO[1]);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(rightVertices), rightVertices, GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)0);
 	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
+	glEnableVertexAttribArray(1);
 
 	GLfloat timeValue;
 	GLfloat redValue;
@@ -118,17 +125,11 @@ int main()
 		glClearColor(0.4f, 0.45f, 0.502f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		timeValue = glfwGetTime();
-		redValue = (sin(timeValue) / 2.0f) + 0.5f;	// Scale & translate sin(x) --> range [0.0f - 1.0f]
-		blueValue = (sin(timeValue + M_PI) / 2.0f) + 0.5f; 
-		vertexColorLocation = glGetUniformLocation(shaderProgram, "customColor");
 		glUseProgram(shaderProgram);
 
-		glUniform4f(vertexColorLocation, redValue, 0.0f, blueValue, 1.0f);
 		glBindVertexArray(VAO[0]);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 
-		glUniform4f(vertexColorLocation, blueValue, 0.0f, redValue, 1.0f);
 		glBindVertexArray(VAO[1]);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 
