@@ -40,3 +40,8 @@
 
 [Two triangles shifting colors between red, purple, and blue](https://github.com/user-attachments/assets/4ed11f58-051a-4c51-93f9-bdfb0d9eced8)
 
+---
+
+**Shaders** - Specified the colors at each vertex of the triangles. During the rasterization stage of rendering, the colors are blended because of fragment interpolation.
+
+![Two triangles with red, blue, and green blended throughout them](https://github.com/user-attachments/assets/f6f06c0b-ae50-4422-a531-02e84dc04707)
