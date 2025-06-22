@@ -46,15 +46,9 @@ int main()
 	// Setup vertex data/buffers and configure vertex attributes
 	GLfloat leftVertices[] = {
 		// positions			// colors
-		-0.75f,  0.0f,  0.0f,	1.0f, 0.0f, 0.0f,
-		-0.25f,  0.5f,  0.0f,	0.0f, 1.0f, 0.0f,
-		-0.25f, -0.5f,  0.0f,	0.0f, 0.0f, 1.0f
-	};
-	GLfloat rightVertices[] = {
-		// positions			// colors
-		0.75f,  0.0f,  0.0f,	1.0f, 0.0f, 0.0f,
-		0.25f,  0.5f,  0.0f,	0.0f, 1.0f, 0.0f,
-		0.25f, -0.5f,  0.0f,	0.0f, 0.0f, 1.0f
+		0.0f,	0.5f,	0.0f,	1.0f, 0.0f, 0.0f,
+		-0.43f, -0.25f, 0.0f,	0.0f, 1.0f, 0.0f,
+		0.43f,	-0.25f, 0.0f,	0.0f, 0.0f, 1.0f
 	};
 
 	GLuint VAO[2];
@@ -70,17 +64,7 @@ int main()
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
 	glEnableVertexAttribArray(1);
 
-	glBindVertexArray(VAO[1]);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO[1]);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(rightVertices), rightVertices, GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)0);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
-	glEnableVertexAttribArray(1);
-
 	GLfloat timeValue;
-	GLfloat redValue;
-	GLfloat blueValue;
 	int vertexColorLocation;
 
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
