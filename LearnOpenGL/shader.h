@@ -81,10 +81,13 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
 	// fragement shader
 	fragment = glCreateShader(GL_FRAGMENT_SHADER);
 	glShaderSource(fragment, 1, &fShaderCode, NULL);
+	glCompileShader(fragment);
+	Shader::validateShaderCompilation(fragment, "FRAGMENT");
 
 	Shader::ID = glCreateProgram();
 	glAttachShader(Shader::ID, vertex);
 	glAttachShader(Shader::ID, fragment);
+	glLinkProgram(Shader::ID);
 	Shader::validateProgramCompilation(Shader::ID);
 	glDeleteShader(vertex);
 	glDeleteShader(fragment);

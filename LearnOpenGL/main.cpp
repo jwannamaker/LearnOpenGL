@@ -44,28 +44,25 @@ int main()
 	Shader myShader("shader.vert", "shader.frag");
 
 	// Setup vertex data/buffers and configure vertex attributes
-	GLfloat leftVertices[] = {
+	GLfloat vertices[] = {
 		// positions			// colors
 		0.0f,	0.5f,	0.0f,	1.0f, 0.0f, 0.0f,
 		-0.43f, -0.25f, 0.0f,	0.0f, 1.0f, 0.0f,
 		0.43f,	-0.25f, 0.0f,	0.0f, 0.0f, 1.0f
 	};
 
-	GLuint VAO[2];
-	GLuint VBO[2];
-	glGenVertexArrays(2, VAO);
-	glGenBuffers(2, VBO);
+	GLuint VAO;
+	GLuint VBO;
+	glGenVertexArrays(1, &VAO);
+	glGenBuffers(1, &VBO);
 	
-	glBindVertexArray(VAO[0]);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO[0]);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(leftVertices), leftVertices, GL_STATIC_DRAW);
+	glBindVertexArray(VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)0);
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
 	glEnableVertexAttribArray(1);
-
-	GLfloat timeValue;
-	int vertexColorLocation;
 
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	while (!glfwWindowShouldClose(window))
@@ -77,10 +74,7 @@ int main()
 
 		myShader.use();
 
-		glBindVertexArray(VAO[0]);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
-
-		glBindVertexArray(VAO[1]);
+		glBindVertexArray(VAO);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 
 		glfwSwapBuffers(window);
