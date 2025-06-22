@@ -1,6 +1,7 @@
-#include <iostream>
+#include "shader.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <iostream>
 
 #define M_PI acos(-1.0)
 
@@ -40,7 +41,7 @@ int main()
 	}
 
 	// Build and compile shader program
-
+	Shader myShader("shader.vert", "shader.frag");
 
 	// Setup vertex data/buffers and configure vertex attributes
 	GLfloat leftVertices[] = {
@@ -90,7 +91,7 @@ int main()
 		glClearColor(0.4f, 0.45f, 0.502f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		glUseProgram(shaderProgram);
+		myShader.use();
 
 		glBindVertexArray(VAO[0]);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
