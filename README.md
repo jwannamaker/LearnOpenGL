@@ -2,7 +2,9 @@
 
 ## Getting Started
 
-**Hello Triangle** - My first triangle!
+### Hello Triangle 
+
+My first triangle!
 
 ![My first triangle](https://github.com/user-attachments/assets/96697d61-5c49-4dba-b90b-f83031987b65)
 
@@ -10,7 +12,7 @@
 
 ---
 
-**Hello Triangle** - My first rectangle, drawn using ```glDrawElements```.
+My first rectangle, drawn using ```glDrawElements```.
 
 ![My first rectangle](https://github.com/user-attachments/assets/48dbbb2f-08a8-477d-baba-b78246e884ad)
 
@@ -18,25 +20,27 @@
 
 ---
 
-**Hello Triangle** - Wireframe of my first rectangle, drawn using ```glPolygonMode```.
+Wireframe of my first rectangle, drawn using ```glPolygonMode```.
 
 ![My first rectangle, in wireframe](https://github.com/user-attachments/assets/9c1ade1e-69f9-4277-a177-6653dc0642d5)
 
 ---
 
-**Hello Triangle (Exercise #1)** - Try to draw 2 triangles next to each other using ```glDrawArrays``` by adding more vertices to your data.
+#### Excercises
+
+1. Try to draw 2 triangles next to each other using ```glDrawArrays``` by adding more vertices to your data.
 
 ![Excercise 1 from end of Hello Triangle](https://github.com/user-attachments/assets/1f486ffa-1754-47e1-990d-97406d0b5935)
 
 ---
 
-**Hello Triangle (Exercise #2)** - Now create the same 2 triangles using two different VAOs and VBOs for their data.
+2. Now create the same 2 triangles using two different VAOs and VBOs for their data.
 
 ![Excercise 2 from end of Hello Triangle](https://github.com/user-attachments/assets/c1b6d600-a11a-46d0-90bb-df3b1650e2f3)
 
 ---
 
-**Hello Triangle (Exercise #3)** - Create two shader programs where the second program uses a different fragment shader that outputs the color yellow; draw both triangles again where one outputs the color yellow.
+3. Create two shader programs where the second program uses a different fragment shader that outputs the color yellow; draw both triangles again where one outputs the color yellow.
 
 ![Two triangles with two different shader programs](https://github.com/user-attachments/assets/67acae05-d8e1-4b11-a6ab-3ff5ef4997ca)
 
@@ -44,7 +48,9 @@
 
 ---
 
-**Shaders** - Playing around with a fragment shader that uses the time to determine color.
+### Shaders
+
+Using a uniform to set the color the fragment shader outputs, and updating it over time.
 
 [Two triangles shifting colors between red, purple, and blue](https://github.com/user-attachments/assets/4ed11f58-051a-4c51-93f9-bdfb0d9eced8)
 
@@ -82,7 +88,7 @@ while (/* window is open */)
 
 ---
 
-**Shaders** - Adding more information to the array representing the triangle by including colors corresponding to each vertex. 
+Adding more information to the array representing the triangle by including colors corresponding to each vertex. 
 
 ![Two triangles with red, blue, and green blended throughout them](https://github.com/user-attachments/assets/f6f06c0b-ae50-4422-a531-02e84dc04707)
 
@@ -90,13 +96,15 @@ while (/* window is open */)
 
 ---
 
-**Shaders** - Drawing a triangle after implementing a Shader class to manage compiling, linking, and error checking the vertex shader, fragment shader, and shader program.
+Drawing a triangle after implementing a Shader class to manage compiling, linking, and error checking the vertex shader, fragment shader, and shader program.
 
 ![One triangle with red, blue, and green blended throughout it](https://github.com/user-attachments/assets/6e32bdef-dbc8-4678-b18c-be0eb5a68e3c)
 
 ---
 
-**Shaders (Excercise #1)** - Adjust the vertex shader so that the triangle is upside down.
+#### Excercises
+
+1. Adjust the vertex shader so that the triangle is upside down.
 
 ![One triangle, upside down](https://github.com/user-attachments/assets/735d0d7a-ea40-46d8-a7cd-38e723e467e4)
 
@@ -104,7 +112,7 @@ while (/* window is open */)
 
 ---
 
-**Shaders (Excercise #2)** - Specify a horizontal offset via a uniform and move the triangle to the right side of the screen in the vertex shader using this offset value.
+2. Specify a horizontal offset via a uniform and move the triangle to the right side of the screen in the vertex shader using this offset value.
 
 [One triangle, horizontally offset by a uniform](https://github.com/user-attachments/assets/3d35aca5-3e9e-4d2f-ba25-d6114920c683)
 
@@ -124,7 +132,7 @@ while (/* window is open */)
 
 ---
 
-**Shaders (Excercise #3)** - Output the vertex position to the fragment shader using the ```out``` keyword and set the fragment's color equal to this vertex position (see how even the vertex position values are interpolated across the triangle). Once you managed to do this; try to answer the following question: why is the bottom-left side of our triangle black?
+3. Output the vertex position to the fragment shader using the ```out``` keyword and set the fragment's color equal to this vertex position (see how even the vertex position values are interpolated across the triangle). Once you managed to do this; try to answer the following question: why is the bottom-left side of our triangle black?
 
 ![One triangle, color equal to vertex position](https://github.com/user-attachments/assets/04bcef49-b885-4eef-b0e8-54c96610a303)
 
