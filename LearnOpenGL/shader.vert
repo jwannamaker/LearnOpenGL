@@ -5,10 +5,8 @@ layout (location = 1) in vec3 aColor;
 
 out vec3 customColor;
 
-uniform float horizontalOffset;
-
 void main()
 {
-	gl_Position = vec4(aPos.x + horizontalOffset, aPos.y, aPos.z, 1.0);
-	customColor = aColor;
+	gl_Position = vec4(aPos, 1.0);
+	customColor = aPos;
 }

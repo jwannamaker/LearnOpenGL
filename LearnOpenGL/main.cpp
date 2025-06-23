@@ -75,8 +75,6 @@ int main()
 
 		myShader.use();
 
-		horizontalOffset = sin(glfwGetTime()) / 2.0f;
-		myShader.setFloat("horizontalOffset", horizontalOffset);
 		glBindVertexArray(VAO);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 
