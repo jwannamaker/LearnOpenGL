@@ -45,3 +45,10 @@
 **Shaders** - Specified the colors at each vertex of the triangles. During the rasterization stage of rendering, the colors are blended because of fragment interpolation.
 
 ![Two triangles with red, blue, and green blended throughout them](https://github.com/user-attachments/assets/f6f06c0b-ae50-4422-a531-02e84dc04707)
+
+---
+
+**Shaders** - After implementing the Shader class to manage compiling, linking, and error checking the vertex shader, fragment shader, and shader program.
+
+![One triangle with red, blue, and green blended throughout it](https://github.com/user-attachments/assets/6e32bdef-dbc8-4678-b18c-be0eb5a68e3c)
+
