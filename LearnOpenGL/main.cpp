@@ -65,6 +65,7 @@ int main()
 	glEnableVertexAttribArray(1);
 
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	GLfloat horizontalOffset;
 	while (!glfwWindowShouldClose(window))
 	{
 		processInput(window);
@@ -74,6 +75,8 @@ int main()
 
 		myShader.use();
 
+		horizontalOffset = sin(glfwGetTime()) / 2.0f;
+		myShader.setFloat("horizontalOffset", horizontalOffset);
 		glBindVertexArray(VAO);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 
