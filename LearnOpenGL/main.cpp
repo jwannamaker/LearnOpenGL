@@ -1,3 +1,5 @@
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
 #include "shader.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -42,30 +44,61 @@ int main()
 
 	// Build and compile shader program
 	Shader myShader("shader.vert", "shader.frag");
+	
+	// Setup texture
+	unsigned int texture;
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	
+	int imageWidth, imageHeight, numChannels;
+	unsigned char* imageData = stbi_load("stone_texture.jpeg", &imageWidth, &imageHeight, &numChannels, 0);
+	if (imageData)
+	{
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, imageWidth, imageHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, imageData);
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else
+	{
+		cout << "Failed to load texture" << endl;
+	}
+	stbi_image_free(imageData);
 
 	// Setup vertex data/buffers and configure vertex attributes
 	GLfloat vertices[] = {
-		// positions			// colors
-		0.0f,	0.5f,	0.0f,	1.0f, 0.0f, 0.0f,
-		-0.43f, -0.25f, 0.0f,	0.0f, 1.0f, 0.0f,
-		0.43f,	-0.25f, 0.0f,	0.0f, 0.0f, 1.0f
+		// positions			// colors				// texture coords	
+		0.71f,	0.71f,	0.0f,	0.86f, 0.82f, 0.71f,	1.0f, 1.0f, // top right
+		-0.71f, 0.71f,  0.0f,	0.82f, 0.68f, 0.51f,	0.0f, 1.0f, // top left
+		-0.71f,	-0.71f, 0.0f,	0.59f, 0.65f, 0.51f,	0.0f, 0.0f,	// bottom left
+		0.71f,	-0.71f, 0.0f,	0.42f, 0.58f, 0.57f,	1.0f, 0.0f, // bottom right
+	};
+	unsigned int indices[] = {
+		0, 1, 3,
+		1, 2, 3
 	};
 
-	GLuint VAO;
-	GLuint VBO;
+	GLuint VAO, VBO, EBO;
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
-	
+	glGenBuffers(1, &EBO);
+
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (void*)0);
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
 	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (void*)(6 * sizeof(GLfloat)));
+	glEnableVertexAttribArray(2);
 
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	GLfloat horizontalOffset;
 	while (!glfwWindowShouldClose(window))
 	{
 		processInput(window);
@@ -76,7 +109,7 @@ int main()
 		myShader.use();
 
 		glBindVertexArray(VAO);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
