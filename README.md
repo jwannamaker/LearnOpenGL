@@ -1,8 +1,6 @@
 # LearnOpenGL
 
-## Getting Started
-
-### Hello Triangle 
+## Getting Started - Hello Triangle 
 
 My first triangle!
 
@@ -26,7 +24,7 @@ Wireframe of my first rectangle, drawn using ```glPolygonMode```.
 
 ---
 
-#### Excercises
+### Hello Triangle - Excercises
 
 1. Try to draw 2 triangles next to each other using ```glDrawArrays``` by adding more vertices to your data.
 
@@ -48,7 +46,7 @@ Wireframe of my first rectangle, drawn using ```glPolygonMode```.
 
 ---
 
-### Shaders
+## Getting Started - Shaders
 
 Using a uniform to set the color the fragment shader outputs, and updating it over time.
 
@@ -102,7 +100,7 @@ Drawing a triangle after implementing a Shader class to manage compiling, linkin
 
 ---
 
-#### Excercises
+### Shaders - Excercises
 
 1. Adjust the vertex shader so that the triangle is upside down.
 
@@ -138,4 +136,11 @@ while (/* window is open */)
 
 *Note:* The 'color' in the bottom left side of the triangle is ```[-0.43f, -0.25f, 0.0f]```, although the values for colors are only accepted in the range [0.0, 1.0] which means any negative values would simply be clamped to the closest value in the range before rendering. Effectively, ```[-0.43f, -0.25f, 0.0f]``` becomes ```[0.0f, 0.0f, 0.0f]``` (black).
 
+---
+
+## Getting Started - Textures
+
+Playing around with the colors at each vertex of a rectangle to create a sunset effect.
+
+![A rectangle with blended sunset colors](https://github.com/user-attachments/assets/88263872-f466-485e-9a46-603382f49e4d)
 
