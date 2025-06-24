@@ -6,7 +6,7 @@ My first triangle!
 
 ![My first triangle](https://github.com/user-attachments/assets/96697d61-5c49-4dba-b90b-f83031987b65)
 
-*Note:* I wanted to use my own colors, so I used [this](https://lospec.com/palette-list/sunnyswamp) palette. I enjoy the fact I can open an image and pin the Properties tab in Visual Studio, then select the eyedropper tool to see the RGBA components of each color in the palette. From there, I calculated the normalized values of each component (i.e. input an integer in [0, 255] --> output a corresponding float in [0.0, 1.0]), then truncated the results past the hundredths. I believe I could improve this process by taking advantage of the ```normalized: (bool)``` parameter of ```glVertexAttribPointer```, so I wouldn't have to do that calculation before inputting my desired colors.
+*Note:* I wanted to use my own colors, so I used [this](https://lospec.com/palette-list/sunnyswamp) palette. I enjoy the fact I can open an image and pin the Properties tab in Visual Studio, then select the eyedropper tool to see the RGBA components of each color in the palette. From there, I calculated the normalized values of each component (i.e. input an integer in ```[0 - 255]``` --> output a corresponding float in ```[0.0 - 1.0]```), then truncated the results past the hundredths. I believe I could improve this process by taking advantage of the ```normalized: (bool)``` parameter of ```glVertexAttribPointer```, so I wouldn't have to do that calculation before inputting my desired colors.
 
 ---
 
@@ -14,7 +14,7 @@ My first rectangle, drawn using ```glDrawElements```.
 
 ![My first rectangle](https://github.com/user-attachments/assets/48dbbb2f-08a8-477d-baba-b78246e884ad)
 
-*Note:* I'm excited about the connection between working with *.obj files in previous projects, and using Element Buffer Objects because referencing the indices of each face by the order they appeared in the first array feels familiar for me. I learned that the storage savings by using EBOs (as opposed to storing duplicate vertices in adjacent triangles/faces) can be as great as 50%
+*Note:* I'm excited about the connection between working with *.obj files in previous projects, and using Element Buffer Objects because referencing the indices of each face by the order they appeared in the first array feels familiar for me. I learned that the storage savings by using ```EBO```s (as opposed to storing duplicate vertices in adjacent triangles/faces) can be as great as 50%.
 
 ---
 
@@ -32,7 +32,7 @@ Wireframe of my first rectangle, drawn using ```glPolygonMode```.
 
 ---
 
-2. Now create the same 2 triangles using two different VAOs and VBOs for their data.
+2. Now create the same 2 triangles using two different ```VAO```s and ```VBO```s for their data.
 
 ![Excercise 2 from end of Hello Triangle](https://github.com/user-attachments/assets/c1b6d600-a11a-46d0-90bb-df3b1650e2f3)
 
@@ -69,8 +69,8 @@ while (/* window is open */)
 {
     [ ... ]
     timeValue = glfwGetTime();
-    redValue = (0.5f * cos(timeValue)) + 0.5f;	// scale & translate cos(x) --> range [0.0f, 1.0f]
-    blueValue = (0.5 * cos(timeValue + M_PI)) + 0.5f; // add PI to make the blueValue out of phase with redValue
+    redValue = (0.5f * cos(timeValue)) + 0.5f;	// scale & translate cos(x) --> range [0.0f - 1.0f]
+    blueValue = (0.5f * cos(timeValue + M_PI)) + 0.5f; // add PI to make the blueValue out of phase with redValue
 
     vertexColorLocation = glGetUniformLocation(shaderProgram, "customColor");
     glUseProgram(shaderProgram);
@@ -106,7 +106,7 @@ Drawing a triangle after implementing a Shader class to manage compiling, linkin
 
 ![One triangle, upside down](https://github.com/user-attachments/assets/735d0d7a-ea40-46d8-a7cd-38e723e467e4)
 
-*Note:* To do this, I modified the output vector of the vertex shader to have a negative y-value, which flips all the vertices across the x-axis (i.e. input ```[x, y, z]``` --> output ```[x, -y, z]```. This works without an additional translation of the vertices because NDC places (0, 0) directly in the center of the canvas. 
+*Note:* To do this, I modified the output vector of the vertex shader to have a negative y-value, which flips all the vertices across the x-axis (i.e. input ```[x, y, z]``` --> output ```[x, -y, z]```. This works without an additional translation of the vertices because NDC places ```(0, 0)``` directly in the center of the canvas. 
 
 ---
 
@@ -134,7 +134,7 @@ while (/* window is open */)
 
 ![One triangle, color equal to vertex position](https://github.com/user-attachments/assets/04bcef49-b885-4eef-b0e8-54c96610a303)
 
-*Note:* The 'color' in the bottom left side of the triangle is ```[-0.43f, -0.25f, 0.0f]```, although the values for colors are only accepted in the range [0.0, 1.0] which means any negative values would simply be clamped to the closest value in the range before rendering. Effectively, ```[-0.43f, -0.25f, 0.0f]``` becomes ```[0.0f, 0.0f, 0.0f]``` (black).
+*Note:* The 'color' in the bottom left side of the triangle is ```[-0.43f, -0.25f, 0.0f]```, although the values for colors are only accepted in the range ```[0.0 - 1.0]``` which means any negative values would simply be clamped to the closest value in the range before rendering. Effectively, ```[-0.43f, -0.25f, 0.0f]``` (the position of the vertex) becomes ```[0.0f, 0.0f, 0.0f]``` (black).
 
 ---
 
@@ -143,4 +143,9 @@ while (/* window is open */)
 Playing around with the colors at each vertex of a rectangle to create a sunset effect.
 
 ![A rectangle with blended sunset colors](https://github.com/user-attachments/assets/88263872-f466-485e-9a46-603382f49e4d)
+
+*Note:* I stopped calculating the color values by hand, so instead of ```1.0f``` for an initial component value of ```255```, I simply put ```255.0f```. In order to put the color values back into the valid range ```[0.0 - 1.0]```, I call the ```normalize``` function in the vertex shader before outputting the to the fragment shader. I believe the differences between the colors in the rectangle above and the rectangle below show how much truncating past the hundreths can alter the color shown on screen.
+
+![A rectangle with blended sunset colors, now using built-in normalization of color values](https://github.com/user-attachments/assets/44cea3cc-be2b-414f-906d-9904e6e6548d)
+
 
