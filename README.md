@@ -148,4 +148,9 @@ Playing around with the colors at each vertex of a rectangle to create a sunset 
 
 ![A rectangle with blended sunset colors, now using built-in normalization of color values](https://github.com/user-attachments/assets/44cea3cc-be2b-414f-906d-9904e6e6548d)
 
+---
+
+My first texture!
+
+![A crate texture rendered onto a rectangle](https://github.com/user-attachments/assets/ec36914a-8aff-409b-afbd-9ec89dbe48ff)
 
