@@ -94,7 +94,7 @@ int main()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-	stbi_set_flip_vertically_on_load(true);
+	// put vertical filp here
 
 	int imageWidth, imageHeight, numChannels;
 	unsigned char* imageData = stbi_load("container.jpg", &imageWidth, &imageHeight, &numChannels, 0);
