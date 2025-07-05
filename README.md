@@ -1,141 +1,59 @@
-# LearnOpenGL
+# Getting Started
 
-## Getting Started
+## Hello Triangle
 
-### Hello Triangle 
-
-My first triangle!
-
-![My first triangle](https://github.com/user-attachments/assets/96697d61-5c49-4dba-b90b-f83031987b65)
-
-*Note:* I wanted to use my own colors, so I used [this](https://lospec.com/palette-list/sunnyswamp) palette. I enjoy the fact I can open an image and pin the Properties tab in Visual Studio, then select the eyedropper tool to see the RGBA components of each color in the palette. From there, I calculated the normalized values of each component (i.e. input an integer in [0, 255] --> output a corresponding float in [0.0, 1.0]), then truncated the results past the hundredths. I believe I could improve this process by taking advantage of the ```normalized: (bool)``` parameter of ```glVertexAttribPointer```, so I wouldn't have to do that calculation before inputting my desired colors.
+| Notes | Visual |
+|-------|--------|
+| *Note:* I wanted to use my own colors, so I used [SunnySwamp](https://lospec.com/palette-list/sunnyswamp) by [Anubi](https://lospec.com/anubiarts). | ![My first triangle](https://github.com/user-attachments/assets/96697d61-5c49-4dba-b90b-f83031987b65 "My first triangle") |
+| My first rectangle, drawn using ```glDrawElements```. | ![My first rectangle](https://github.com/user-attachments/assets/48dbbb2f-08a8-477d-baba-b78246e884ad "My first rectangle") |
+| Wireframe of my first rectangle, drawn using ```glPolygonMode```. | ![My first rectangle, in wireframe](https://github.com/user-attachments/assets/9c1ade1e-69f9-4277-a177-6653dc0642d5) | 
 
 ---
 
-My first rectangle, drawn using ```glDrawElements```.
-
-![My first rectangle](https://github.com/user-attachments/assets/48dbbb2f-08a8-477d-baba-b78246e884ad)
-
-*Note:* I'm excited about the connection between working with *.obj files in previous projects, and using Element Buffer Objects because referencing the indices of each face by the order they appeared in the first array feels familiar for me. I learned that the storage savings by using EBOs (as opposed to storing duplicate vertices in adjacent triangles/faces) can be as great as 50%
-
----
-
-Wireframe of my first rectangle, drawn using ```glPolygonMode```.
-
-![My first rectangle, in wireframe](https://github.com/user-attachments/assets/9c1ade1e-69f9-4277-a177-6653dc0642d5)
+| Excercise | Visual |
+|-----------|--------|
+| **1. Try to draw 2 triangles next to each other using ```glDrawArrays``` by adding more vertices to your data.** | ![Excercise 1 from Hello Triangle](https://github.com/user-attachments/assets/1f486ffa-1754-47e1-990d-97406d0b5935 "Excercise 1 from Hello Triangle") |
+| **2. Now create the same 2 triangles using two different ```VAO```s and ```VBO```s for their data.** | ![Excercise 2 from Hello Triangle](https://github.com/user-attachments/assets/c1b6d600-a11a-46d0-90bb-df3b1650e2f3 "Excercise 2 from Hello Triangle") |
+| **3. Create two shader programs where the second program uses a different fragment shader that outputs the color yellow; draw both triangles again where one outputs the color yellow.** | ![Excercise 3 from Hello Triangle](https://github.com/user-attachments/assets/67acae05-d8e1-4b11-a6ab-3ff5ef4997ca "Excercise 3 from Hello Triangle") |
 
 ---
 
-#### Excercises
+## Shaders
 
-1. Try to draw 2 triangles next to each other using ```glDrawArrays``` by adding more vertices to your data.
-
-![Excercise 1 from end of Hello Triangle](https://github.com/user-attachments/assets/1f486ffa-1754-47e1-990d-97406d0b5935)
-
----
-
-2. Now create the same 2 triangles using two different VAOs and VBOs for their data.
-
-![Excercise 2 from end of Hello Triangle](https://github.com/user-attachments/assets/c1b6d600-a11a-46d0-90bb-df3b1650e2f3)
+| Notes | Visual |
+|-------|--------|
+| Using a uniform to set the color the fragment shader outputs, and updating it over time. <br><br>*Note:* I thought it would be more visually interesting to use two triangles, and change both the red and blue components of their color. <br><br>In code, I accomplished this effect by swapping the red and blue component passed to the second fragment shader via uniform. <br><br>```float timeValue;``` <br>```float redValue;``` <br>```float blueValue;``` <br><br>```int vertexColorLocation;``` <br>```int vertexColorLocation;``` <br>```while (/* window is open */)``` <br>```{``` <br>&emsp;&emsp;```[ ... ]``` <br>&emsp;&emsp;```timeValue = glfwGetTime();``` <br><br>&emsp;&emsp;```// scale & translate cos(x) --> range [0.0f - 1.0f]``` <br>&emsp;&emsp;```redValue = (0.5f * cos(timeValue)) + 0.5f;``` <br><br>&emsp;&emsp;```// add PI to make blueValue out of phase with redValue``` <br>&emsp;&emsp;```blueValue = (0.5f * cos(timeValue + M_PI)) + 0.5f;``` <br><br>&emsp;&emsp;```vertexColorLocation = glGetUniformLocation(shaderProgram, "customColor");``` <br>&emsp;&emsp;```glUseProgram(shaderProgram);``` <br><br>&emsp;&emsp;```glUniform4f(vertexColorLocation, redValue, 0.0f, blueValue, 1.0f);``` <br>&emsp;&emsp;```// bind the first triangle's VAO & call draw function``` <br><br>&emsp;&emsp;```glUniform4f(vertexColorLocation, blueValue, 0.0f, redValue, 1.0f);``` <br>&emsp;&emsp;```// bind the second triangle's VAO & call draw function``` <br>&emsp;&emsp;```[ ... ]``` <br>```}```| Graph of the red and blue components of the left triangle: <br>![Color graph of the left triangle](https://github.com/user-attachments/assets/9f273239-1243-48f5-b3e9-2acfad19ea71 "Color graph of the left triangle") <br><br>Graph of the red and blue components of the right triangle: <br>![Color graph of the right triangle](https://github.com/user-attachments/assets/538b9bdc-6ee4-4c08-8bad-858272be1793 "Color graph of the right triangle") <br><br>Video of two triangles shifting colors: <br>[![Video: Two triangles shifting colors between red, purple, and blue](https://github.com/user-attachments/assets/da63496f-ceb7-4bff-bbc4-53d65f16d37e)](https://github.com/user-attachments/assets/4ed11f58-051a-4c51-93f9-bdfb0d9eced8 "Watch video") |
+| Adding more information to the array representing the triangle by including colors corresponding to each vertex. It looks smoothly blended because during the rasterization stage of rendering, the colors are blended because of fragment interpolation. | ![Two triangles with red, blue, and green blended throughout them](https://github.com/user-attachments/assets/f6f06c0b-ae50-4422-a531-02e84dc04707 "Two triangles with red, blue, and green blended throughout them") |
+| Drawing a triangle after implementing a Shader class to manage compiling, linking, and error checking the vertex shader, fragment shader, and shader program as well as setting uniforms. | ![One triangle with red, blue, and green blended throughout it](https://github.com/user-attachments/assets/6e32bdef-dbc8-4678-b18c-be0eb5a68e3c "One triangle with red, blue, and green blended throughout it") |
 
 ---
 
-3. Create two shader programs where the second program uses a different fragment shader that outputs the color yellow; draw both triangles again where one outputs the color yellow.
-
-![Two triangles with two different shader programs](https://github.com/user-attachments/assets/67acae05-d8e1-4b11-a6ab-3ff5ef4997ca)
-
-*Note:* Again, I use different colors than what's asked for on [learnopengl.com](https://learnopengl.com/Getting-started/Hello-Triangle), simply because I found it to be more aesthetically pleasing and the process was nearly identical.
-
----
-
-### Shaders
-
-Using a uniform to set the color the fragment shader outputs, and updating it over time.
-
-[Two triangles shifting colors between red, purple, and blue](https://github.com/user-attachments/assets/4ed11f58-051a-4c51-93f9-bdfb0d9eced8)
-
-*Note:* In the example, there's only one triangle and one component of the color that changes depending on the time. I thought it would be more visually interesting to instead use two triangles, and change both the red and blue components of their color. The graphs of each triangle's color plotted over time look like this:
-
-![Color graph of the left triangle](https://github.com/user-attachments/assets/9f273239-1243-48f5-b3e9-2acfad19ea71)
-
-![Color graph of the right triangle](https://github.com/user-attachments/assets/538b9bdc-6ee4-4c08-8bad-858272be1793)
-
-In code, I accomplished this effect by swapping the red and blue component passed to the second fragment shader via uniform like so:
-
-```c++
-float timeValue;
-float redValue;
-float blueValue;
-int vertexColorLocation;
-while (/* window is open */)
-{
-    [ ... ]
-    timeValue = glfwGetTime();
-    redValue = (0.5f * cos(timeValue)) + 0.5f;	// scale & translate cos(x) --> range [0.0f, 1.0f]
-    blueValue = (0.5 * cos(timeValue + M_PI)) + 0.5f; // add PI to make the blueValue out of phase with redValue
-
-    vertexColorLocation = glGetUniformLocation(shaderProgram, "customColor");
-    glUseProgram(shaderProgram);
-
-    glUniform4f(vertexColorLocation, redValue, 0.0f, blueValue, 1.0f);
-    // bind the first triangle's VAO & call draw function
-
-    glUniform4f(vertexColorLocation, blueValue, 0.0f, redValue, 1.0f);
-    // bind the second triangle's VAO & call draw function
-    [ ... ]
-}
-```
+| Exercise | Visual |
+|----------|--------|
+| **1. Adjust the vertex shader so that the triangle is upside down.** <br><br>*Note:* I modified the output vector of the vertex shader to have a negative y-value, which flips all the vertices across the x-axis (i.e. input ```(x, y, z)``` --> output ```(x, -y, z)```). This works without an additional translation of the vertices because NDC places ```(0, 0)``` directly in the center of the canvas. | ![One triangle, upside down](https://github.com/user-attachments/assets/735d0d7a-ea40-46d8-a7cd-38e723e467e4) |
+| **2. Specify a horizontal offset via a uniform and move the triangle to the right side of the screen in the vertex shader using this offset value.** <br><br>*Note:* I thought it would be more interesting to make the triangle move back and forth between the right and left sides of the screen.  <br><br>I accomplished this with the following code: ```float horizontalOffset;``` <br>```while (/* window is open */)``` <br>```{``` <br>```[ ... ]``` <br>&emsp;&emsp;```myShader.use();``` <br>&emsp;&emsp;```horizontalOffset = sin(glfwGetTime()) / 2.0f;``` <br>&emsp;&emsp;```myShader.setFloat("horizontalOffset", horizontalOffset);``` <br>&emsp;&emsp;```[ ... ]``` <br>```}``` | Video of a triangle moving left and right: <br>[![Video: One triangle, horizontally offset by a uniform](https://github.com/user-attachments/assets/229f94ad-1462-4471-8af3-96106362fc17 "Watch video")](https://github.com/user-attachments/assets/3d35aca5-3e9e-4d2f-ba25-d6114920c683 "Watch video") |
+| **3. Output the vertex position to the fragment shader using the ```out``` keyword and set the fragment's color equal to this vertex position (see how even the vertex position values are interpolated across the triangle). Once you managed to do this; try to answer the following question: why is the bottom-left side of our triangle black?** <br><br>The 'color' in the bottom left side of the triangle is ```(-0.43f, -0.25f, 0.0f)```, although the values for colors are only accepted in the range ```[0.0 - 1.0]``` which means any negative values would simply be clamped to the closest value in the range before rendering. Effectively, ```(-0.43f, -0.25f, 0.0f)``` becomes ```(0.0f, 0.0f, 0.0f)``` (black). | ![One triangle, color equal to vertex position](https://github.com/user-attachments/assets/04bcef49-b885-4eef-b0e8-54c96610a303) |
 
 ---
 
-Adding more information to the array representing the triangle by including colors corresponding to each vertex. 
+## Textures
 
-![Two triangles with red, blue, and green blended throughout them](https://github.com/user-attachments/assets/f6f06c0b-ae50-4422-a531-02e84dc04707)
-
-*Note:* It looks smoothly blended because during the rasterization stage of rendering, the colors are blended because of fragment interpolation.
-
----
-
-Drawing a triangle after implementing a Shader class to manage compiling, linking, and error checking the vertex shader, fragment shader, and shader program.
-
-![One triangle with red, blue, and green blended throughout it](https://github.com/user-attachments/assets/6e32bdef-dbc8-4678-b18c-be0eb5a68e3c)
-
----
-
-#### Excercises
-
-1. Adjust the vertex shader so that the triangle is upside down.
-
-![One triangle, upside down](https://github.com/user-attachments/assets/735d0d7a-ea40-46d8-a7cd-38e723e467e4)
-
-*Note:* To do this, I modified the output vector of the vertex shader to have a negative y-value, which flips all the vertices across the x-axis (i.e. input ```[x, y, z]``` --> output ```[x, -y, z]```. This works without an additional translation of the vertices because NDC places (0, 0) directly in the center of the canvas. 
+| Notes | Visual |
+|-------|--------|
+| Playing with the colors from the Sunny Swamp palette to create a sunset gradient. | ![Sunset gradient rectangle](https://github.com/user-attachments/assets/28719b67-5733-4361-8013-e53f35c0bf65)  |
+| I changed the way I pass colors into the fragment shader, so now I make use of the ```normalize``` function and pass each color component as a float ```[0.0f - 255.0f]```. It's interesting to see how much the colors change between my rounded off values and the precise ones. | ![Sunset gradient rectangle, colors slightly different from before](https://github.com/user-attachments/assets/61043970-4edc-48c7-a27b-e2df0f5f9df5) |
+| My first texture! | ![A rectangle with the container image rendered onto it](https://github.com/user-attachments/assets/d4bdbbc1-7e2a-45d7-b600-2017e7c942b1) |
+| Modifying the fragment shader to output a mix between the vertex colors and the texture color by multiplying the two values. <br><br>```FragColor = texture(myTexture, TexCoord) * vec4(myColor, 1.0);``` | ![A rectangle with the container image and a rainbow gradient blended](https://github.com/user-attachments/assets/16908f54-14fc-4b22-be03-a99b030c6a9a) |
+| Renderinng two textures onto the same target object. | ![A rectangle with a container image and an upside down happy face on it](https://github.com/user-attachments/assets/1d75dc41-c85c-461e-8f22-d3af00b2ea2a) |
+| After flipping each image vertically. <br><br>```stbi_set_flip_vertically_on_load(true);``` | ![A rectangle with a container image and a rightside up happy face on it](https://github.com/user-attachments/assets/18a7f474-aecb-48c1-88c7-14e26e59f2d0) |
 
 ---
 
-2. Specify a horizontal offset via a uniform and move the triangle to the right side of the screen in the vertex shader using this offset value.
-
-[One triangle, horizontally offset by a uniform](https://github.com/user-attachments/assets/3d35aca5-3e9e-4d2f-ba25-d6114920c683)
-
-*Note:* I thought it would be more interesting to make the triangle move back and forth between the right and left sides of the screen. I accomplished this with the following:
-
-```c++
-float horizontalOffset;
-while (/* window is open */)
-{
-    [ ... ]
-    myShader.use();
-    horizontalOffset = sin(glfwGetTime()) / 2.0f;
-    myShader.setFloat("horizontalOffset", horizontalOffset);
-    [ ... ]
-}
-```
+| Exercise | Visual |
+|----------|--------|
+| **1. Make sure only the happy face looks in the other/reverse direction by changing the fragment shader.** <br><br>My first attempt: <br>```FragColor = mix(texture(texture0, TexCoord), texture(texture1, -TexCoord), 0.2);``` <br><br>Appears correct since the image is flipped, although it's flipped across both axes instead of one, and upon further examination, the texture coordinates are technically no longer in the valid range for this approach. I suspect the only reason I still see the image is because of the texture wrapping parameters I have set to be repeating. I should be passing coordinates between ```0.0f``` and ```1.0f``` for both the x and y components, so first a vertical flip would give ```(x, -y)``` with x staying in the valid range while y now exists between ```-1.0f``` and ```0.0f```, so an additional translation is needed by ```(x, 1 - y)```. <br><br>The correct solution now becomes: <br>```FragColor = mix(texture(texture0, TexCoord), texture(texture1, vec2(TexCoord.x, 1 - TexCoord.y)), 0.2);``` | ![A rectangle with a container image rightside up and a happy face (incorrectly) upside down AND backwards on it](https://github.com/user-attachments/assets/585b0191-fd34-4a33-bd3a-5b8f2d9cbbe3) <br><br>![A rectangle with a container image rightside up and a happy face correctly upside down on it](https://github.com/user-attachments/assets/5151eeb5-3d4a-48ba-8237-e4f5baf9d7d5) |
+| **2. Experiment with the different texture wrapping methods by specifying texture coordinates in the range ```0.0f``` to ```2.0f``` instead of ```0.0f``` to ```1.0f```. See if you can display 4 smiley faces on a single container image clamped at its edge. See if you can experiment with other wrapping methods as well.** <br><br>Four happy faces and four containers: <br>```FragColor = mix(texture(texture0, 2 * TexCoord), texture(texture1, 2 * TexCoord), 0.2);``` <br><br>Four happy faces in a single container: <br>```FragColor = mix(texture(texture0, TexCoord), texture(texture1, 2 * TexCoord), 0.2);``` <br><br>Four happy faces and one container clamped at its edge: <br>```// In main.cpp```<br>```glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);``` <br>```glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);``` <br><br>Four mirrored happy faces and four mirrored containers | ![Four happy faces and four containers](https://github.com/user-attachments/assets/3b435a5f-925b-433c-81b0-6e8964d116ef) <br><br>![Four happy faces in a single container](https://github.com/user-attachments/assets/ab579120-9a0e-4256-866b-43b47aa999e7) <br><br>![Four happy faces and one container clamped at its edge](https://github.com/user-attachments/assets/e9ee4472-8e79-488e-b4db-8989d14e9dc0) <br><br>![Four mirrored containers and four mirrored happy faces](https://github.com/user-attachments/assets/4d9a5e03-f042-4b73-a2a9-605ef67b49a8) |
+| **3. Try to display only the center pixels of the texture image on the rectangle in such a way that the individual pixels are getting visible by changing the texture coordinates. Try to set the texture filtering method to ```GL_NEAREST``` to see the pixels more clearly.** <br><br>Final texture coordinates: <br>```0.51f, 0.51f,	// top right``` <br>```0.49f, 0.51f,	// top left``` <br>```0.49f, 0.49f,	// bottom left``` <br>```0.51f, 0.49f,	// bottom right``` | ![Magnified and centered happy face and container with texture filters set to use ```GL_NEAREST```](https://github.com/user-attachments/assets/dc51c37c-1b21-44ec-a7f3-114448b803b3) <br><br>![Magnified and centered even more to see individual pixels](https://github.com/user-attachments/assets/9c882d25-5a90-4edb-a5b0-1aec4a6dea85) <br><br>![Magnified and centered even more to see individual pixels clearly](https://github.com/user-attachments/assets/e379b01b-7404-4773-9cff-fc55975da35f) |
+| **4. Use a uniform variable as the mix function's third parameter to vary the amount the two textures are visible. Use the up and down arrow keys to change how much the container or the smiley face is visible.** | Video of happy face and container changing visibility with arrow keys: <br>[![Video: Using a uniform to vary percentage of happy face or container visible with up/down arrow keys](https://github.com/user-attachments/assets/b2b613e3-6666-4190-bbc0-7f420512df7d)](https://github.com/user-attachments/assets/ab885b29-e67d-4776-bfff-90d24e4bbfa9 "Watch video") |
 
 ---
-
-3. Output the vertex position to the fragment shader using the ```out``` keyword and set the fragment's color equal to this vertex position (see how even the vertex position values are interpolated across the triangle). Once you managed to do this; try to answer the following question: why is the bottom-left side of our triangle black?
-
-![One triangle, color equal to vertex position](https://github.com/user-attachments/assets/04bcef49-b885-4eef-b0e8-54c96610a303)
-
-*Note:* The 'color' in the bottom left side of the triangle is ```[-0.43f, -0.25f, 0.0f]```, although the values for colors are only accepted in the range [0.0, 1.0] which means any negative values would simply be clamped to the closest value in the range before rendering. Effectively, ```[-0.43f, -0.25f, 0.0f]``` becomes ```[0.0f, 0.0f, 0.0f]``` (black).
-
-
