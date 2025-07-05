@@ -55,25 +55,24 @@ int main()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	
 	int imageWidth, imageHeight, numChannels;
-	unsigned char* imageData = stbi_load("stone_texture.jpeg", &imageWidth, &imageHeight, &numChannels, 0);
-	if (imageData)
-	{
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, imageWidth, imageHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, imageData);
-		glGenerateMipmap(GL_TEXTURE_2D);
-	}
-	else
+	unsigned char* imageData = stbi_load("container.jpg", &imageWidth, &imageHeight, &numChannels, 0);
+	if (!imageData)
 	{
 		cout << "Failed to load texture" << endl;
+		return -1;
 	}
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, imageWidth, imageHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, imageData);
+	glGenerateMipmap(GL_TEXTURE_2D);
 	stbi_image_free(imageData);
+
 
 	// Setup vertex data/buffers and configure vertex attributes
 	GLfloat vertices[] = {
-		// positions			// colors				// texture coords	
-		0.71f,	0.71f,	0.0f,	0.86f, 0.82f, 0.71f,	1.0f, 1.0f, // top right
-		-0.71f, 0.71f,  0.0f,	0.82f, 0.68f, 0.51f,	0.0f, 1.0f, // top left
-		-0.71f,	-0.71f, 0.0f,	0.59f, 0.65f, 0.51f,	0.0f, 0.0f,	// bottom left
-		0.71f,	-0.71f, 0.0f,	0.42f, 0.58f, 0.57f,	1.0f, 0.0f, // bottom right
+		// positions			// colors					// texture coords	
+		0.71f,	0.71f,	0.0f,	219.0f, 209.0f, 152.0f,		1.0f, 1.0f, // top right
+		-0.71f, 0.71f,  0.0f,	209.0f, 173.0f, 130.0f,		0.0f, 1.0f, // top left
+		-0.71f,	-0.71f, 0.0f,	152.0f, 166.0f, 129.0f,		0.0f, 0.0f,	// bottom left
+		0.71f,	-0.71f, 0.0f,	106.0f, 148.0f, 144.0f, 	1.0f, 0.0f, // bottom right
 	};
 	unsigned int indices[] = {
 		0, 1, 3,
@@ -98,7 +97,9 @@ int main()
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (void*)(6 * sizeof(GLfloat)));
 	glEnableVertexAttribArray(2);
 
-	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, texture);
+
 	while (!glfwWindowShouldClose(window))
 	{
 		processInput(window);
