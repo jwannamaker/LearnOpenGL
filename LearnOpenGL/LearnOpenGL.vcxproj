@@ -71,19 +71,19 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\OpenGL\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\OpenGL\include;$(IncludePath);$(VC_IncludePath);</IncludePath>
     <LibraryPath>C:\OpenGL\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>C:\OpenGL\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\OpenGL\include;$(IncludePath);$(VC_IncludePath);</IncludePath>
     <LibraryPath>C:\OpenGL\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\OpenGL\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\OpenGL\include;$(IncludePath);$(VC_IncludePath);</IncludePath>
     <LibraryPath>C:\OpenGL\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>C:\OpenGL\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\OpenGL\include;$(IncludePath);$(VC_IncludePath);</IncludePath>
     <LibraryPath>C:\OpenGL\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -147,7 +147,22 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="awesomeface.png" />
+    <Image Include="brick_texture.jpg" />
+    <Image Include="brick_texture_red.jpg" />
+    <Image Include="container.jpg" />
+    <Image Include="green_ripple_texture.jpg" />
+    <Image Include="stone_texture.jpeg" />
     <Image Include="sunnyswamp-32x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="shader.h" />
+    <ClInclude Include="stb_image.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shader.frag" />
+    <None Include="shader.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

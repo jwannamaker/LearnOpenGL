@@ -26,5 +26,38 @@
     <Image Include="sunnyswamp-32x.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="stone_texture.jpeg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="brick_texture.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="brick_texture_red.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="container.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="green_ripple_texture.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="awesomeface.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="shader.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_image.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shader.vert" />
+    <None Include="shader.frag" />
   </ItemGroup>
 </Project>
