@@ -35,3 +35,8 @@
 **/.vs
 **/x64
 **/*.vcxproj
+LearnOpenGL/brick_texture.jpg
+LearnOpenGL/brick_texture_red.jpg
+LearnOpenGL/green_ripple_texture.jpg
+LearnOpenGL/LearnOpenGL.aps
+LearnOpenGL/sunnyswamp-32x.png
