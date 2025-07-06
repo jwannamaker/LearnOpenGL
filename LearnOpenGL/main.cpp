@@ -129,27 +129,20 @@ int main()
 	stbi_image_free(imageData);
 	
 	myShader.use();
-	myShader.setInt("texture0", 0);
-	myShader.setInt("texture1", 1);
-
-	float rotateAmount = 0.0f;
+	glUniform1f(glGetUniformLocation(myShader.ID, "texture0"), 0);
+	glUniform1f(glGetUniformLocation(myShader.ID, "texture1"), 1); 
+	
 	unsigned int transformLoc = glGetUniformLocation(myShader.ID, "transform");
-
-	// Scaling and Rotating the container object
 	glm::mat4 trans = glm::mat4(1.0f);
-	trans = glm::scale(trans, glm::vec3(0.5f, 0.5f, 0.5f));
-  
+
 	while (!glfwWindowShouldClose(window))
 	{
 		processInput(window);
-		if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
-		{
-			trans = glm::rotate(trans, glm::radians(0.1f), glm::vec3(0.0f, 0.0f, 1.0f));
-		}
-		if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
-		{
-			trans = glm::rotate(trans, glm::radians(-0.1f), glm::vec3(0.0f, 0.0f, 1.0f));
-		}
+		
+		trans = glm::mat4(1.0f);
+		trans = glm::scale(trans, glm::vec3(0.5f, 0.5f, 0.0f));
+		trans = glm::translate(trans, glm::vec3(cos(2.0f * glfwGetTime()), sin(2.0f * glfwGetTime()), 0.0f));
+		trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 
 		glClearColor(0.4f, 0.45f, 0.502f, 1.0f);
