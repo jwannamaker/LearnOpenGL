@@ -30,3 +30,17 @@
 *.exe
 *.out
 *.app
+
+# Visual Studio
+**/.vs
+**/x64
+**/*.vcxproj
+/.vs
+/LearnOpenGL/.vs
+LearnOpenGL/brick_texture.jpg
+LearnOpenGL/brick_texture_red.jpg
+LearnOpenGL/green_ripple_texture.jpg
+LearnOpenGL/LearnOpenGL.aps
+/LearnOpenGL/LearnOpenGL/x64
+LearnOpenGL/sunnyswamp-32x.png
+*.pdb
