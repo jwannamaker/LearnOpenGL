@@ -3,6 +3,9 @@
 #include "shader.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 
 #define M_PI acos(-1.0)
@@ -11,7 +14,7 @@ using namespace std;
 
 
 const unsigned int WINDOW_WIDTH = 800;
-const unsigned int WINDOW_HEIGHT = 600;
+const unsigned int WINDOW_HEIGHT = 800;
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
@@ -86,9 +89,8 @@ int main()
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (void*)(6 * sizeof(GLfloat)));
 	glEnableVertexAttribArray(2);
 	
-	stbi_set_flip_vertically_on_load(true);
-	
 	// Setup textures
+	stbi_set_flip_vertically_on_load(true);
 	unsigned int texture0, texture1;
 
 	glGenTextures(1, &texture0);
@@ -125,26 +127,30 @@ int main()
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, imageWidth, imageHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
 	glGenerateMipmap(GL_TEXTURE_2D);
 	stbi_image_free(imageData);
-
+	
 	myShader.use();
 	myShader.setInt("texture0", 0);
 	myShader.setInt("texture1", 1);
 
-	float mixAmount = 0.0f;
+	float rotateAmount = 0.0f;
+	unsigned int transformLoc = glGetUniformLocation(myShader.ID, "transform");
+
+	// Scaling and Rotating the container object
+	glm::mat4 trans = glm::mat4(1.0f);
+	trans = glm::scale(trans, glm::vec3(0.5f, 0.5f, 0.5f));
   
 	while (!glfwWindowShouldClose(window))
 	{
 		processInput(window);
-
-		if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+		if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
 		{
-			mixAmount = (mixAmount - 0.0001f >= 0.0f) ? mixAmount - 0.0001f : mixAmount;
+			trans = glm::rotate(trans, glm::radians(0.1f), glm::vec3(0.0f, 0.0f, 1.0f));
 		}
-		if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+		if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
 		{
-			mixAmount = (mixAmount + 0.0001f <= 1.0f) ? mixAmount + 0.0001f : mixAmount;
+			trans = glm::rotate(trans, glm::radians(-0.1f), glm::vec3(0.0f, 0.0f, 1.0f));
 		}
-		myShader.setFloat("mixAmount", mixAmount);
+		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 
 		glClearColor(0.4f, 0.45f, 0.502f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
