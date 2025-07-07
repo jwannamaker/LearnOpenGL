@@ -2,13 +2,16 @@
 
 out vec4 FragColor;
 
-in vec4 customColor;
 in vec2 TexCoord;
 
-uniform sampler2D texture0;
-uniform sampler2D texture1;
+uniform sampler2D koiTexture;
+uniform bool darken;
 
 void main()
 {
-	FragColor = mix(texture(texture0, TexCoord), customColor, 0.2f);
+	FragColor = texture(koiTexture, TexCoord);
+	if (darken && FragColor.r > 0.975)
+	{
+		FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+	}
 }
