@@ -1,6 +1,6 @@
 # Getting Started
 
-## Hello Triangle
+## [Hello Triangle](https://learnopengl.com/Getting-started/Hello-Triangle)
 
 | Notes | Visual |
 |-------|--------|
@@ -18,7 +18,7 @@
 
 ---
 
-## Shaders
+## [Shaders](https://learnopengl.com/Getting-started/Shaders)
 
 | Notes | Visual |
 |-------|--------|
@@ -36,7 +36,7 @@
 
 ---
 
-## Textures
+## [Textures](https://learnopengl.com/Getting-started/Textures)
 
 | Notes | Visual |
 |-------|--------|
@@ -58,9 +58,10 @@
 
 ---
 
-## Transforms
+## [Transformations](https://learnopengl.com/Getting-started/Transformations)
 
 | Notes | Visual |
 |-------|--------|
 | Playing with matrix transforms using [```glm```](https://github.com/g-truc/glm), a C++ header-only library for matrix, vector, and quaternion operations that are compatible with OpenGL. <br><br>In the main render loop, I added tests for right and left arrow key presses, so the container rotates clockwise (right arrow) or counterclockwise (left arrow). <br>```while (/* window is open */)``` <br>```{``` <br>&emsp;&emsp;```[ ... ]``` <br>&emsp;&emsp;```if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)``` <br>&emsp;&emsp;```{``` <br>&emsp;&emsp;&emsp;&emsp;```transformMatrix = glm::rotate(transformMatrix, glm::radians(0.1f), glm::vec3(0.0f, 0.0f, 1.0f));``` <br>&emsp;&emsp;```}``` <br>&emsp;&emsp;```if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)``` <br>&emsp;&emsp;&emsp;&emsp;```transformMatrix = glm::rotate(transformMatrix, glm::radians(-0.1f), glm::vec3(0.0f, 0.0f, 1.0f));``` <br>&emsp;&emsp;```}``` <br>&emsp;&emsp;```glUniformMatrix4fv(transformMatrixLocation, 1, GL_FALSE, glm::value_ptr(transformMatrix));``` <br>&emsp;&emsp;```[ ... ]``` <br>```}``` <br><br>*Note:* I made the color at each vertex change according to its new transformed position by modifying the vertex shader to output the vertex position (```gl_Position```) as the color to the fragment shader. This has the effect of making the colors on the container almost seem like lighting instead of a stationary filter that stays fixed on the same vertices. As the container rotates, the color at each vertex changes. | Video of rotating container with left/right arrow keys: [![Video: Matrix transformations to rotate the container](https://github.com/user-attachments/assets/40687bc4-1331-4f17-bf93-e46b149d4946)](https://github.com/user-attachments/assets/405f2f33-00cc-4329-a928-258c6082b2e2 "Watch Video") |
-| | |
+| While thinking of ways to test my First, I thought of the animation of Tui and La circling each other in Avatar: The Last Airbender, then I decided to testing my ability to create it. <br><br>At first, I thought I would have to read ahead to the section on [instancing](https://learnopengl.com/Advanced-OpenGL/Instancing) in order to render the same texture on two different rectangles. I ended up rereading the transformations section again, until I realized that I could use the exact same rectangle, and simply transform the position and color before drawing it again. <br><br>In the main render loop: <br>```while (/* window is open */)``` <br>```{``` <br>&emsp;&emsp;```[ ... ]``` <br>&emsp;&emsp;```float t = glfwGetTime();``` <br>&emsp;&emsp;```transformMatrix = glm::mat4(1.0f);``` <br>&emsp;&emsp;```transformMatrix = glm::scale(transformMatrix, glm::vec3(0.5f, 0.5f, 1.0f));``` <br>&emsp;&emsp;```transformMatrix = glm::translate(transformMatrix, glm::vec3(sin(t), cos(t), 0.0f));``` <br>&emsp;&emsp;```transformMatrix = glm::rotate(transformMatrix, -t + glm::radians(-90.0f), glm::vec3(0.0f, 0.0f, 1.0f));``` <br>&emsp;&emsp;```glUniformMatrix4fv(transformMatrixLocation, 1, GL_FALSE, glm::value_ptr(transformMatrix));``` <br>&emsp;&emsp;```// draw the rectangle for the first koi fish``` <br><br>&emsp;&emsp;```transformMatrix = glm::mat4(1.0f);``` <br>&emsp;&emsp;```transformMatrix = glm::scale(transformMatrix, glm::vec3(0.5f, 0.5f, 1.0f));``` <br>&emsp;&emsp;```transformMatrix = glm::translate(transformMatrix, glm::vec3(sin(t + M_PI), cos(t + M_PI), 0.0f));``` <br>&emsp;&emsp;```transformMatrix = glm::rotate(transformMatrix, -t + glm::radians(-270.0f), glm::vec3(0.0f, 0.0f, 1.0f));``` <br>&emsp;&emsp;```glUniformMatrix4fv(transformMatrixLocation, 1, GL_FALSE, glm::value_ptr(transformMatrix));``` <br>&emsp;&emsp;```// draw the rectangle for the second koi fish``` <br>&emsp;&emsp;```[ ... ]``` <br>```}``` | Video of two koi fish circling each other: <br>[<img width="802" height="829" alt="Video of two koi fish circling each other" src="https://github.com/user-attachments/assets/814ba977-ec8e-4c8e-8480-6dc559ed6c71" />](https://github.com/user-attachments/assets/3a36aa64-5d9e-4794-b7de-d3753f4d9020 "Watch video") <br><br>Frame from the scene that I was thinking of: <br><img width="720" height="480" alt="Tui and La circling each other from ATLA" src="https://github.com/user-attachments/assets/f054ce3f-91a6-4c9c-b3df-a93a006a9a80" />
+ |
