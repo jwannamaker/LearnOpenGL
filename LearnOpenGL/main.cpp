@@ -63,8 +63,9 @@ int main()
 
 	// Setup textures
 	int imageWidth, imageHeight;
-
 	unsigned int texture0 = loadTexture("container.jpg", &imageWidth, &imageHeight);
+	unsigned int texture1 = loadTexture("dithering-torus.jpeg", &imageWidth, &imageHeight);
+
 	// Setup vertex data/buffers and configure vertex attributes
 	GLfloat x = 0.71f;
 	GLfloat y = 0.71f;
@@ -95,7 +96,8 @@ int main()
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
 
 	myShader.use();
-	glUniform1f(glGetUniformLocation(myShader.ID, "texture0"), 0);
+	glUniform1i(glGetUniformLocation(myShader.ID, "texture0"), 0);
+	glUniform1i(glGetUniformLocation(myShader.ID, "texture1"), 1);
 	glUniformMatrix4fv(glGetUniformLocation(myShader.ID, "model"), 1, GL_FALSE, value_ptr(model));
 	glUniformMatrix4fv(glGetUniformLocation(myShader.ID, "view"), 1, GL_FALSE, value_ptr(view));
 	glUniformMatrix4fv(glGetUniformLocation(myShader.ID, "projection"), 1, GL_FALSE, value_ptr(projection));
@@ -108,8 +110,14 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		glBindVertexArray(VAO);
+		
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, texture0);
+
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, texture1);
+		
+		myShader.use();
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 		glfwSwapBuffers(window);
