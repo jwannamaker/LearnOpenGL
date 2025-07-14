@@ -1,3 +1,7 @@
+# Introduction
+
+My name is Johnny Wannamaker, and this repository is a showcase of my progress on my journey to become a Graphics Programmer. I'm reading [learnopengl.com](learnopengl.com), which is a free, online book with readily digestible lessons, examples, and excercises that makes it a popular introduction to the realm of graphics programming. Below, you'll find section headers link to their corresponding sections in the book, and table headers indicate whether I'm commenting/interacting with the main content of a section, or working through excercises from the end of the section.
+
 # Getting Started
 
 ## [Hello Triangle](https://learnopengl.com/Getting-started/Hello-Triangle)
@@ -72,3 +76,12 @@
 |----------|--------|
 | **1. Using the last transformation on the container, try switching the order around by first rotating and then translating. See what happens and try to reason why this happens.** <br><br>This happens because matrix multiplication applies the visual transformations in right-to-left order, meaning the combined transformation matrix is first translating the image then rotating w.r.t. the origin ```(0.0, 0.0)```. Since the image is already at some coordinate ```(x, y)``` when the rotation occurs, it's no longer rotated on an axis that is centered on the image. <br><br>In order to produce the same effect of rotating in place in the corner of the screen but still apply a rotation before a translation, it would be necessary to rotate the image relative to the translated location. For instance: <br>```smileyPosition = glm::vec2(0.75f, 0.75f);``` <br>```transformMatrix = glm::rotate(transformMatrix, t, glm::vec3(smileyPosition, 1.0f));``` <br>```transformMatrix = glm::translate(transformMatrix, glm::vec3(smileyPosition, 1.0f));```  | Video of smiley face moving in a circle: <br>[<img width="799" height="830" alt="Video of smiley face moving in a circle" src="https://github.com/user-attachments/assets/29b5e531-28d3-4d4f-bece-dd58712ac4f7" />](https://github.com/user-attachments/assets/130d2f8b-d92a-4107-bbfb-86941ac60696 "Watch video") |
 | **2. Try drawing a second container with another call to ```glDrawElements``` but place it at a different position using transformations only. Make sure this second container is placed at the top-left of the window and instead of rotating, scale it over time (using the ```sin``` function is useful here; note that using ```sin``` will cause the object to invert as soon as a negative scale is applied).** | Video of two smiley faces in opposite corners, one shrinking/growing and the other rotating: <br>[<img width="801" height="833" alt="Video of two smiley faces in opposite corners, one shrinking/growing and the other rotating" src="https://github.com/user-attachments/assets/9bdbe58c-5824-4395-9386-4c0ede60dbe8" />](https://github.com/user-attachments/assets/5a00c851-1ede-41c7-8267-bdbe7943d224 "Watch video") |
+
+---
+
+## [Coordinate Systems](https://learnopengl.com/Getting-started/Coordinate-Systems)
+
+| Notes | Visual |
+|-------|--------|
+| My first 3D render! | <img width="802" height="832" alt="My first 3D render" src="https://github.com/user-attachments/assets/29452130-4825-4e8a-b83a-1be65f2112c0"/> |
+| | |
