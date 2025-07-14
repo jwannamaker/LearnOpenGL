@@ -48,12 +48,12 @@ int main()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	// Setup textures
-	int imageWidth, imageHeight;
-	unsigned int koiTexture = loadTexture("perfect-koi-fish.png", &imageWidth, &imageHeight);
-
 	// Build and compile shader program
 	Shader myShader("shader.vert", "shader.frag");
+
+	// Setup textures
+	int imageWidth, imageHeight;
+	unsigned int koiTexture = loadTexture("awesomeface.png", &imageWidth, &imageHeight);
 
 	// Setup vertex data/buffers and configure vertex attributes
 	GLfloat x = imageWidth;
@@ -89,39 +89,32 @@ int main()
 	
 	unsigned int transformLoc = glGetUniformLocation(myShader.ID, "transform");
 	mat4 trans = mat4(1.0f);
-
-	unsigned int darkenLoc = glGetUniformLocation(myShader.ID, "darken");
+	vec2 smileyPosition = vec2(1.0f, -1.0f);
 
 	while (!glfwWindowShouldClose(window))
 	{
 		processInput(window);
-		
-		float t = glfwGetTime();
-		trans = mat4(1.0f);
-		trans = scale(trans, vec3(0.5f, 0.5f, 1.0f));
-		trans = translate(trans, vec3(sin(t), cos(t), 0.0));
-		trans = rotate(trans, -t + radians(-90.0f), vec3(0.0f, 0.0f, 1.0f));
-		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, value_ptr(trans));
 
 		glClearColor(0.4f, 0.45f, 0.502f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
+		glBindVertexArray(VAO);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, koiTexture);
 		
-		glBindVertexArray(VAO);
-
-		glUniform1i(darkenLoc, 0);
+		float t = glfwGetTime();
+		trans = mat4(1.0f);
+		trans = scale(trans, vec3(0.6f, 0.6f, 1.0f));
+		trans = translate(trans, vec3(smileyPosition, 0.0f));
+		trans = rotate(trans, t, vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, value_ptr(trans));
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 		trans = mat4(1.0f);
-		//trans = rotate(trans, (float)M_PI, vec3(0.0f, 0.0f, 1.0f));
-		trans = scale(trans, vec3(0.5f, 0.5f, 1.0f));
-		trans = translate(trans, vec3(sin(t + M_PI), cos(t + M_PI), 0.0f));
-		trans = rotate(trans, -t + radians(-270.0f), vec3(0.0f, 0.0f, 1.0f));
+		trans = scale(trans, vec3(0.6f, 0.6f, 1.0f));
+		trans = translate(trans, vec3(-smileyPosition, 0.0f));
+		trans = scale(trans, vec3(sin(t), sin(t), 1.0f));
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, value_ptr(trans));
-
-		glUniform1i(darkenLoc, 1);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 		glfwSwapBuffers(window);
