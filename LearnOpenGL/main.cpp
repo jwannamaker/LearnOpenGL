@@ -9,6 +9,7 @@
 #include <iostream>
 
 #define M_PI acos(-1.0)
+
 using namespace std;
 using namespace glm;
 
@@ -67,14 +68,52 @@ int main()
 	unsigned int texture1 = loadTexture("dithering-torus.jpeg", &imageWidth, &imageHeight);
 
 	// Setup vertex data/buffers and configure vertex attributes
-	GLfloat x = 0.71f;
-	GLfloat y = 0.71f;
+	GLfloat x = 0.5f;
+	GLfloat y = 0.5f;
+	GLfloat z = 0.5f;
 	GLfloat vertices[] = {
-		// positions	// texture coords
-		+x, +y, 0.0f,	0.0f, 0.0f,
-		-x, +y, 0.0f,	1.0f, 0.0f,
-		-x, -y, 0.0f,	1.0f, 1.0f,
-		+x, -y, 0.0f,	0.0f, 1.0f,
+		// positions			// texture coords
+		-x, -y, -z,		0.0f, 0.0f,
+		 x, -y, -z,		1.0f, 0.0f,
+		 x,  y, -z,		1.0f, 1.0f,
+		 x,  y, -z,		1.0f, 1.0f,
+		-x,  y, -z,		0.0f, 1.0f,
+		-x, -y, -z,		0.0f, 0.0f,
+		 
+		-x, -y,  z,		0.0f, 0.0f,
+		 x, -y,  z,		1.0f, 0.0f,
+		 x,  y,  z,		1.0f, 1.0f,
+		 x,  y,  z,		1.0f, 1.0f,
+		-x,  y,  z,		0.0f, 1.0f,
+		-x, -y,  z,		0.0f, 0.0f,
+		 
+		-x,  y,  z,		1.0f, 0.0f,
+		-x,  y, -z,		1.0f, 1.0f,
+		-x, -y, -z,		0.0f, 1.0f,
+		-x, -y, -z,		0.0f, 1.0f,
+		-x, -y,  z,		0.0f, 0.0f,
+		-x,  y,  z,		1.0f, 0.0f,
+		 
+		 x,  y,  z,		1.0f, 0.0f,
+		 x,  y, -z,		1.0f, 1.0f,
+		 x, -y, -z,		0.0f, 1.0f,
+		 x, -y, -z,		0.0f, 1.0f,
+		 x, -y,  z,		0.0f, 0.0f,
+		 x,  y,  z,		1.0f, 0.0f,
+		 
+		-x, -y, -z,		0.0f, 1.0f,
+		 x, -y, -z,		1.0f, 1.0f,
+		 x, -y,  z,		1.0f, 0.0f,
+		 x, -y,  z,		1.0f, 0.0f,
+		-x, -y,  z,		0.0f, 0.0f,
+		-x, -y, -z,		0.0f, 1.0f,
+		 
+		-x,  y, -z,		0.0f, 1.0f,
+		 x,  y, -z,		1.0f, 1.0f,
+		 x,  y,  z,		1.0f, 0.0f,
+		 x,  y,  z,		1.0f, 0.0f,
+		-x,  y,  z,		0.0f, 0.0f,
+		-x,  y, -z,		0.0f, 1.0f
 	};
 	unsigned int indices[] = {
 		0, 1, 2,
@@ -118,7 +157,11 @@ int main()
 		glBindTexture(GL_TEXTURE_2D, texture1);
 		
 		myShader.use();
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		float t = glfwGetTime();
+		model = mat4(1.0f);
+		model = rotate(model, t * radians(50.0f), vec3(0.25 * sin(t), 0.25 * cos(t), 0.0f));
+		glUniformMatrix4fv(glGetUniformLocation(myShader.ID, "model"), 1, GL_FALSE, value_ptr(model));
+		glDrawArrays(GL_TRIANGLES, 0, 36);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
