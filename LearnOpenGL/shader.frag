@@ -4,10 +4,10 @@ out vec4 FragColor;
 
 in vec2 TexCoord;
 
-uniform sampler2D koiTexture;
+uniform sampler2D texture0;
 uniform bool darken;
 
 void main()
 {
-	FragColor = texture(koiTexture, TexCoord);
+	FragColor = texture(texture0, TexCoord);
 }
