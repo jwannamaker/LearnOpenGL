@@ -1,0 +1,22 @@
+$table-border: #ddd;
+
+.table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 1rem;
+  border: 1px solid $table-border;
+  border-radius: 4px;
+}
+
+.table-responsive table {
+  width: 100%;
+  min-width: 600px;
+  border-collapse: collapse;
+}
+
+.table-responsive th,
+.table-responsive td {
+  padding: 0.5rem;
+  text-align: left;
+  border-bottom: 1px solid lighten($table-border, 10%);
+}
