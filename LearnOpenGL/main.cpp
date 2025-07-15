@@ -3,18 +3,22 @@
 #include "shader.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 
 #define M_PI acos(-1.0)
 
 using namespace std;
-
+using namespace glm;
 
 const unsigned int WINDOW_WIDTH = 800;
-const unsigned int WINDOW_HEIGHT = 600;
+const unsigned int WINDOW_HEIGHT = 800;
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
+unsigned int loadTexture(const char* path, int* imageWidth, int* imageHeight);
 
 int main()
 {
@@ -42,113 +46,110 @@ int main()
 		return -1;
 	}
 
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 	// Build and compile shader program
 	Shader myShader("shader.vert", "shader.frag");
+
+	// Setup model, view, and projection matrices
+	mat4 model = mat4(1.0f);
+	model = rotate(model, radians(-55.0f), vec3(1.0f, 0.0f, 0.0f));
+	
+	mat4 view = mat4(1.0f);
+	view = translate(view, vec3(0.0f, 0.0f, -3.0f));
+
+	mat4 projection = mat4(1.0f);
+	projection = perspective(radians(45.0f), (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT, 0.1f, 100.0f);
+
+	// Setup textures
+	int imageWidth, imageHeight;
+	unsigned int texture0 = loadTexture("container.jpg", &imageWidth, &imageHeight);
+	unsigned int texture1 = loadTexture("dithering-torus.jpeg", &imageWidth, &imageHeight);
+
 	// Setup vertex data/buffers and configure vertex attributes
+	GLfloat x = 0.5f;
+	GLfloat y = 0.5f;
+	GLfloat z = 0.5f;
 	GLfloat vertices[] = {
-		// positions		      // colors					// texture coords	
-		0.71f,	0.71f,  0.0f,	  219.0f, 209.0f, 180.0f,	1.0f, 1.0f, // top right
-		-0.71f, 0.71f,  0.0f,	  209.0f, 173.0f, 130.0f,	0.0f, 1.0f, // top left
-		-0.71f,	-0.71f, 0.0f,	  152.0f, 166.0f, 129.0f,	0.0f, 0.0f,	// bottom left
-		0.71f,	-0.71f, 0.0f,	  106.0f, 148.0f, 144.0f,	1.0f, 0.0f, // bottom right
+		// positions			// texture coords
+		-x, -y, -z,		0.0f, 0.0f,
+		 x, -y, -z,		1.0f, 0.0f,
+		 x,  y, -z,		1.0f, 1.0f,
+		 x,  y, -z,		1.0f, 1.0f,
+		-x,  y, -z,		0.0f, 1.0f,
+		-x, -y, -z,		0.0f, 0.0f,
+		 
+		-x, -y,  z,		0.0f, 0.0f,
+		 x, -y,  z,		1.0f, 0.0f,
+		 x,  y,  z,		1.0f, 1.0f,
+		 x,  y,  z,		1.0f, 1.0f,
+		-x,  y,  z,		0.0f, 1.0f,
+		-x, -y,  z,		0.0f, 0.0f,
+		 
+		-x,  y,  z,		1.0f, 0.0f,
+		-x,  y, -z,		1.0f, 1.0f,
+		-x, -y, -z,		0.0f, 1.0f,
+		-x, -y, -z,		0.0f, 1.0f,
+		-x, -y,  z,		0.0f, 0.0f,
+		-x,  y,  z,		1.0f, 0.0f,
+		 
+		 x,  y,  z,		1.0f, 0.0f,
+		 x,  y, -z,		1.0f, 1.0f,
+		 x, -y, -z,		0.0f, 1.0f,
+		 x, -y, -z,		0.0f, 1.0f,
+		 x, -y,  z,		0.0f, 0.0f,
+		 x,  y,  z,		1.0f, 0.0f,
+		 
+		-x, -y, -z,		0.0f, 1.0f,
+		 x, -y, -z,		1.0f, 1.0f,
+		 x, -y,  z,		1.0f, 0.0f,
+		 x, -y,  z,		1.0f, 0.0f,
+		-x, -y,  z,		0.0f, 0.0f,
+		-x, -y, -z,		0.0f, 1.0f,
+		 
+		-x,  y, -z,		0.0f, 1.0f,
+		 x,  y, -z,		1.0f, 1.0f,
+		 x,  y,  z,		1.0f, 0.0f,
+		 x,  y,  z,		1.0f, 0.0f,
+		-x,  y,  z,		0.0f, 0.0f,
+		-x,  y, -z,		0.0f, 1.0f
 	};
 	unsigned int indices[] = {
-		0, 1, 3,
-		1, 2, 3
+		0, 1, 2,
+		0, 2, 3
 	};
 
-	// Setup buffers and array attributes
 	GLuint VAO, VBO, EBO;
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
-	glGenBuffers(1, &EBO);
-
-	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
-	
-	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	
 	glGenBuffers(1, &EBO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-	// position attribute
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (void*)0);
 	glEnableVertexAttribArray(0);
-  
-	// color attribute
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (void*)0);
 	glEnableVertexAttribArray(1);
-
-	// texture coordinate attribute
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (void*)(6 * sizeof(GLfloat)));
-	glEnableVertexAttribArray(2);
-	
-	stbi_set_flip_vertically_on_load(true);
-	
-	// Setup textures
-	unsigned int texture0, texture1;
-
-	glGenTextures(1, &texture0);
-	glBindTexture(GL_TEXTURE_2D, texture0);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	
-	int imageWidth, imageHeight, numChannels;
-	unsigned char* imageData = stbi_load("container.jpg", &imageWidth, &imageHeight, &numChannels, 0);
-	if (!imageData)
-	{
-		cout << "Failed to load texture" << endl;
-		return -1;
-	}
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, imageWidth, imageHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, imageData);
-	glGenerateMipmap(GL_TEXTURE_2D);
-	stbi_image_free(imageData);
-
-	glGenTextures(1, &texture1);
-	glBindTexture(GL_TEXTURE_2D, texture1);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-	imageData = stbi_load("awesomeface.png", &imageWidth, &imageHeight, &numChannels, 0);
-	if (!imageData)
-	{
-		cout << "Failed to load texture" << endl;
-		return -1;
-	}
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, imageWidth, imageHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
-	glGenerateMipmap(GL_TEXTURE_2D);
-	stbi_image_free(imageData);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
 
 	myShader.use();
-	myShader.setInt("texture0", 0);
-	myShader.setInt("texture1", 1);
+	glUniform1i(glGetUniformLocation(myShader.ID, "texture0"), 0);
+	glUniform1i(glGetUniformLocation(myShader.ID, "texture1"), 1);
+	glUniformMatrix4fv(glGetUniformLocation(myShader.ID, "model"), 1, GL_FALSE, value_ptr(model));
+	glUniformMatrix4fv(glGetUniformLocation(myShader.ID, "view"), 1, GL_FALSE, value_ptr(view));
+	glUniformMatrix4fv(glGetUniformLocation(myShader.ID, "projection"), 1, GL_FALSE, value_ptr(projection));
 
-	float mixAmount = 0.0f;
-  
 	while (!glfwWindowShouldClose(window))
 	{
 		processInput(window);
 
-		if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-		{
-			mixAmount = (mixAmount - 0.0001f >= 0.0f) ? mixAmount - 0.0001f : mixAmount;
-		}
-		if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-		{
-			mixAmount = (mixAmount + 0.0001f <= 1.0f) ? mixAmount + 0.0001f : mixAmount;
-		}
-		myShader.setFloat("mixAmount", mixAmount);
-
 		glClearColor(0.4f, 0.45f, 0.502f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
+		glBindVertexArray(VAO);
+		
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, texture0);
 
@@ -156,8 +157,11 @@ int main()
 		glBindTexture(GL_TEXTURE_2D, texture1);
 		
 		myShader.use();
-		glBindVertexArray(VAO);
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		float t = glfwGetTime();
+		model = mat4(1.0f);
+		model = rotate(model, t * radians(50.0f), vec3(0.25 * sin(t), 0.25 * cos(t), 0.0f));
+		glUniformMatrix4fv(glGetUniformLocation(myShader.ID, "model"), 1, GL_FALSE, value_ptr(model));
+		glDrawArrays(GL_TRIANGLES, 0, 36);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
@@ -178,4 +182,29 @@ void processInput(GLFWwindow* window)
 	{
 		glfwSetWindowShouldClose(window, true);
 	}
+}
+
+unsigned int loadTexture(const char* path, int* imageWidth, int* imageHeight)
+{
+	unsigned int textureID;
+
+	glGenTextures(1, &textureID);
+	glBindTexture(GL_TEXTURE_2D, textureID);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	int numChannels;
+	unsigned char* imageData = stbi_load(path, imageWidth, imageHeight, &numChannels, 0);
+	if (!imageData)
+	{
+		cout << "Failed to load texture" << endl;
+		return -1;
+	}
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, *imageWidth, *imageHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, imageData);
+	glGenerateMipmap(GL_TEXTURE_2D);
+	stbi_image_free(imageData);
+
+	return textureID;
 }
