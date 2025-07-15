@@ -13,8 +13,8 @@
 using namespace std;
 using namespace glm;
 
-const unsigned int WINDOW_WIDTH = 800;
-const unsigned int WINDOW_HEIGHT = 800;
+const unsigned int WINDOW_WIDTH = 550;
+const unsigned int WINDOW_HEIGHT = 550;
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
@@ -46,6 +46,7 @@ int main()
 		return -1;
 	}
 
+	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -146,7 +147,7 @@ int main()
 		processInput(window);
 
 		glClearColor(0.4f, 0.45f, 0.502f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glBindVertexArray(VAO);
 		
