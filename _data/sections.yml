@@ -137,7 +137,9 @@
       caption: "Notes 3"
     - filename: transformations-ex-1
       thumb: images/transformations-ex-1.png
+      video: videos/transformations-ex-1-video.mp4
       caption: "Exercise 1"
     - filename: transformations-ex-2
       thumb: images/transformations-ex-2.png
+      video: videos/transformations-ex-2-video.mp4
       caption: "Exercise 2"
