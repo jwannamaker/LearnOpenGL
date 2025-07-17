@@ -1,1 +1,3 @@
-
+title: Graphics Programming Portfolio
+baseurl: "/<repo>"
+markdown: kramdown
