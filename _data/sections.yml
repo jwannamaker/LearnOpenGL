@@ -1,0 +1,143 @@
+- title: Shaders
+  description: Notes and exercises from Shaders
+  base_path: assets
+  images:
+    - filename: shaders-notes-1-3
+      thumb: images/shaders-notes-1-3.png
+      video: videos/shaders-notes-1-3-video.mp4
+      caption: "Notes 1"
+    - filename: shaders-notes-2
+      thumb: images/shaders-notes-2.png
+      caption: "Notes 2"
+    - filename: shaders-notes-3
+      thumb: images/shaders-notes-3.png
+      caption: "Notes 3"
+    - filename: shaders-ex-1
+      thumb: images/shaders-ex-1.png
+      caption: "Exercise 1"
+    - filename: shaders-ex-2
+      video: videos/shaders-ex-2-video.mp4
+      thumb: images/shaders-ex-2.png
+      caption: "Exercise 2"
+    - filename: shaders-ex-3
+      thumb: images/shaders-ex-3.png
+      caption: "Exercise 3"
+
+- title: Hello Triangle
+  description: Notes and exercises from Hello Triangle
+  base_path: assets/images
+  images:
+    - filename: hello-triangle-notes-1
+      thumb: hello-triangle-notes-1.png
+      caption: "Notes 1"
+    - filename: hello-triangle-notes-2
+      thumb: hello-triangle-notes-2.png
+      caption: "Notes 2"
+    - filename: hello-triangle-notes-3
+      thumb: hello-triangle-notes-3.png
+      caption: "Notes 3"
+    - filename: hello-triangle-ex-1
+      thumb: hello-triangle-ex-1.png
+      caption: "Exercise 1"
+    - filename: hello-triangle-ex-2
+      thumb: hello-triangle-ex-2.png
+      caption: "Exercise 2"
+    - filename: hello-triangle-ex-3
+      thumb: hello-triangle-ex-3.png
+      caption: "Exercise 3"
+
+- title: Coordinates
+  description: Notes and exercises from Coordinate Systems
+  base_path: assets
+  images:
+    - filename: coordinates-notes-1
+      thumb: images/coordinates-notes-1.png
+      caption: "Notes 1"
+    - filename: coordinates-notes-2
+      video: videos/coordinates-notes-2-video.mp4
+      thumb: images/coordinates-notes-2.jpg
+      caption: "Notes 2"
+    - filename: coordinates-notes-3
+      video: videos/coordinates-notes-3-video.mp4
+      thumb: images/coordinates-notes-3.jpg
+      caption: "Notes 3"
+
+- title: Textures
+  description: Notes and exercises from Textures
+  base_path: assets
+  images:
+    - filename: textures-notes-1
+      thumb: images/textures-notes-1.png
+      caption: "Notes 1"
+    - filename: textures-notes-2
+      thumb: images/textures-notes-2.png
+      caption: "Notes 2"
+    - filename: textures-notes-3
+      thumb: images/textures-notes-3.png
+      caption: "Notes 3"
+    - filename: textures-notes-4
+      thumb: images/textures-notes-4.png
+      caption: "Notes 4"
+    - filename: textures-notes-5
+      thumb: images/textures-notes-5.png
+      caption: "Notes 5"
+    - filename: textures-notes-6
+      thumb: images/textures-notes-6.png
+      caption: "Notes 6"
+    - filename: textures-ex-1-1
+      thumb: images/textures-ex-1-1.png
+      caption: "Exercise 1.1"
+    - filename: textures-ex-1-2
+      thumb: images/textures-ex-1-2.png
+      caption: "Exercise 1.2"
+    - filename: textures-ex-2-1
+      thumb: images/textures-ex-2-1.png
+      caption: "Exercise 2.1"
+    - filename: textures-ex-2-2
+      thumb: images/textures-ex-2-2.png
+      caption: "Exercise 2.2"
+    - filename: textures-ex-2-3
+      thumb: images/textures-ex-2-3.png
+      caption: "Exercise 2.3"
+    - filename: textures-ex-2-4
+      thumb: images/textures-ex-2-4.png
+      caption: "Exercise 2.4"
+    - filename: textures-ex-3-1
+      thumb: images/textures-ex-3-1.png
+      caption: "Exercise 3.1"
+    - filename: textures-ex-3-2
+      thumb: images/textures-ex-3-2.png
+      caption: "Exercise 3.2"
+    - filename: textures-ex-3-3
+      thumb: images/textures-ex-3-3.png
+      caption: "Exercise 3.3"
+    - filename: textures-ex-4
+      thumb: images/textures-ex-4.png
+      video: videos/textures-ex-4-video.mp4
+      caption: "Exercise 4"
+
+- title: Transformations
+  description: Notes and exercises on geometric transformations
+  base_path: assets
+  images:
+    - filename: transformations-notes-1
+      thumb: images/transformations-notes-1.png
+      video: videos/transformations-notes-1-video.mp4
+      caption: "Notes 1"
+    - filename: transformations-notes-2-1
+      thumb: images/transformations-notes-2-1.png
+      video: videos/transformations-notes-2-1-video.mp4
+      caption: "Notes 2.1"
+    - filename: transformations-notes-2-2
+      thumb: images/transformations-notes-2-2.png
+      caption: "Notes 2.2"
+    - filename: transformations-notes-3
+      thumb: images/transformations-notes-3.png
+      video: videos/transformations-notes-3-video.mp4
+      caption: "Notes 3"
+    - filename: transformations-ex-1
+      thumb: images/transformations-ex-1.png
+      caption: "Exercise 1"
+    - filename: transformations-ex-2
+      thumb: images/transformations-ex-2.png
+      caption: "Exercise 2"
