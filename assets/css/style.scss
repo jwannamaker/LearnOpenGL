@@ -1,12 +1,43 @@
-img {
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 5px;
-  max-width: 300px;
-  width: 100%;
-  height: auto;
+.container {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  min-height: 100vh;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
 }
 
-img:hover {
-  box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+.sidebar {
+  background: #f7f7f7;
+  padding: 1rem;
+  text-align: center;
+
+  .profile-pic {
+    width: 100px;
+    height: 100px;
+    background: #ccc;
+    border-radius: 50%;
+    margin: 0 auto 1rem;
+  }
+
+  .repo-description {
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .nav-link {
+    display: block;
+    margin-bottom: 0.5rem;
+    text-decoration: none;
+    color: #333;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.main {
+  padding: 2rem;
 }
