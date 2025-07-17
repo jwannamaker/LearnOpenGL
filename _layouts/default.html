@@ -7,6 +7,19 @@
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
 </head>
 <body>
+  <div class="container">
+    <aside class="sidebar">
+      <div class="profile-pic"></div>
+      <div class="repo-description"> {% include repo-description.md %} </div>
+      <nav class="nav">
+        {% for section in site.data.sections %}
+          <a href="#{{ section.title | slugify }}" class="nav-link">
+            {{ section.title }}
+          </a>
+        {% endfor %}
+      </nav>
+    </aside>
+  </div>
   <main>
     {{ content }}
   </main>
