@@ -4,5 +4,9 @@ title: LearnOpenGL
 ---
 
 {% for section in site.data.sections %}
-  {% include section.html section=section %}
+  <div class="card">
+    <a href="/{{ section.slug }}/index.html">
+      <h2>{{ section.title }}</h2>
+    </a>
+  </div>
 {% endfor %}
