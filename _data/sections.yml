@@ -1,71 +1,78 @@
 - title: Shaders
-  description: Notes and exercises from Shaders
-  base_path: assets
-  images:
-    - filename: shaders-notes-1-3
+  slug: shaders
+  items:
+    - caption: "Notes 1"
+      slug: notes-1
       thumb: images/shaders-notes-1-3.png
-      video: videos/shaders-notes-1-3-video.mp4
-      caption: "Notes 1"
-    - filename: shaders-notes-2
-      thumb: images/shaders-notes-2.png
-      caption: "Notes 2"
-    - filename: shaders-notes-3
-      thumb: images/shaders-notes-3.png
-      caption: "Notes 3"
-    - filename: shaders-ex-1
-      thumb: images/shaders-ex-1.png
-      caption: "Exercise 1"
-    - filename: shaders-ex-2
-      video: videos/shaders-ex-2-video.mp4
-      thumb: images/shaders-ex-2.png
-      caption: "Exercise 2"
-    - filename: shaders-ex-3
-      thumb: images/shaders-ex-3.png
-      caption: "Exercise 3"
+      files: ["assets/images/shaders-notes-1-1-graph.png", "assets/images/shaders-notes-1-2-graph.png", "assets/videos/shaders-notes-1-3-video.mp4"]
+    - caption: "Notes 2"
+      slug: notes-2
+      thumb: assets/images/shaders-notes-2.png
+      files: ["assets/images/shaders-notes-2.png"]
+    - caption: "Notes 3"
+      slug: notes-3
+      thumb: assets/images/shaders-notes-3.png
+      files: ["assets/images/shaders-notes-3.png"]
+    - caption: "Exercise 1"
+      slug: ex-1
+      thumb: assets/images/shaders-ex-1.png
+      files: ["assets/images/shaders-ex-1.png"]
+    - caption: "Exercise 2"
+      slug: ex-2
+      thumb: assets/images/shaders-ex-2.png
+      files: ["assets/images/shaders-ex-2.png", "assets/videos/shaders-ex-2-video.mp4"]
+    - caption: "Exercise 3"
+      slug: ex-3
+      thumb: assets/images/shaders-ex-3.png
+      files: ["assets/images/shaders-ex-3.png"]
 
 - title: Hello Triangle
-  description: Notes and exercises from Hello Triangle
-  base_path: assets/images
-  images:
-    - filename: hello-triangle-notes-1
-      thumb: hello-triangle-notes-1.png
-      caption: "Notes 1"
-    - filename: hello-triangle-notes-2
-      thumb: hello-triangle-notes-2.png
-      caption: "Notes 2"
-    - filename: hello-triangle-notes-3
-      thumb: hello-triangle-notes-3.png
-      caption: "Notes 3"
-    - filename: hello-triangle-ex-1
-      thumb: hello-triangle-ex-1.png
-      caption: "Exercise 1"
-    - filename: hello-triangle-ex-2
-      thumb: hello-triangle-ex-2.png
-      caption: "Exercise 2"
-    - filename: hello-triangle-ex-3
-      thumb: hello-triangle-ex-3.png
-      caption: "Exercise 3"
+  slug: hello-triangle
+  items:
+    - caption: "Notes 1"
+      slug: notes-1
+      thumb: assets/images/hello-triangle-notes-1.png
+      files: ["assets/images/hello-triangle-notes-1.png"]
+    - caption: "Notes 2"
+      slug: notes-2
+      thumb: assets/images/hello-triangle-notes-2.png
+      files: ["assets/images/hello-triangle-notes-2.png"]
+    - caption: "Notes 3"
+      slug: notes-3
+      thumb: assets/images/hello-triangle-notes-3.png
+      files: ["assets/images/hello-triangle-notes-3.png"]
+    - caption: "Exercise 1"
+      slug: ex-1
+      thumb: assets/images/hello-triangle-ex-1.png
+      files: ["assets/images/hello-triangle-ex-1.png"]
+    - caption: "Exercise 2"
+      slug: ex-2
+      thumb: assets/images/hello-triangle-ex-2.png
+      files: ["assets/images/hello-triangle-ex-2.png"]
+    - caption: "Exercise 3"
+      slug: ex-3
+      thumb: assets/images/hello-triangle-ex-3.png
+      files: ["assets/images/hello-triangle-ex-3.png"]
 
 - title: Coordinates
-  description: Notes and exercises from Coordinate Systems
-  base_path: assets
-  images:
-    - filename: coordinates-notes-1
-      thumb: images/coordinates-notes-1.png
-      caption: "Notes 1"
-    - filename: coordinates-notes-2
-      video: videos/coordinates-notes-2-video.mp4
+  slug: coordinates
+  items:
+    - caption: "Notes 1"
+      slug: notes-1
+      thumb: assets/images/coordinates-notes-1.png
+      files: ["assets/images/coordinates-notes-1.png"]
+    - caption: "Notes 2"
+      slug: notes-2
       thumb: images/coordinates-notes-2.jpg
-      caption: "Notes 2"
-    - filename: coordinates-notes-3
-      video: videos/coordinates-notes-3-video.mp4
-      thumb: images/coordinates-notes-3.jpg
-      caption: "Notes 3"
+      files: ["assets/images/coordinates-notes-2.png", "assets/videos/coordinates-notes-2-video.mp4"]
+    - caption: "Notes 3"
+      slug: notes-3
+      thumb: assets/images/coordinates-notes-3.jpg
+      video: ["assets/images/coordinates-notes-3.jpg", "videos/coordinates-notes-3-video.mp4"]
 
 - title: Textures
-  description: Notes and exercises from Textures
-  base_path: assets
-  images:
+  slug: textures
+  items:
     - filename: textures-notes-1
       thumb: images/textures-notes-1.png
       caption: "Notes 1"
@@ -117,9 +124,9 @@
       caption: "Exercise 4"
 
 - title: Transformations
-  description: Notes and exercises on geometric transformations
+  slug: transformations
   base_path: assets
-  images:
+  items:
     - filename: transformations-notes-1
       thumb: images/transformations-notes-1.png
       video: videos/transformations-notes-1-video.mp4
