@@ -73,80 +73,71 @@
 - title: Textures
   slug: textures
   items:
-    - filename: textures-notes-1
-      thumb: images/textures-notes-1.png
-      caption: "Notes 1"
-    - filename: textures-notes-2
-      thumb: images/textures-notes-2.png
-      caption: "Notes 2"
-    - filename: textures-notes-3
-      thumb: images/textures-notes-3.png
-      caption: "Notes 3"
-    - filename: textures-notes-4
-      thumb: images/textures-notes-4.png
-      caption: "Notes 4"
-    - filename: textures-notes-5
-      thumb: images/textures-notes-5.png
-      caption: "Notes 5"
-    - filename: textures-notes-6
-      thumb: images/textures-notes-6.png
-      caption: "Notes 6"
-    - filename: textures-ex-1-1
-      thumb: images/textures-ex-1-1.png
-      caption: "Exercise 1.1"
-    - filename: textures-ex-1-2
-      thumb: images/textures-ex-1-2.png
-      caption: "Exercise 1.2"
-    - filename: textures-ex-2-1
-      thumb: images/textures-ex-2-1.png
-      caption: "Exercise 2.1"
-    - filename: textures-ex-2-2
-      thumb: images/textures-ex-2-2.png
-      caption: "Exercise 2.2"
-    - filename: textures-ex-2-3
-      thumb: images/textures-ex-2-3.png
-      caption: "Exercise 2.3"
-    - filename: textures-ex-2-4
-      thumb: images/textures-ex-2-4.png
-      caption: "Exercise 2.4"
-    - filename: textures-ex-3-1
-      thumb: images/textures-ex-3-1.png
-      caption: "Exercise 3.1"
-    - filename: textures-ex-3-2
-      thumb: images/textures-ex-3-2.png
-      caption: "Exercise 3.2"
-    - filename: textures-ex-3-3
-      thumb: images/textures-ex-3-3.png
-      caption: "Exercise 3.3"
-    - filename: textures-ex-4
-      thumb: images/textures-ex-4.png
-      video: videos/textures-ex-4-video.mp4
-      caption: "Exercise 4"
+    - caption: "Notes 1"
+      slug: notes-1
+      thumb: assets/images/textures-notes-1.png
+      files: ["assets/images/textures-notes-1.png"]
+    - caption: "Notes 2"
+      slug: notes-2
+      thumb: assets/images/textures-notes-2.png
+      files: ["assets/images/textures-notes-2.png"]
+    - caption: "Notes 3"
+      slug: notes-3
+      thumb: assets/images/textures-notes-3.png
+      files: ["assets/images/textures-notes-3.png"]
+    - caption: "Notes 4"
+      slug: notes-4
+      thumb: assets/images/textures-notes-4.png
+      filename: ["assets/images/textures-notes-4.png"]
+    - caption: "Notes 5"
+      slug: notes-5
+      thumb: assets/images/textures-notes-5.png
+      files: ["assets/images/textures-notes-5.png"]
+    - caption: "Notes 6"
+      slug: notes-6
+      thumb: assets/images/textures-notes-6.png
+      files: ["assets/images/textures-notes-6.png"]
+    - caption: "Exercise 1"
+      slug: ex-1
+      thumb: assets/images/textures-ex-1-1.png
+      files: ["assets/images/textures-ex-1-1.png", "assets/images/textures-ex-1-2.png"]
+    - caption: "Exercise 2"
+      slug: ex-2
+      thumb: assets/images/textures-ex-2-1.png
+      files: ["assets/images/textures-ex-2-1.png", "assets/images/textures-ex-2-2.png", "assets/images/textures-ex-2-3.png", "assets/images/textures-ex-2-4.png", ]
+    - caption: "Exercise 3"
+      slug: ex-3
+      thumb: assets/images/textures-ex-3-1.png
+      files: ["assets/images/textures-ex-3-1.png", "assets/images/textures-ex-3-2.png", "assets/images/textures-ex-3-3.png"]
+    - caption: "Exercise 4"
+      slug: ex-4
+      thumb: assets/images/textures-ex-4.png
+      files: ["assets/images/textures-ex-4.png", "assets/videos/textures-ex-4-video.mp4"]
 
 - title: Transformations
   slug: transformations
-  base_path: assets
   items:
-    - filename: transformations-notes-1
-      thumb: images/transformations-notes-1.png
-      video: videos/transformations-notes-1-video.mp4
-      caption: "Notes 1"
-    - filename: transformations-notes-2-1
-      thumb: images/transformations-notes-2-1.png
-      video: videos/transformations-notes-2-1-video.mp4
-      caption: "Notes 2.1"
-    - filename: transformations-notes-2-2
-      thumb: images/transformations-notes-2-2.png
-      caption: "Notes 2.2"
-    - filename: transformations-notes-3
-      thumb: images/transformations-notes-3.png
-      video: videos/transformations-notes-3-video.mp4
-      caption: "Notes 3"
-    - filename: transformations-ex-1
-      thumb: images/transformations-ex-1.png
-      video: videos/transformations-ex-1-video.mp4
-      caption: "Exercise 1"
-    - filename: transformations-ex-2
-      thumb: images/transformations-ex-2.png
-      video: videos/transformations-ex-2-video.mp4
-      caption: "Exercise 2"
+    - caption: "Notes 1"
+      slug: notes-1
+      thumb: assets/images/transformations-notes-1.png
+      video: assets/videos/transformations-notes-1-video.mp4
+      files: transformations-notes-1
+    - caption: "Notes 2.2"
+      thumb: assets/images/transformations-notes-2-1.png
+      video: assets/videos/transformations-notes-2-1-video.mp4
+      files: transformations-notes-2-1
+    - caption: "Notes 2.1"
+      thumb: assets/images/transformations-notes-2-2.png
+      files: transformations-notes-2-2
+    - caption: "Notes 3"
+      thumb: assets/images/transformations-notes-3.png
+      video: assets/videos/transformations-notes-3-video.mp4
+      files: transformations-notes-3
+    - caption: "Exercise 1"
+      thumb: assets/images/transformations-ex-1.png
+      video: assets/videos/transformations-ex-1-video.mp4
+      files: transformations-ex-1
+    - caption: "Exercise 2"
+      thumb: assets/images/transformations-ex-2.png
+      video: assets/videos/transformations-ex-2-video.mp4
+      files: transformations-ex-2
