@@ -5,8 +5,12 @@ title: LearnOpenGL
 
 {% for section in site.data.sections %}
   <div class="card">
-    <a href="/{{ section.slug }}/index.html">
+    <a href="/assets/{{ section.slug }}/index.html">
       <h2>{{ section.title }}</h2>
+      
+      {% for item in section.items %}
+        <div class="card-thumb"><img src="/assets/{{ section.slug }}/{{ item.path }}/thumb.png"></div>
+      {% endfor %}
     </a>
   </div>
 {% endfor %}

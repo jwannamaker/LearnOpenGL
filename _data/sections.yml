@@ -1,143 +1,79 @@
-- title: Shaders
-  slug: shaders
-  items:
-    - caption: "Notes 1"
-      slug: notes-1
-      thumb: images/shaders-notes-1-3.png
-      files: ["assets/images/shaders-notes-1-1-graph.png", "assets/images/shaders-notes-1-2-graph.png", "assets/videos/shaders-notes-1-3-video.mp4"]
-    - caption: "Notes 2"
-      slug: notes-2
-      thumb: assets/images/shaders-notes-2.png
-      files: ["assets/images/shaders-notes-2.png"]
-    - caption: "Notes 3"
-      slug: notes-3
-      thumb: assets/images/shaders-notes-3.png
-      files: ["assets/images/shaders-notes-3.png"]
-    - caption: "Exercise 1"
-      slug: ex-1
-      thumb: assets/images/shaders-ex-1.png
-      files: ["assets/images/shaders-ex-1.png"]
-    - caption: "Exercise 2"
-      slug: ex-2
-      thumb: assets/images/shaders-ex-2.png
-      files: ["assets/images/shaders-ex-2.png", "assets/videos/shaders-ex-2-video.mp4"]
-    - caption: "Exercise 3"
-      slug: ex-3
-      thumb: assets/images/shaders-ex-3.png
-      files: ["assets/images/shaders-ex-3.png"]
-
 - title: Hello Triangle
   slug: hello-triangle
   items:
     - caption: "Notes 1"
-      slug: notes-1
-      thumb: assets/images/hello-triangle-notes-1.png
-      files: ["assets/images/hello-triangle-notes-1.png"]
+      path: notes/1
     - caption: "Notes 2"
-      slug: notes-2
-      thumb: assets/images/hello-triangle-notes-2.png
-      files: ["assets/images/hello-triangle-notes-2.png"]
+      path: notes/2
     - caption: "Notes 3"
-      slug: notes-3
-      thumb: assets/images/hello-triangle-notes-3.png
-      files: ["assets/images/hello-triangle-notes-3.png"]
+      path: notes/3
     - caption: "Exercise 1"
-      slug: ex-1
-      thumb: assets/images/hello-triangle-ex-1.png
-      files: ["assets/images/hello-triangle-ex-1.png"]
+      path: ex/1
     - caption: "Exercise 2"
-      slug: ex-2
-      thumb: assets/images/hello-triangle-ex-2.png
-      files: ["assets/images/hello-triangle-ex-2.png"]
+      path: ex/2
     - caption: "Exercise 3"
-      slug: ex-3
-      thumb: assets/images/hello-triangle-ex-3.png
-      files: ["assets/images/hello-triangle-ex-3.png"]
+      path: ex/3
 
-- title: Coordinates
-  slug: coordinates
+- title: Shaders
+  slug: shaders
   items:
     - caption: "Notes 1"
-      slug: notes-1
-      thumb: assets/images/coordinates-notes-1.png
-      files: ["assets/images/coordinates-notes-1.png"]
+      path: notes/1
     - caption: "Notes 2"
-      slug: notes-2
-      thumb: images/coordinates-notes-2.jpg
-      files: ["assets/images/coordinates-notes-2.png", "assets/videos/coordinates-notes-2-video.mp4"]
+      path: notes/2
     - caption: "Notes 3"
-      slug: notes-3
-      thumb: assets/images/coordinates-notes-3.jpg
-      video: ["assets/images/coordinates-notes-3.jpg", "videos/coordinates-notes-3-video.mp4"]
+      path: notes/3
+    - caption: "Exercise 1"
+      path: ex/1
+    - caption: "Exercise 2"
+      path: ex/2
+    - caption: "Exercise 3"
+      path: ex/3
 
 - title: Textures
   slug: textures
   items:
     - caption: "Notes 1"
-      slug: notes-1
-      thumb: assets/images/textures-notes-1.png
-      files: ["assets/images/textures-notes-1.png"]
+      path: notes/1
     - caption: "Notes 2"
-      slug: notes-2
-      thumb: assets/images/textures-notes-2.png
-      files: ["assets/images/textures-notes-2.png"]
+      path: notes/2
     - caption: "Notes 3"
-      slug: notes-3
-      thumb: assets/images/textures-notes-3.png
-      files: ["assets/images/textures-notes-3.png"]
+      path: notes/3
     - caption: "Notes 4"
-      slug: notes-4
-      thumb: assets/images/textures-notes-4.png
-      filename: ["assets/images/textures-notes-4.png"]
+      path: notes-4
     - caption: "Notes 5"
-      slug: notes-5
-      thumb: assets/images/textures-notes-5.png
-      files: ["assets/images/textures-notes-5.png"]
+      path: notes-5
     - caption: "Notes 6"
-      slug: notes-6
-      thumb: assets/images/textures-notes-6.png
-      files: ["assets/images/textures-notes-6.png"]
+      path: notes-6
     - caption: "Exercise 1"
-      slug: ex-1
-      thumb: assets/images/textures-ex-1-1.png
-      files: ["assets/images/textures-ex-1-1.png", "assets/images/textures-ex-1-2.png"]
+      path: ex/1
     - caption: "Exercise 2"
-      slug: ex-2
-      thumb: assets/images/textures-ex-2-1.png
-      files: ["assets/images/textures-ex-2-1.png", "assets/images/textures-ex-2-2.png", "assets/images/textures-ex-2-3.png", "assets/images/textures-ex-2-4.png", ]
+      path: ex/2
     - caption: "Exercise 3"
-      slug: ex-3
-      thumb: assets/images/textures-ex-3-1.png
-      files: ["assets/images/textures-ex-3-1.png", "assets/images/textures-ex-3-2.png", "assets/images/textures-ex-3-3.png"]
+      path: ex/3
     - caption: "Exercise 4"
-      slug: ex-4
-      thumb: assets/images/textures-ex-4.png
-      files: ["assets/images/textures-ex-4.png", "assets/videos/textures-ex-4-video.mp4"]
+      path: ex/4
 
 - title: Transformations
   slug: transformations
   items:
     - caption: "Notes 1"
-      slug: notes-1
-      thumb: assets/images/transformations-notes-1.png
-      video: assets/videos/transformations-notes-1-video.mp4
-      files: transformations-notes-1
-    - caption: "Notes 2.2"
-      thumb: assets/images/transformations-notes-2-1.png
-      video: assets/videos/transformations-notes-2-1-video.mp4
-      files: transformations-notes-2-1
-    - caption: "Notes 2.1"
-      thumb: assets/images/transformations-notes-2-2.png
-      files: transformations-notes-2-2
+      path: notes/1
+    - caption: "Notes 2"
+      path: notes/2
     - caption: "Notes 3"
-      thumb: assets/images/transformations-notes-3.png
-      video: assets/videos/transformations-notes-3-video.mp4
-      files: transformations-notes-3
+      path: notes/3
     - caption: "Exercise 1"
-      thumb: assets/images/transformations-ex-1.png
-      video: assets/videos/transformations-ex-1-video.mp4
-      files: transformations-ex-1
+      path: ex/1
     - caption: "Exercise 2"
-      thumb: assets/images/transformations-ex-2.png
-      video: assets/videos/transformations-ex-2-video.mp4
-      files: transformations-ex-2
+      path: ex/2
+
+- title: Coordinates
+  slug: coordinates
+  items:
+    - caption: "Notes 1"
+      path: notes/1
+    - caption: "Notes 2"
+      path: notes/2
+    - caption: "Notes 3"
+      path: notes/3
