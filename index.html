@@ -1,16 +1,22 @@
 ---
 layout: default
-title: LearnOpenGL
 ---
 
-{% for section in site.data.sections %}
-  <div class="card">
-    <a href="/assets/{{ section.slug }}/index.html">
-      <h2>{{ section.title }}</h2>
-      
-      {% for item in section.items %}
-        <div class="card-thumb"><img src="/assets/{{ section.slug }}/{{ item.path }}/thumb.png"></div>
-      {% endfor %}
-    </a>
-  </div>
+{% for section in site.data.content %}
+  <h2>{{ section.title }}</h2>
+
+  {% for type in section %}
+    {% if type[0] != "title" and type[0] != "slug" %}
+      <h3>{{ type[0] | capitalize }}</h3>
+      <div class="thumb-grid">
+        {% for item in type[1] %}
+          {% assign index = forloop.index %}
+          <a class="thumb-card" href="/{{ section.slug }}/{{ type[0] }}/{{ index }}.html">
+            <img src="/assets/{{ section.slug }}/{{ type[0] }}/{{ index }}/thumb.png" alt="{{ item.title }}">
+            <p>{{ item.title }}</p>
+          </a>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endfor %}
 {% endfor %}

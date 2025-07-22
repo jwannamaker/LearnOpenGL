@@ -1,4 +1,6 @@
-.container {
+---
+---
+.card {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   min-height: 100vh;
