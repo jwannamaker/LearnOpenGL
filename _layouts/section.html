@@ -1,7 +1,0 @@
----
-layout: default
----
-
-{% assign section = site.data.sections | where: "slug", page.section | first %}
-<h1>{{ section.title }}</h1>
-{% include section-gallery.html section=section %}

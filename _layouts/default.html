@@ -1,30 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ page.title | default: site.title }}</title>
-  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+  <title>{{ page.title }}</title>
+  <style>
+    body { font-family: sans-serif; background: #111; color: #eee; padding: 2rem; }
+    h2 { margin-top: 2rem; }
+    .thumb-grid { display: flex; flex-wrap: wrap; gap: 1rem; }
+    .thumb-card { width: 200px; background: #222; border-radius: 10px; padding: 0.5rem; text-align: center; text-decoration: none; color: white; }
+    .thumb-card img { width: 100%; border-radius: 6px; }
+  </style>
 </head>
 
 <body>
-  <div class="container">
-    <aside class="sidebar">
-      <div class="profile-pic"></div>
-      <div class="repo-description"> {% include repo-description.md %} </div>
-      <nav class="nav">
-        {% for section in site.data.sections %}
-        <a href="#{{ section.title | slugify }}" class="nav-link">
-          {{ section.title }}
-        </a>
-        {% endfor %}
-      </nav>
-    </aside>
-  </div>
-  <main>
-    {{ content }}
-  </main>
+  {{ content }}
 </body>
-
 </html>

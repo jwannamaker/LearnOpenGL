@@ -1,0 +1,24 @@
+---
+layout: default
+---
+
+<article class="content-detail">
+  <h1>{{ page.title }}</h1>
+  {% if page.video %}
+    <video controls autoplay src="{{ page.video }}"></video>
+  {% else %}
+    <img src="{{ page.thumbnail }}" alt="{{ page.title }}">
+  {% endif %}
+
+  <div class="text-body">
+    {{ content }}
+  </div>
+
+  {% if page.images %}
+    <div class="gallery">
+      {% for image in page.images %}
+        <img src="{{ image }}" />
+      {% endfor %}
+    </div>
+  {% endif %}
+</article>
