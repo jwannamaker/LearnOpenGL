@@ -1,45 +1,108 @@
 ---
 ---
-.card {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  min-height: 100vh;
-  
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-  }
+
+/* Reset basic elements */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-.sidebar {
-  background: #f7f7f7;
-  padding: 1rem;
-  text-align: center;
-
-  .profile-pic {
-    width: 100px;
-    height: 100px;
-    background: #ccc;
-    border-radius: 50%;
-    margin: 0 auto 1rem;
-  }
-
-  .repo-description {
-    font-size: 0.9rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .nav-link {
-    display: block;
-    margin-bottom: 0.5rem;
-    text-decoration: none;
-    color: #333;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-}
-
-.main {
+body {
+  font-family: system-ui, sans-serif;
+  line-height: 1.6;
+  background: #121212;
+  color: #e0e0e0;
   padding: 2rem;
+}
+
+/* Headings */
+h2 {
+  font-size: 1.8rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #555;
+  padding-bottom: 0.5rem;
+}
+
+h3 {
+  font-size: 1.3rem;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+/* Grid of thumbnails */
+.thumb-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.thumb-card {
+  background: #1f1f1f;
+  border: 1px solid #444;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.2s ease;
+  display: block;
+  text-decoration: none;
+}
+
+.thumb-card:hover {
+  transform: scale(1.02);
+  border-color: #888;
+}
+
+.thumb-card img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-bottom: 1px solid #333;
+}
+
+/* Detail page content */
+figure {
+  margin: 1rem 0;
+}
+
+figure img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+figcaption {
+  font-size: 0.9rem;
+  color: #aaa;
+}
+
+/* Video */
+video {
+  max-width: 100%;
+  margin-bottom: 1rem;
+  border: 1px solid #444;
+}
+
+/* Code block styling */
+pre {
+  background: #1e1e1e;
+  color: #ccc;
+  padding: 1rem;
+  overflow-x: auto;
+  border-radius: 6px;
+  margin: 1rem 0;
+  font-family: monospace;
+}
+
+code {
+  background: #1e1e1e;
+  color: #e0e0e0;
+}
+
+/* Responsive image & video */
+img, video {
+  max-width: 100%;
+  height: auto;
 }
