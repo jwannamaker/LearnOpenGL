@@ -12,8 +12,7 @@ layout: default
         {% for item in type[1] %}
           {% assign index = forloop.index %}
           <a class="thumb-card" href="/{{ section.slug }}/{{ type[0] }}/{{ index }}.html">
-            <img src="/assets/{{ section.slug }}/{{ type[0] }}/{{ index }}/thumb.png" alt="{{ item.title }}">
-            <p>{{ item.title }}</p>
+            <img src="LearnOpenGL/assets/{{ section.slug }}/{{ type[0] }}/{{ index }}/thumb.png" alt="{{ item.title }}">
           </a>
         {% endfor %}
       </div>
