@@ -11,8 +11,8 @@ layout: default
       <div class="thumb-grid">
         {% for item in type[1] %}
           {% assign index = forloop.index %}
-          <a class="thumb-card" href="/{{ section.slug }}/{{ type[0] }}/{{ index }}.html">
-            <img src="LearnOpenGL/assets/{{ section.slug }}/{{ type[0] }}/{{ index }}/thumb.png" alt="{{ item.title }}">
+          <a class="thumb-card" href="{{ site.baseurl }}/{{ section.slug }}/{{ type[0] }}/{{ index }}.html">
+            <img src="{{ site.baseurl }}/assets/{{ section.slug }}/{{ type[0] }}/{{ index }}/thumb.png" alt="{{ item.title }}">
           </a>
         {% endfor %}
       </div>
