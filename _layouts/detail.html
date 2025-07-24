@@ -15,17 +15,17 @@ layout: default
 
 <div style="display: flex; justify-content: space-between; margin-top: 2rem; gap: 1rem; flex-wrap: wrap;">
   {% if current_index > 1 %}
-    <a href="{{ site.fullbaseurl }}/{{ section }}/{{ type }}/{{ current_index | minus: 1 }}.html" style="padding: 0.5rem 1rem; background: #222; color: white; text-decoration: none; border-radius: 6px;">← Previous</a>
+    <a href="{{ site.home }}/{{ site.baseurl }}/{{ section }}/{{ type }}/{{ current_index | minus: 1 }}.html" style="padding: 0.5rem 1rem; background: #222; color: white; text-decoration: none; border-radius: 6px;">← Previous</a>
   {% else %}
     <span></span>
   {% endif %}
 
-  <a href="{{ site.fullbaseurl }}/index.html" style="padding: 0.5rem 1rem; background: #555; color: white; text-decoration: none; border-radius: 6px; margin-left: auto; margin-right: auto;">Return to Gallery</a>
+  <a href="{{ site.home }}/{{ site.baseurl }}/index.html" style="padding: 0.5rem 1rem; background: #555; color: white; text-decoration: none; border-radius: 6px; margin-left: auto; margin-right: auto;">Return to Gallery</a>
 
   {% assign next_index = current_index | plus: 1 %}
   {% capture next_path %}/{{ site.baseurl }}/{{ section }}/{{ type }}/{{ next_index }}.html{% endcapture %}
   {% if site.pages | map: "permalink" | where: "==", next_path | size > 0 %}
-    <a href="{{ site.fullbaseurl }}/{{ section }}/{{ type }}/{{ current_index | plus: 1 }}.html" style="padding: 0.5rem 1rem; background: #222; color: white; text-decoration: none; border-radius: 6px;">Next →</a>
+    <a href="{{ site.home }}/{{ site.baseurl }}/{{ section }}/{{ type }}/{{ current_index | plus: 1 }}.html" style="padding: 0.5rem 1rem; background: #222; color: white; text-decoration: none; border-radius: 6px;">Next →</a>
   {% else %}
     <span></span>
   {% endif %}

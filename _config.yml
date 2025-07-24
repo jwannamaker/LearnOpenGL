@@ -1,5 +1,5 @@
+home: "https://jwannamaker.github.io"
 baseurl: "/LearnOpenGL"
-homeurl: "https://jwannamaker.github.io/LearnOpenGL"
 collections:
   pages:
     output: true
