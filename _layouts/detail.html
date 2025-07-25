@@ -9,7 +9,7 @@ layout: default
     </main>
 </body>
 
-{% assign all_pages = site.pages | sort: "order" %}
+{% assign all_pages = site.collections['pages'].docs | sort: "order" %}
 {% assign prev_order = page.order | minus: 1 %}
 {% assign next_order = page.order | plus: 1 %}
 {% assign prev_page = all_pages | find: "order", prev_order %}
@@ -17,10 +17,10 @@ layout: default
 
 <div class="buttons">
   {% if prev_page %}
-    <a class="button" href="{{ prev_page.url | relative_url }}">← Previous<br>{{ prev_page.title }}</a>
+    <a class="button" href="{{ prev_page.url | relative_url }}">← Previous {{ prev_page.title }}</a>
   {% endif %}
   {% if next_page %}
-    <a class="button" href="{{ next_page.url | relative_url }}">{{ next_page.title }}<br>Next →</a>
+    <a class="button" href="{{ next_page.url | relative_url }}">{{ next_page.title }} Next →</a>
   {% endif %}
 </div>
 
