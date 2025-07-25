@@ -2,12 +2,15 @@
 layout: default
 ---
 
-{% for section in site.data.content %}
-  <h2>{{ section.title }}</h2>
+<h1>Gallery</h1>
 
+<p>
+  Hi! My name is Johnny Wannamaker, and this gallery contains everything I consider a milestone in my journey to learn the graphics API OpenGL.
+</p>
+
+{% for section in site.data.content %}
   {% for type in section %}
     {% if type[0] != "title" and type[0] != "slug" %}
-      <h3>{{ type[0] | capitalize }}</h3>
       <div class="thumb-grid">
         {% for item in type[1] %}
           {% assign index = forloop.index %}
