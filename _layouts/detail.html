@@ -9,23 +9,25 @@ layout: default
     </main>
 </body>
 
-{% assign sorted_pages = site.pages | sort: "order" %}
-{% assign current_index = sorted_pages | index_of: page %}
+{% assign sorted_pages = site.pages | where: "order" | sort: "order" %}
+{% assign current_index = sorted_pages | where: "order", page.order %}
 {% assign prev_page = sorted_pages[current_index | minus: 1] %}
 {% assign next_page = sorted_pages[current_index | plus: 1] %}
 
-<div class="nav-buttons">
+<a href="{{ page.url }}">{{ current_index }}</a>
+
+<div class="buttons">
   {% if prev_page %}
     <a class="button" href="{{ prev_page.url | relative_url }}">
       ← Previous
-      {{ prev_page | relative_url }}
+      {{ prev_page | absolute_url }}
     </a>
   {% endif %}
 
   {% if next_page %}
     <a class="button" href="{{ next_page.url | relative_url }}">
-      Next →
       {{ next_page | relative_url }}
+      Next →
     </a>
   {% endif %}
 </div>
