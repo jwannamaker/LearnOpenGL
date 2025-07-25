@@ -9,7 +9,6 @@ layout: default
     </main>
 </body>
 
-{% assign path_parts = page.permalink | split: '/' %}
 {% assign sorted_pages = site.pages | sort: "order" %}
 {% assign current_index = sorted_pages | index_of: page %}
 {% assign prev_page = sorted_pages[current_index | minus: 1] %}
@@ -17,10 +16,16 @@ layout: default
 
 <div class="nav-buttons">
   {% if prev_page %}
-    <a class="button" href="{{ prev_page.url | relative_url }}">← Previous</a>
+    <a class="button" href="{{ prev_page.url | relative_url }}">
+      ← Previous
+      {{ prev_page | relative_url }}
+    </a>
   {% endif %}
 
   {% if next_page %}
-    <a class="button" href="{{ next_page.url | relative_url }}">Next →</a>
+    <a class="button" href="{{ next_page.url | relative_url }}">
+      Next →
+      {{ next_page | relative_url }}
+    </a>
   {% endif %}
 </div>
