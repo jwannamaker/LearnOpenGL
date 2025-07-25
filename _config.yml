@@ -3,4 +3,5 @@ baseurl: "/LearnOpenGL"
 collections:
   pages:
     output: true
+    sort_by: order
     permalink: /:collection/:path

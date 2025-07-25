@@ -10,8 +10,6 @@
       background: #111;
       color: #ddd;
       padding: 2rem;
-      margin: 0 auto;
-      max-width: 800px;
     }
 
     a {
@@ -24,6 +22,12 @@
 
     h2 {
       margin-top: 2rem;
+      align-self: center;
+    }
+
+    .content-wrapper {
+      margin: 0 auto;
+      max-width: 900px;
     }
 
     .thumb-grid {
@@ -79,7 +83,7 @@
 </head>
 
 <body>
-  {{ content }}
+  <div class="content-wrapper">{{ content }}</div>
 </body>
 
 </html>

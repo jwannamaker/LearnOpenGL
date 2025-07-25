@@ -2,25 +2,27 @@
 layout: default
 ---
 
+{% assign prev_order = page.order | minus: 1 %}
+{% assign next_order = page.order | plus: 1 %}
+{% assign prev_page = site.pages | where: "order", prev_order %}
+{% assign next_page = site.pages | where: "order", next_order %}
+
 <body>
     <h2>{{ page.title }}</h2>
     <main>
-        {{ content }}
+      <div class="content-wrapper">{{ content }}</div>
     </main>
 </body>
 
-{% assign all_pages = site.collections['pages'].docs | sort: "order" %}
-{% assign prev_order = page.order | minus: 1 %}
-{% assign next_order = page.order | plus: 1 %}
-{% assign prev_page = all_pages | find: "order", prev_order %}
-{% assign next_page = all_pages | find: "order", next_order %}
+<p>Prev Order: {{ prev_order | inspect }}  Prev Page: {{ prev_page | inspect }}</p>
+<p>Next Order: {{ next_order | inspect }}  Next Page: {{ next_page | inspect }}</p>
 
 <div class="buttons">
   {% if prev_page %}
-    <a class="button" href="{{ prev_page.url | relative_url }}">← Previous {{ prev_page.title }}</a>
+    <a class="button" href="{{ prev_page.url | absolute_url }}">← Previous {{ prev_page.title | inspect }}</a>
   {% endif %}
   {% if next_page %}
-    <a class="button" href="{{ next_page.url | relative_url }}">{{ next_page.title }} Next →</a>
+    <a class="button" href="{{ next_page.url | absolute_url }}">{{ next_page.title | inspect }} Next →</a>
   {% endif %}
 </div>
 
