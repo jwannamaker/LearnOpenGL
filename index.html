@@ -5,7 +5,13 @@ layout: default
 <h1>Gallery</h1>
 
 <p>
-  Hi! My name is Johnny Wannamaker, and this gallery contains everything I consider a milestone in my journey to learn the graphics API OpenGL.
+  Hi! My name is Johnny Wannamaker, and this is a showcase of my journey as a Graphics Programmer.  
+</p>
+
+<h2>LearnOpenGL</h2>
+
+<p>
+  <a href="learnopengl.com">LearnOpenGL.com</a>, is a free, online book with easily digestible lessons, examples, and excercises that make it a popular introduction to the realm of graphics programming. This is my work from the sections of <a href="https://learnopengl.com/Getting-started">Getting Started</a>.
 </p>
 
 <div class="thumb-grid">
@@ -16,7 +22,8 @@ layout: default
         {% assign index = forloop.index %}
           <a class="thumb-card" href="{{ site.baseurl }}/{{ section.slug }}/{{ type[0] }}/{{ index }}.html">
             <img src="{{ site.baseurl }}/assets/{{ section.slug }}/{{ type[0] }}/{{ index }}/thumb.png" alt="{{ item.title }}">
-            <p>{{ section.title }} - {{ item.title }}</p>
+            <h4>{{ section.title }}</h4>
+            <p>{{ item.title }}</p>
           </a>
       {% endfor %}
     {% endif %}

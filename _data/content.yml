@@ -1,9 +1,9 @@
 - title: Hello Triangle
   slug: hello-triangle
   notes:
-    - title: "Notes 1"
-    - title: "Notes 2"
-    - title: "Notes 3"
+    - title: "Note 1"
+    - title: "Note 2"
+    - title: "Note 3"
   exercises:
     - title: "Exercise 1"
     - title: "Exercise 2"
@@ -12,9 +12,9 @@
 - title: Shaders
   slug: shaders
   notes:
-    - title: "Notes 1"
-    - title: "Notes 2"
-    - title: "Notes 3"
+    - title: "Note 1"
+    - title: "Note 2"
+    - title: "Note 3"
   exercises:
     - title: "Exercise 1"
     - title: "Exercise 2"
@@ -23,12 +23,12 @@
 - title: Textures
   slug: textures
   notes:
-    - title: "Notes 1"
-    - title: "Notes 2"
-    - title: "Notes 3"
-    - title: "Notes 4"
-    - title: "Notes 5"
-    - title: "Notes 6"
+    - title: "Note 1"
+    - title: "Note 2"
+    - title: "Note 3"
+    - title: "Note 4"
+    - title: "Note 5"
+    - title: "Note 6"
   exercises:
     - title: "Exercise 1"
     - title: "Exercise 2"
@@ -38,9 +38,9 @@
 - title: Transformations
   slug: transformations
   notes:
-    - title: "Notes 1"
-    - title: "Notes 2"
-    - title: "Notes 3"
+    - title: "Note 1"
+    - title: "Note 2"
+    - title: "Note 3"
   exercises:
     - title: "Exercise 1"
     - title: "Exercise 2"
@@ -48,9 +48,9 @@
 - title: Coordinates
   slug: coordinates
   notes:
-    - title: "Notes 1"
-    - title: "Notes 2"
-    - title: "Notes 3"
+    - title: "Note 1"
+    - title: "Note 2"
+    - title: "Note 3"
   exercises:
     - title: "Exercise 1"
     - title: "Exercise 2"

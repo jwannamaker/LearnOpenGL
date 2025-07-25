@@ -19,9 +19,7 @@ layout: default
   {% if prev_page %}
     <a class="button" href="{{ prev_page.url | relative_url }}">← Previous</a>
   {% endif %}
-  
-  <a href="{{ site.home }}/{{ site.baseurl }}/index.html">Return to Gallery</a>
-  
+
   {% if next_page %}
     <a class="button" href="{{ next_page.url | relative_url }}">Next →</a>
   {% endif %}
