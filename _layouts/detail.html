@@ -16,10 +16,10 @@ layout: default
 
 <div class="buttons">
   {% if prev_page %}
-    <a class="button" href="{{ site.baseurl }}/{{ prev_page | markdownify }}">← Previous {{ prev_page.basename | inspect }}</a>
+    <a class="button" href="{{ site.baseurl }}/{{ prev_page.permalink }}">← Previous {{ prev_page.title }}</a>
   {% endif %}
   {% if next_page %}
-    <a class="button" href="{{ site.baseurl }}/{{ prev_page  | markdownify }}">{{ next_page.basename | inspect }} Next →</a>
+    <a class="button" href="{{ site.baseurl }}/{{ prev_page.permalink }}">{{ next_page.title }} Next →</a>
   {% endif %}
 </div>
 
