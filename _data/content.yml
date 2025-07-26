@@ -2,56 +2,89 @@
   slug: hello-triangle
   notes:
     - title: "Note 1"
+      link: /hello-triangle/notes/1.html
     - title: "Note 2"
+      link: /hello-triangle/notes/2.html
     - title: "Note 3"
+      link: /hello-triangle/notes/3.html
   exercises:
     - title: "Exercise 1"
+      link: /hello-triangle/exercises/1.html
     - title: "Exercise 2"
+      link: /hello-triangle/exercises/2.html
     - title: "Exercise 3"
+      link: /hello-triangle/exercises/3.html
 
 - title: Shaders
   slug: shaders
   notes:
     - title: "Note 1"
+      link: /shaders/notes/1.html
     - title: "Note 2"
+      link: /shaders/notes/2.html
     - title: "Note 3"
+      link: /shaders/notes/3.html
   exercises:
     - title: "Exercise 1"
+      link: /shaders/exercises/1.html
     - title: "Exercise 2"
+      link: /shaders/exercises/2.html
     - title: "Exercise 3"
+      link: /shaders/exercises/3.html
 
 - title: Textures
   slug: textures
   notes:
     - title: "Note 1"
+      link: /textures/notes/1.html
     - title: "Note 2"
+      link: /textures/notes/2.html
     - title: "Note 3"
+      link: /textures/notes/3.html
     - title: "Note 4"
+      link: /textures/notes/4.html
     - title: "Note 5"
+      link: /textures/notes/5.html
     - title: "Note 6"
+      link: /textures/notes/6.html
   exercises:
     - title: "Exercise 1"
+      link: /shaders/exercises/1.html
     - title: "Exercise 2"
+      link: /shaders/exercises/2.html
     - title: "Exercise 3"
+      link: /shaders/exercises/3.html
     - title: "Exercise 4"
+      link: /shaders/exercises/4.html
 
 - title: Transformations
   slug: transformations
   notes:
     - title: "Note 1"
+      link: /transformations/notes/1.html
     - title: "Note 2"
+      link: /transformations/notes/2.html
     - title: "Note 3"
+      link: /transformations/notes/3.html
   exercises:
     - title: "Exercise 1"
+      link: /transformations/exercises/1.html
     - title: "Exercise 2"
+      link: /transformations/exercises/2.html
 
 - title: Coordinates
   slug: coordinates
   notes:
     - title: "Note 1"
+      link: /coordinates/notes/1.html
     - title: "Note 2"
+      link: /coordinates/notes/2.html
     - title: "Note 3"
+      link: /coordinates/notes/3.html
   exercises:
     - title: "Exercise 1"
+      link: /coordinates/exercises/1.html
     - title: "Exercise 2"
+      link: /coordinates/exercises/2.html
     - title: "Exercise 3"
+      link: /coordinates/exercises/3.html

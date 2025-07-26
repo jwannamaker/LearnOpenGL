@@ -11,7 +11,7 @@ layout: default
 <h2>LearnOpenGL</h2>
 
 <p>
-  <a href="learnopengl.com">LearnOpenGL.com</a>, is a free, online book with easily digestible lessons, examples, and excercises that make it a popular introduction to the realm of graphics programming. This is my work from the sections of <a href="https://learnopengl.com/Getting-started">Getting Started</a>.
+  <a href="https://learnopengl.com/">LearnOpenGL.com</a>, is a free, online book with easily digestible lessons, examples, and excercises that make it a popular introduction to the realm of graphics programming. This is my work from the sections of <a href="https://learnopengl.com/Getting-started">Getting Started</a>.
 </p>
 
 <div class="thumb-grid">
@@ -21,11 +21,10 @@ layout: default
       {% for item in type[1] %}
         {% assign index = forloop.index %}
           <a class="thumb-card" href="{{ site.baseurl }}/{{ section.slug }}/{{ type[0] }}/{{ index }}.html">
-            <p>{{ section.title }}</p>
             <img src="{{ site.baseurl }}/assets/{{ section.slug }}/{{ type[0] }}/{{ index }}/thumb.png" alt="{{ item.title }}">
           </a>
       {% endfor %}
     {% endif %}
   {% endfor %}
-  {% endfor %}
+{% endfor %}
 </div>
