@@ -9,10 +9,10 @@ layout: default
 {% assign prev_url = prev_page.url | replace: ".md", ".html" %}
 {% assign next_url = next_page.url | replace: ".md", ".html" %}
 
+<h2>{{ page.title }}</h2>
 <body>
-    <h2>{{ page.title }}</h2>
     <main>
-      <div class="content-wrapper">{{ content }}</div>
+      {{ content }}
     </main>
 </body>
 
