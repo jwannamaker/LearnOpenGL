@@ -14,12 +14,12 @@ layout: default
     </main>
 </body>
 
-<div class="buttons">
+<div class="footer">
   {% if prev_page %}
-    <a class="button" href="{{ site.baseurl }}/{{ prev_page.permalink }}">← Previous {{ prev_page.title }}</a>
+    <a class="button" href="{{ site.baseurl }}/{{ prev_page[0].url }}">← Previous: {{ prev_page[0].title }}</a>
   {% endif %}
   {% if next_page %}
-    <a class="button" href="{{ site.baseurl }}/{{ prev_page.permalink }}">{{ next_page.title }} Next →</a>
+    <a class="button" href="{{ site.baseurl }}/{{ next_page[0].url }}">Next: {{ next_page[0].title }} →</a>
   {% endif %}
 </div>
 
