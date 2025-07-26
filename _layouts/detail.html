@@ -6,8 +6,6 @@ layout: default
 {% assign next_order = page.order | plus: 1 %}
 {% assign prev_page = site.pages | where: "order", prev_order %}
 {% assign next_page = site.pages | where: "order", next_order %}
-{% assign prev_url = prev_page.url | replace: ".md", ".html" %}
-{% assign next_url = next_page.url | replace: ".md", ".html" %}
 
 <h2>{{ page.title }}</h2>
 <body>
@@ -18,10 +16,10 @@ layout: default
 
 <div class="buttons">
   {% if prev_page %}
-    <a class="button" href="{{ prev_url }}">← Previous {{ prev_url | inspect }}</a>
+    <a class="button" href="{{ site.baseurl }}{{ prev_page.url }}">← Previous {{ prev_page.title }}</a>
   {% endif %}
   {% if next_page %}
-    <a class="button" href="{{ next_url  }}">{{ next_url | inspect }} Next →</a>
+    <a class="button" href="{{ site.baseurl }}{{ prev_page.url  }}">{{ next_page.title }} Next →</a>
   {% endif %}
 </div>
 
