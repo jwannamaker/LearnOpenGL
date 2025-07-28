@@ -8,18 +8,17 @@ layout: default
 {% assign next_page = site.pages | where: "order", next_order %}
 
 <h2>{{ page.title }}</h2>
-<body>
-    <main>
-      {{ content }}
-    </main>
-</body>
+
+<main>
+  {{ content }}
+</main>
 
 <div class="footer">
   {% if prev_page %}
-    <a class="button" href="{{ site.baseurl }}/{{ prev_page[0].url }}">← Previous: {{ prev_page[0].title }}</a>
+    <a class="button" style="float:left; text-align:left;" href="{{ site.baseurl }}/{{ prev_page[0].url }}">← Previous<br>{{ prev_page[0].title }}</a>
   {% endif %}
   {% if next_page %}
-    <a class="button" href="{{ site.baseurl }}/{{ next_page[0].url }}">Next: {{ next_page[0].title }} →</a>
+    <a class="button" style="float:right; text-align:right;" href="{{ site.baseurl }}/{{ next_page[0].url }}">Next →<br>{{ next_page[0].title }}</a>
   {% endif %}
 </div>
 
