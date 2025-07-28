@@ -15,10 +15,15 @@ layout: default
 
 <div class="footer">
   {% if prev_page %}
-    <a class="button" style="float:left; text-align:left;" href="{{ site.baseurl }}/{{ prev_page[0].url }}">← Previous<br>{{ prev_page[0].title }}</a>
+    <a href="{{ site.baseurl }}{{ prev_page[0].url }}">← Previous<br>{{ prev_page[0].title }}</a>
+  {% else %}
+    <span></span>
   {% endif %}
+  
   {% if next_page %}
-    <a class="button" style="float:right; text-align:right;" href="{{ site.baseurl }}/{{ next_page[0].url }}">Next →<br>{{ next_page[0].title }}</a>
+    <a href="{{ site.baseurl }}{{ next_page[0].url }}">Next →<br>{{ next_page[0].title }}</a>
+  {% else %}
+    <span></span>
   {% endif %}
 </div>
 
