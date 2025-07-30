@@ -1,5 +1,9 @@
 home: "https://jwannamaker.github.io"
 baseurl: "/LearnOpenGL"
+highlighter: rouge
+markdown: kramdown
+kramdown:
+  syntax_highlighter: rouge
 collections:
   pages:
     output: true

@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>{{ page.title }}</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <style>
     body {
       font-family: Verdana, sans-serif;
@@ -105,6 +106,28 @@
       overflow: hidden;
     }
 
+    @media screen and (max-width: 600px) {
+      .header a:not(:first-child) {display: none;}
+      .header a.icon {
+        float: right;
+        display: block;
+      }
+    }
+
+    @media screen and (max-width: 600px) {
+      .header.responsive {position: relative;}
+      .header.responsive a.icon {
+        position: absolute;
+        right: 0;
+        top: 0;
+      }
+      .header.responsive a {
+        float: none;
+        display: block;
+        text-align: left;
+      }
+    }
+
     .footer {
       overflow: hidden;
       position: fixed;
@@ -167,7 +190,29 @@
 </head>
 
 <body>
+  <div class="header" id="siteHeader">
+    <a href="{{ site.baseurl }}">Home</a>
+    <a href="{{ site.baseurl }}/contact.html">Contact</a>
+    <a href="{{ site.baseurl }}/about.html">About</a>
+    <a href="javascript:void(0);" class="icon" onclick="toggleHeader()">
+      <i class="fa fa-bars"></i>
+    </a>
+  </div>
+
+  <h1>{{ page.title }}</h1>
+
   <div class="content-wrapper">{{ content }}</div>
+  
+  <script>
+    function toggleHeader() {
+      var x = document.getElementById("siteHeader");
+      if (x.className === "header") {
+        x.className += " responsive";
+      } else {
+        x.className = "header";
+      }
+    } 
+  </script>
 </body>
 
 </html>
