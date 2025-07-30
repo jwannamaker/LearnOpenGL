@@ -124,15 +124,36 @@ int main()
 		-x,  y,  z,		0.0f, 0.0f,
 		-x,  y, -z,		0.0f, 1.0f
 	};
-	array<vec3, 8> positions = {
-		vec3(center.x - delta.x, center.y - delta.y, center.z - delta.z),
-		vec3(center.x + delta.x, center.y - delta.y, center.z - delta.z),
-		vec3(center.x - delta.x, center.y - delta.y, center.z + delta.z),
-		vec3(center.x + delta.x, center.y - delta.y, center.z + delta.z),
-		vec3(center.x - delta.x, center.y + delta.y, center.z + delta.z),
-		vec3(center.x + delta.x, center.y + delta.y, center.z + delta.z),
-		vec3(center.x - delta.x, center.y + delta.y, center.z - delta.z),
-		vec3(center.x + delta.x, center.y + delta.y, center.z - delta.z)
+	array<vec3, 27> positions = {
+		vec3(center.x - 5.0f, center.y - 5.0f, center.z - 5.0f),
+		vec3(center.x + 0.0f, center.y - 5.0f, center.z - 5.0f),
+		vec3(center.x + 5.0f, center.y - 5.0f, center.z - 5.0f),
+		vec3(center.x - 5.0f, center.y + 0.0f, center.z - 5.0f),
+		vec3(center.x + 0.0f, center.y + 0.0f, center.z - 5.0f),
+		vec3(center.x + 5.0f, center.y + 0.0f, center.z - 5.0f),
+		vec3(center.x - 5.0f, center.y + 5.0f, center.z - 5.0f),
+		vec3(center.x + 0.0f, center.y + 5.0f, center.z - 5.0f),
+		vec3(center.x + 5.0f, center.y + 5.0f, center.z - 5.0f),
+
+		vec3(center.x - 5.0f, center.y - 5.0f, center.z + 0.0f),
+		vec3(center.x + 0.0f, center.y - 5.0f, center.z + 0.0f),
+		vec3(center.x + 5.0f, center.y - 5.0f, center.z + 0.0f),
+		vec3(center.x - 5.0f, center.y + 0.0f, center.z + 0.0f),
+		vec3(center.x + 0.0f, center.y + 0.0f, center.z + 0.0f),
+		vec3(center.x + 5.0f, center.y + 0.0f, center.z + 0.0f),
+		vec3(center.x - 5.0f, center.y + 5.0f, center.z + 0.0f),
+		vec3(center.x + 0.0f, center.y + 5.0f, center.z + 0.0f),
+		vec3(center.x + 5.0f, center.y + 5.0f, center.z + 0.0f),
+
+		vec3(center.x - 5.0f, center.y - 5.0f, center.z + 5.0f),
+		vec3(center.x + 0.0f, center.y - 5.0f, center.z + 5.0f),
+		vec3(center.x + 5.0f, center.y - 5.0f, center.z + 5.0f),
+		vec3(center.x - 5.0f, center.y + 0.0f, center.z + 5.0f),
+		vec3(center.x + 0.0f, center.y + 0.0f, center.z + 5.0f),
+		vec3(center.x + 5.0f, center.y + 0.0f, center.z + 5.0f),
+		vec3(center.x - 5.0f, center.y + 5.0f, center.z + 5.0f),
+		vec3(center.x + 0.0f, center.y + 5.0f, center.z + 5.0f),
+		vec3(center.x + 5.0f, center.y + 5.0f, center.z + 5.0f),
 	};
 
 	GLuint VAO, VBO;
