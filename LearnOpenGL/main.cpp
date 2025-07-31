@@ -5,6 +5,7 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/quaternion.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <array>
 #include <cstring>
@@ -15,8 +16,8 @@
 using namespace std;
 using namespace glm;
 
-const unsigned int WINDOW_WIDTH = 550;
-const unsigned int WINDOW_HEIGHT = 550;
+const unsigned int WINDOW_WIDTH = 1000;
+const unsigned int WINDOW_HEIGHT = 1000;
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
@@ -57,17 +58,12 @@ int main()
 
 	// Setup textures
 	int imageWidth, imageHeight;
-	unsigned int texture0 = loadTexture("smoke.png", &imageWidth, &imageHeight);
-	unsigned int texture1 = loadTexture("sunnyswamp-32x.png", &imageWidth, &imageHeight);
+	unsigned int texture0 = loadTexture("sunnyswamp-32x.png", &imageWidth, &imageHeight);
+	//unsigned int texture1 = loadTexture("sunnyswamp-32x.png", &imageWidth, &imageHeight);
 
 	// Setup model, view, and projection matrices
-	mat4 model = mat4(1.0f);
-	
-	mat4 view = mat4(1.0f);
-	view = translate(view, vec3(0.0f, 0.0f, -10.0f));
-
-	mat4 projection = mat4(1.0f);
-	projection = ortho(-10.0f, 10.0f, -10.0f, 10.0f, 0.1f, 100.0f);
+	mat4 model = mat4(1.0f), view = mat4(1.0f), projection = mat4(1.0f);
+	projection = ortho(-20.0f, 20.0f, -20.0f, 20.0f, -20.0f, 20.0f);
 
 	myShader.use();
 	glUniform1i(glGetUniformLocation(myShader.ID, "texture0"), 0);
@@ -167,6 +163,8 @@ int main()
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
 
+	quat q = quat_cast(model);
+	quat p = quat_cast(mat4(1.0f));
 	while (!glfwWindowShouldClose(window))
 	{
 		processInput(window);
@@ -179,18 +177,18 @@ int main()
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, texture0);
 
-		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, texture1);
+		//glActiveTexture(GL_TEXTURE1);
+		//glBindTexture(GL_TEXTURE_2D, texture1);
 		
 		myShader.use();
 		float t = glfwGetTime();
 		view = mat4(1.0f);
-		view = translate(view, vec3(0.0f, 0.0f, -10.0f));
+		//view = translate(view, vec3(0.0f, 0.0f, -10.0f));
 		view = rotate(view, radians(t * 20.0f), vec3(1.0f, 1.0f, cos(t)));
 		for (unsigned int i = 0; i < positions.size(); i++)
 		{
 			model = mat4(1.0f);
-			model = translate(model, positions[i]);
+			model = translate(model, positions[i] * (1.5f + 0.5f * cos(4.5f * sin(0.8f * t))));
 			model = rotate(model, t * radians(50.0f), vec3(0.25 * sin(t), 0.25 * cos(t), 0.0f));
 			glUniformMatrix4fv(glGetUniformLocation(myShader.ID, "model"), 1, GL_FALSE, value_ptr(model));
 			glDrawArrays(GL_TRIANGLES, 0, 36);

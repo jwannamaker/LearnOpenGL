@@ -7,8 +7,6 @@ layout: default
 {% assign prev_page = site.pages | where: "order", prev_order %}
 {% assign next_page = site.pages | where: "order", next_order %}
 
-<h2>{{ page.title }}</h2>
-
 <main>
   {{ content }}
 </main>
