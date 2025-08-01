@@ -39,6 +39,32 @@
       padding-bottom: 4.5rem;
     }
 
+    .highlight {
+      overflow-x: auto;
+      border-radius: 8px;
+      padding: 1rem;
+      background-color: #282c34; /* fallback for one-dark */
+      -webkit-overflow-scrolling: touch;
+    }
+
+    pre {
+      background-color: #1e1e1e;
+      color: #ddd;
+      padding: 1rem;
+      overflow-x: auto;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      -webkit-overflow-scrolling: touch; /* smoother scroll on iOS */
+      max-width: 100%;
+    }
+
+    code {
+      font-family: Consolas, Menlo, Monaco, "Courier New", monospace;
+      white-space: pre;
+      word-break: normal;
+    }
+
     .thumb-grid {
       display: grid;
       flex-wrap: wrap;

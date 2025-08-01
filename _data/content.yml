@@ -81,6 +81,10 @@
       link: /coordinates/notes/2.html
     - title: "Note 3"
       link: /coordinates/notes/3.html
+    - title: "Note 4"
+      link: /coordinates/notes/4.html
+    - title: "Note 5"
+      link: /coordinates/notes/5.html
   exercises:
     - title: "Exercise 1"
       link: /coordinates/exercises/1.html
