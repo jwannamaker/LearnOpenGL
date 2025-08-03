@@ -68,8 +68,8 @@ int main()
 	glUniformMatrix4fv(glGetUniformLocation(myShader.ID, "projection"), 1, GL_FALSE, value_ptr(projection));
 
 	// Setup vertex data/buffers and configure vertex attributes
-	float x = 1.0f, y = 1.0f, z = 1.0f;
-	float dx = 3.0f, dy = 3.0f, dz = 3.0f;
+	float x = 0.5f, y = 0.5f, z = 0.5f;
+	float dx = 1.0f, dy = 1.0f, dz = 1.0f;
 	vec3 center = vec3(0.0f, 0.0f, 0.0f);
 	GLfloat vertices[] = {
 		// positions	// texture coords
@@ -159,14 +159,18 @@ int main()
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
 
 	unsigned int colorLoc = glGetUniformLocation(myShader.ID, "customColor");
-	vec4 customColor = vec4(0.0f);
+	const vec3 bgColor = normalize(vec4(13.0f, 0.0f, 26.0f, 255.0f));
+	const vec3 startColor = normalize(vec4(110.0f, 81.0f, 129.0f, 255.0f));
+	const vec3 endColor = normalize(vec4(108.0f, 237.0f, 237.0f, 255.0f));
+	vec4 customColor = vec4(startColor, 1.0f);
 
-	float positionScale = 0.0f, positionCheck = 0.0f, t = 0.0f;
+	float sphereRadius = 7.0f, t = 0.0f;
+	vec3 spherePosition = vec3(0.0f);
 	while (!glfwWindowShouldClose(window))
-	{
+	{ 
 		processInput(window);
 
-		glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
+		glClearColor(bgColor.r, bgColor.g, bgColor.b, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glBindVertexArray(VAO);
@@ -174,36 +178,36 @@ int main()
 		myShader.use();
 		t = glfwGetTime();
 		view = mat4(1.0f);
-		view = rotate(view, 2.0f, vec3(cos(1.5f * t), 0.0f, sin(1.5f * t)));
+		view = rotate(view, 60.0f, vec3(cos(t), 0.0f, sin(t)));
+
+		customColor = vec4(mix(startColor, endColor, sin(t) + 1.0f), 0.6f);
 		for (unsigned int i = 0; i < positions.size(); i++)
 		{
 			model = mat4(1.0f);
-			positionScale = 1.0f;
-			positionCheck = abs(positions[i].x) + abs(positions[i].y) + abs(positions[i].z);
-			customColor = vec4(1.0f);
-			// outer corners
-			if (positionCheck == abs(dx) + abs(dy) + abs(dz))
-			{
-				positionScale = triangleWave(t, 1.25f, 10.0f * half_pi<float>(), 2.25f, half_pi<float>() * 1.0f);
-			}
-			// outer edges
-			if (positionCheck == abs(dx) + abs(dy) || positionCheck == abs(dx) + abs(dz) || positionCheck == abs(dy) + abs(dz))
-			{
-				positionScale = triangleWave(t, 1.5f, 10.0f * half_pi<float>(), 2.0f, half_pi<float>() * 1.0f);
-			}
-			// outer faces
-			if (positionCheck == abs(dx) || positionCheck == abs(dy) || positionCheck == abs(dz))
-			{
-				positionScale = triangleWave(t, 2.0f, 10.0f * half_pi<float>(), 3.0f, half_pi<float>() * 1.0f);
-			}
-
-			vec3 newPosition = view * vec4(positions[i], 1.0f);
-			customColor = vec4(newPosition, positionScale * 0.1f);
-			model = translate(model, positions[i] * positionScale);
+			spherePosition = sphereRadius * normalize(positions[i]);
+			model = translate(model, mix(positions[i], spherePosition, sin(t) + 1.5f));
+			model = scale(model, vec3(cos(t)));
 			glUniformMatrix4fv(glGetUniformLocation(myShader.ID, "model"), 1, GL_FALSE, value_ptr(model));
+			
 			glUniform4fv(colorLoc, 1, value_ptr(customColor));
+			
 			glDrawArrays(GL_TRIANGLES, 0, 36);
 		}
+
+		customColor = vec4(mix(endColor, startColor, sin(t) + 1.0f), 0.6f);
+		for (unsigned int i = 0; i < positions.size(); i++)
+		{
+			model = mat4(1.0f);
+			spherePosition = 0.75f * sphereRadius * normalize(positions[i]);
+			model = translate(model, mix(positions[i], spherePosition, sin(t) + 1.0f));
+			model = scale(model, vec3(cos(t) + 1.0f));
+			glUniformMatrix4fv(glGetUniformLocation(myShader.ID, "model"), 1, GL_FALSE, value_ptr(model));
+
+			glUniform4fv(colorLoc, 1, value_ptr(customColor));
+
+			glDrawArrays(GL_TRIANGLES, 0, 36);
+		}
+
 		glUniformMatrix4fv(glGetUniformLocation(myShader.ID, "view"), 1, GL_FALSE, value_ptr(view));
 		
 		glfwSwapBuffers(window);
