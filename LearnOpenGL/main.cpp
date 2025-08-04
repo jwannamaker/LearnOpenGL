@@ -18,19 +18,8 @@ using namespace glm;
 const unsigned int WINDOW_WIDTH = 1000;
 const unsigned int WINDOW_HEIGHT = 1000;
 
-struct Camera {
-	mat4 view;
-	vec3 position;
-
-	Camera(mat4 view, vec3 position)
-	{
-		this->view = translate(view, position);
-		this->position = position;
-	}
-};
-
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-void processInput(GLFWwindow* window, Camera& view);
+void processInput(GLFWwindow* window);
 unsigned int loadTexture(const char* path, int* imageWidth, int* imageHeight);
 float triangleWave(float time, float amplitude, float period, float verticalOffset, float phaseOffset);
 
@@ -70,7 +59,6 @@ int main()
 	// Setup model, view, and projection matrices
 	mat4 model = mat4(1.0f), view = mat4(1.0f), projection = mat4(1.0f);
 	projection = perspective(radians(60.0f), 1.0f, 0.1f, 100.0f);
-	Camera camera = Camera(view, vec3(0.0f, 0.0f, -40.0f));
 	//projection = ortho(-20.0f, 20.0f, -20.0f, 20.0f, -20.0f, 100.0f);
 
 	myShader.use();
@@ -201,11 +189,14 @@ int main()
 	vec3 spherePosition = vec3(0.0f), scaleAmount = vec3(1.0f), translation = vec3(0.0f), rotationAxis = vec3(0.0f);
 	while (!glfwWindowShouldClose(window))
 	{ 
-		processInput(window, camera);
-		glUniformMatrix4fv(glGetUniformLocation(myShader.ID, "view"), 1, GL_FALSE, value_ptr(camera.view));
+		processInput(window);
 
 		glClearColor(bgColor.r, bgColor.g, bgColor.b, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		view = translate(view, vec3(0.0f, 0.0f, -40.0f));
+		view = rotate(view, radians(-15.0f), vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(glGetUniformLocation(myShader.ID, "view"), 1, GL_FALSE, value_ptr(view));
 
 		glBindVertexArray(lineVAO);
 		
@@ -313,34 +304,11 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 	glViewport(0, 0, width, height);
 }
 
-void processInput(GLFWwindow* window, Camera& camera)
+void processInput(GLFWwindow* window)
 {
-	float cameraSpeed = 0.01f;
-
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 	{
 		glfwSetWindowShouldClose(window, true);
-	}
-
-	vec3 axis = vec3(camera.position.x, 1.0f, camera.position.z);
-	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
-	{
-		camera.view = rotate(camera.view, radians(0.1f), axis);
-	}
-	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
-	{
-		camera.view = rotate(camera.view, radians(-0.1f), axis);
-	}
-
-	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-	{
-		camera.position = vec3(0.0f, 0.0f, cameraSpeed);
-		camera.view = translate(camera.view, camera.position);
-	}
-	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-	{
-		camera.position = vec3(0.0f, 0.0f, -cameraSpeed);
-		camera.view = translate(camera.view, camera.position);
 	}
 }
 
