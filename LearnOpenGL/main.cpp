@@ -18,8 +18,19 @@ using namespace glm;
 const unsigned int WINDOW_WIDTH = 1000;
 const unsigned int WINDOW_HEIGHT = 1000;
 
+struct Camera {
+	mat4 view;
+	vec3 position;
+
+	Camera(mat4 view, vec3 position)
+	{
+		this->view = translate(view, position);
+		this->position = position;
+	}
+};
+
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-void processInput(GLFWwindow* window);
+void processInput(GLFWwindow* window, Camera& view);
 unsigned int loadTexture(const char* path, int* imageWidth, int* imageHeight);
 float triangleWave(float time, float amplitude, float period, float verticalOffset, float phaseOffset);
 
@@ -59,6 +70,7 @@ int main()
 	// Setup model, view, and projection matrices
 	mat4 model = mat4(1.0f), view = mat4(1.0f), projection = mat4(1.0f);
 	projection = perspective(radians(60.0f), 1.0f, 0.1f, 100.0f);
+	Camera camera = Camera(view, vec3(0.0f, 0.0f, -40.0f));
 	//projection = ortho(-20.0f, 20.0f, -20.0f, 20.0f, -20.0f, 100.0f);
 
 	myShader.use();
@@ -189,7 +201,8 @@ int main()
 	vec3 spherePosition = vec3(0.0f), scaleAmount = vec3(1.0f), translation = vec3(0.0f), rotationAxis = vec3(0.0f);
 	while (!glfwWindowShouldClose(window))
 	{ 
-		processInput(window);
+		processInput(window, camera);
+		glUniformMatrix4fv(glGetUniformLocation(myShader.ID, "view"), 1, GL_FALSE, value_ptr(camera.view));
 
 		glClearColor(bgColor.r, bgColor.g, bgColor.b, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -198,21 +211,11 @@ int main()
 		
 		myShader.use();
 		t = glfwGetTime();
-		view = mat4(1.0f);
-		view = translate(view, vec3(0.0f, 0.0f, -40.0f));
-		view = rotate(view, radians(15.0f), vec3(1.0f, 0.0f, 0.0f));
-		//view = rotate(view, radians(90.0f), vec3(cos(t), 1.0f, sin(t)));
-		glUniformMatrix4fv(glGetUniformLocation(myShader.ID, "view"), 1, GL_FALSE, value_ptr(view));
-		
-		rotationAxis = vec3(sin(t), 0.0f, cos(t));
-		rotationAmount = radians(90.0f);
 
-		model = mat4(1.0f);
-		model = rotate(model, rotationAmount, rotationAxis);
-		
-		glUniformMatrix4fv(glGetUniformLocation(myShader.ID, "model"), 1, GL_FALSE, value_ptr(model));
-		
+		rotationAxis = vec3(sin(t), 0.0f, cos(t));
+		/*
 		glLineWidth(2.0f);
+		
 		
 		// y-axis: red
 		customColor = vec4(1.0f, 0.0f, 0.0f, 1.0f);
@@ -228,6 +231,7 @@ int main()
 		customColor = vec4(0.0f, 0.0f, 1.0f, 1.0f);
 		glUniform4fv(colorLoc, 1, value_ptr(customColor));
 		glDrawArrays(GL_LINES, 4, 2);
+		*/
 
 		glBindVertexArray(VAO);
 		
@@ -239,8 +243,7 @@ int main()
 			{
 				customColor = vec4(mix(thirdColor, endColor, sin(t) + 1.0f), 0.2f);
 				
-				translation = 1.3f * spherePosition;
-				//translation = mix(positions[i], 1.3f * spherePosition, sin(t) + 1.5f);
+				translation = mix(positions[i], 1.3f * spherePosition, sin(t) + 1.5f);
 				rotationAmount = radians(90.0f);
 				scaleAmount = vec3(1.0f);
 			}
@@ -248,8 +251,7 @@ int main()
 			{
 				customColor = vec4(mix(startColor, endColor, sin(t) + 1.0f), 0.6f);
 				
-				translation = spherePosition;
-				//translation = mix(positions[i], spherePosition, sin(t) + 1.5f);
+				translation = mix(positions[i], spherePosition, sin(t) + 1.5f);
 				rotationAmount = 0.0f;
 				//scaleAmount = vec3(cos(t) + 1.0f);
 			}
@@ -273,8 +275,7 @@ int main()
 			{
 				customColor = vec4(mix(fourthColor, startColor, sin(t) + 1.0f), 0.2f);
 				
-				translation = 1.25f * spherePosition;
-				//translation = mix(positions[i], 1.25f * spherePosition, sin(t) + 1.0f);
+				translation = mix(positions[i], 1.25f * spherePosition, sin(t) + 1.0f);
 				rotationAmount = radians(90.0f);
 				scaleAmount = vec3(1.0f);
 			}
@@ -282,8 +283,7 @@ int main()
 			{
 				customColor = vec4(mix(endColor, startColor, sin(t) + 1.0f), 0.6f);
 				
-				translation = spherePosition;
-				//translation = mix(positions[i], spherePosition, sin(t) + 1.0f);
+				translation = mix(positions[i], spherePosition, sin(t) + 1.0f);
 				rotationAmount = 0.0f;
 				//scaleAmount = vec3(cos(t) + 1.0f);
 			}
@@ -313,11 +313,34 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 	glViewport(0, 0, width, height);
 }
 
-void processInput(GLFWwindow* window)
+void processInput(GLFWwindow* window, Camera& camera)
 {
+	float cameraSpeed = 0.01f;
+
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 	{
 		glfwSetWindowShouldClose(window, true);
+	}
+
+	vec3 axis = vec3(camera.position.x, 1.0f, camera.position.z);
+	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
+	{
+		camera.view = rotate(camera.view, radians(0.1f), axis);
+	}
+	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
+	{
+		camera.view = rotate(camera.view, radians(-0.1f), axis);
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+	{
+		camera.position = vec3(0.0f, 0.0f, cameraSpeed);
+		camera.view = translate(camera.view, camera.position);
+	}
+	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+	{
+		camera.position = vec3(0.0f, 0.0f, -cameraSpeed);
+		camera.view = translate(camera.view, camera.position);
 	}
 }
 
