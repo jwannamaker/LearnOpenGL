@@ -164,25 +164,11 @@
     <a href="{{ site.baseurl }}">Home</a>
     <a href="{{ site.baseurl }}/contact.html">Contact</a>
     <a href="{{ site.baseurl }}/about.html">About</a>
-    <a href="javascript:void(0);" class="icon" onclick="toggleHeader()">
-      <i class="fa fa-bars"></i>
-    </a>
   </div>
 
   <h1>{{ page.title }}</h1>
 
   <div class="content-wrapper">{{ content }}</div>
-  
-  <script>
-    function toggleHeader() {
-      var x = document.getElementById("siteHeader");
-      if (x.className === "header") {
-        x.className += " responsive";
-      } else {
-        x.className = "header";
-      }
-    } 
-  </script>
 </body>
 
 </html>
