@@ -59,7 +59,6 @@ int main()
 	// Setup model, view, and projection matrices
 	mat4 model = mat4(1.0f), view = mat4(1.0f), projection = mat4(1.0f);
 	projection = perspective(radians(60.0f), 1.0f, 0.1f, 100.0f);
-	//projection = ortho(-20.0f, 20.0f, -20.0f, 20.0f, -20.0f, 100.0f);
 
 	myShader.use();
 	glUniformMatrix4fv(glGetUniformLocation(myShader.ID, "model"), 1, GL_FALSE, value_ptr(model));
@@ -157,6 +156,9 @@ int main()
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
 
+	
+	array<mat4, 27> cubeTransforms;
+	
 	array<pair<size_t, size_t>, 54> connections;
 
 	size_t dim = 3;
@@ -195,13 +197,11 @@ int main()
 		}
 	}
 
+	array<vec3, 108> lineVertices;
 	for (size_t i = 0; i < connections.size(); i++)
 	{
-		vec3 a = positions[connections[i].first];
-		vec3 b = positions[connections[i].second];
-		cout << "Connection " << i << ":";
-		cout << "\t" << connections[i].first << " (" << a.x << ", " << a.y << ", " << a.z << ") and ";
-		cout << "\t" << connections[i].second << " (" << b.x << ", " << b.y << ", " << b.z << ")" << endl;
+		lineVertices[2 * i] = positions[connections[i].first];
+		lineVertices[2 * i + 1] = positions[connections[i].second];
 	}
 
 	GLuint lineVAO, lineVBO;
@@ -209,7 +209,7 @@ int main()
 	glGenBuffers(1, &lineVBO);
 	glBindVertexArray(lineVAO);
 	glBindBuffer(GL_ARRAY_BUFFER, lineVBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(connections), connections.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(lineVertices), lineVertices.data(), GL_STATIC_DRAW);
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), 0);
 
@@ -224,10 +224,11 @@ int main()
 	const vec3 sixthColor = normalize(vec4(115.0f, 48.0f, 62.0f, 255.0f));
 	vec4 customColor = vec4(startColor, 1.0f);
 	
-	glLineWidth(2.0f);
+	glLineWidth(1.0f);
 
-	float sphereRadius = 8.0f, t = 0.0f, rotationAmount = 0.0f;
-	vec3 spherePosition = vec3(0.0f), scaleAmount = vec3(1.0f), translation = vec3(0.0f), rotationAxis = vec3(0.0f);
+	float sphereRadius = 8.0f, t = 0.0f;
+	float rotationAmount = radians(90.0f);
+	vec3 spherePosition = vec3(0.0f), scaleAmount = vec3(1.0f), translation = vec3(0.0f), rotationAxis = vec3(0.0f), a = vec3(0.0f), b = vec3(0.0f);
 	while (!glfwWindowShouldClose(window))
 	{ 
 		processInput(window);
@@ -237,27 +238,27 @@ int main()
 
 		view = mat4(1.0f);
 		view = translate(view, vec3(0.0f, 0.0f, -40.0f));
-		view = rotate(view, radians(30.0f), vec3(1.0f, 0.0f, 0.0f));
+		view = rotate(view, radians(15.0f), vec3(1.0f, 0.0f, 0.0f));
 		glUniformMatrix4fv(glGetUniformLocation(myShader.ID, "view"), 1, GL_FALSE, value_ptr(view));
 
 		myShader.use();
 		t = glfwGetTime();
+		rotationAxis = vec3(sin(0.55f * t), 0.0f, cos(0.55f * t));
 
 		// outer cubes
+		glBindVertexArray(VAO);
 		for (unsigned int i = 0; i < positions.size(); i++)
 		{
 			spherePosition = sphereRadius * normalize(positions[i]);
-			rotationAxis = vec3(sin(t), 0.0f, cos(t));
-			rotationAmount = radians(90.0f);
 			if (i % 2 == 0)
 			{
-				customColor = vec4(fifthColor, 0.6f);
-				translation = mix(positions[i], 1.5f * spherePosition, sin(half_pi<float>() * sin(t)) * pi<float>() / 9.0f + 1.0f);
+				customColor = vec4(fifthColor, 0.0f);
+				translation = mix(positions[i], 1.5f * spherePosition, sin(half_pi<float>() * sin(0.5f * t)) * pi<float>() / 9.0f + 1.0f);
 			}
 			else
 			{
-				customColor = vec4(sixthColor, 0.6f);
-				translation = mix(positions[i], spherePosition, sin(half_pi<float>() * sin(t + pi<float>())) * pi<float>() / 9.0f + 1.0f);
+				customColor = vec4(sixthColor, 0.0f);
+				translation = mix(positions[i], spherePosition, sin(half_pi<float>() * sin(0.5f * t + pi<float>())) * pi<float>() / 9.0f + 1.0f);
 			}
 
 			glUniform4fv(colorLoc, 1, value_ptr(customColor));
@@ -268,32 +269,42 @@ int main()
 			model = scale(model, scaleAmount);
 			glUniformMatrix4fv(glGetUniformLocation(myShader.ID, "model"), 1, GL_FALSE, value_ptr(model));
 			
-			glBindVertexArray(VAO);
 			glDrawArrays(GL_TRIANGLES, 0, 36);
-		
-			customColor = vec4(1.0f, 1.0f, 1.0f, 1.0f);
-			glUniform4fv(colorLoc, 1, value_ptr(customColor));
-		
-			glBindVertexArray(lineVAO);
-			glDrawArrays(GL_LINES, 0, 162);
+			
+			cubeTransforms[i] = scale(model, vec3(0.1f));
 		}
+		
+		model = mat4(1.0f);
+		glUniformMatrix4fv(glGetUniformLocation(myShader.ID, "model"), 1, GL_FALSE, value_ptr(model));
 
-		// inner cubes
+		// lines connecting outer cubes
+		glBindVertexArray(lineVAO);
+		customColor = vec4(1.0f, 1.0f, 1.0f, 1.0f);
+		glUniform4fv(colorLoc, 1, value_ptr(customColor));
+		for (unsigned int i = 0; i < connections.size(); i++)
+		{
+			lineVertices[2 * i] = cubeTransforms[connections[i].first] * vec4(positions[connections[i].first], 1.0f);
+			lineVertices[2 * i + 1] = cubeTransforms[connections[i].second] * vec4(positions[connections[i].second], 1.0f);
+		}
+		glBindBuffer(GL_ARRAY_BUFFER, lineVBO);
+		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(lineVertices), lineVertices.data());
+		glDrawArrays(GL_LINES, 0, 108);
+
+		// smaller cubes
+		glBindVertexArray(VAO);
+		rotationAxis = vec3(0.0f, 1.0f, 0.0f);
 		for (unsigned int i = 0; i < positions.size(); i++)
 		{
-			spherePosition = sphereRadius * normalize(positions[i]);
-			rotationAxis = vec3(sin(t), 0.0f, cos(t));
-			rotationAmount = radians(76.0f);
+			spherePosition = 0.5f * sphereRadius * normalize(positions[i]);
 			if (i % 2 == 0)
 			{
-				customColor = vec4(fifthColor.r - 0.1f, fifthColor.g - 0.1f, fifthColor.b - 0.1f, 0.6f);
-				translation = mix(positions[i], 1.5f * spherePosition, sin(half_pi<float>() * sin(t)) * pi<float>() / 9.0f + 1.0f);
+				customColor = vec4(fifthColor.r - 0.1f, fifthColor.g - 0.1f, fifthColor.b - 0.1f, 0.0f);
 			}
 			else
 			{
-				customColor = vec4(sixthColor.r - 0.1f, sixthColor.g - 0.1f, sixthColor.b - 0.1f, 0.6f);
-				translation = mix(positions[i], spherePosition, sin(half_pi<float>() * sin(t + pi<float>())) * pi<float>() / 9.0f + 1.0f);
+				customColor = vec4(sixthColor.r - 0.1f, sixthColor.g - 0.1f, sixthColor.b - 0.1f, 0.0f);
 			}
+			translation = mix(spherePosition, positions[i], 0.5f * sin(sin(0.5f * t)) + 1.0f);
 			
 			glUniform4fv(colorLoc, 1, value_ptr(customColor));
 			
@@ -303,9 +314,26 @@ int main()
 			model = scale(model, vec3(0.5f));
 			glUniformMatrix4fv(glGetUniformLocation(myShader.ID, "model"), 1, GL_FALSE, value_ptr(model));
 
-			glBindVertexArray(VAO);
 			glDrawArrays(GL_TRIANGLES, 0, 36);
+
+			cubeTransforms[i] = scale(model, vec3(0.1f));
 		}
+
+		model = mat4(1.0f);
+		glUniformMatrix4fv(glGetUniformLocation(myShader.ID, "model"), 1, GL_FALSE, value_ptr(model));
+
+		// lines connecting inner cubes
+		glBindVertexArray(lineVAO);
+		customColor = vec4(0.7f, 0.7f, 0.7f, 1.0f);
+		glUniform4fv(colorLoc, 1, value_ptr(customColor));
+		for (unsigned int i = 0; i < connections.size(); i++)
+		{
+			lineVertices[2 * i] = cubeTransforms[connections[i].first] * vec4(positions[connections[i].first], 1.0f);
+			lineVertices[2 * i + 1] = cubeTransforms[connections[i].second] * vec4(positions[connections[i].second], 1.0f);
+		}
+		glBindBuffer(GL_ARRAY_BUFFER, lineVBO);
+		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(lineVertices), lineVertices.data());
+		glDrawArrays(GL_LINES, 0, 108);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
