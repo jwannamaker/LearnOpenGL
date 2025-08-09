@@ -10,8 +10,6 @@
 #include <cstring>
 #include <iostream>
 
-#define M_PI acos(-1.0)
-
 using namespace std;
 using namespace glm;
 
@@ -21,7 +19,6 @@ const unsigned int WINDOW_HEIGHT = 1000;
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
 unsigned int loadTexture(const char* path, int* imageWidth, int* imageHeight);
-float triangleWave(float time, float amplitude, float period, float verticalOffset, float phaseOffset);
 
 int main()
 {
@@ -55,96 +52,69 @@ int main()
 
 	// Build and compile shader program
 	Shader myShader("shader.vert", "shader.frag");
+	myShader.use();
+
+	// Load textures
+	int imageWidth, imageHeight;
+	GLuint texture0 = loadTexture("container.jpg", &imageWidth, &imageHeight);
+	glUniform1i(glGetUniformLocation(myShader.ID, "texture0"), 0);
 
 	// Setup model, view, and projection matrices
 	mat4 model = mat4(1.0f), view = mat4(1.0f), projection = mat4(1.0f);
-	projection = perspective(radians(60.0f), 1.0f, 0.1f, 100.0f);
-
-	myShader.use();
+	model = rotate(model, radians(20.0f), vec3(1.0f, 0.0f, 0.0f));
+	model = rotate(model, radians(120.0f), vec3(0.0f, 1.0f, 0.0f));
+	float width = 1.0f;
+	float height = 2.0f;
+	projection = perspective(radians(45.0f), width / height, 0.1f, 100.0f);
 	glUniformMatrix4fv(glGetUniformLocation(myShader.ID, "model"), 1, GL_FALSE, value_ptr(model));
 	glUniformMatrix4fv(glGetUniformLocation(myShader.ID, "view"), 1, GL_FALSE, value_ptr(view));
 	glUniformMatrix4fv(glGetUniformLocation(myShader.ID, "projection"), 1, GL_FALSE, value_ptr(projection));
 
 	// Setup vertex data/buffers and configure vertex attributes
-	float x = 0.5f, y = 0.5f, z = 0.5f;
-	float dx = 2.0f, dy = 2.0f, dz = 2.0f;
-	vec3 center = vec3(0.0f, 0.0f, 0.0f);
 	GLfloat vertices[] = {
-		// positions	// texture coords
-		-x, -y, -z,		0.0f, 0.0f,
-		 x, -y, -z,		1.0f, 0.0f,
-		 x,  y, -z,		1.0f, 1.0f,
-		 x,  y, -z,		1.0f, 1.0f,
-		-x,  y, -z,		0.0f, 1.0f,
-		-x, -y, -z,		0.0f, 0.0f,
-		 
-		-x, -y,  z,		0.0f, 0.0f,
-		 x, -y,  z,		1.0f, 0.0f,
-		 x,  y,  z,		1.0f, 1.0f,
-		 x,  y,  z,		1.0f, 1.0f,
-		-x,  y,  z,		0.0f, 1.0f,
-		-x, -y,  z,		0.0f, 0.0f,
-		 
-		-x,  y,  z,		1.0f, 0.0f,
-		-x,  y, -z,		1.0f, 1.0f,
-		-x, -y, -z,		0.0f, 1.0f,
-		-x, -y, -z,		0.0f, 1.0f,
-		-x, -y,  z,		0.0f, 0.0f,
-		-x,  y,  z,		1.0f, 0.0f,
-		 
-		 x,  y,  z,		1.0f, 0.0f,
-		 x,  y, -z,		1.0f, 1.0f,
-		 x, -y, -z,		0.0f, 1.0f,
-		 x, -y, -z,		0.0f, 1.0f,
-		 x, -y,  z,		0.0f, 0.0f,
-		 x,  y,  z,		1.0f, 0.0f,
-		 
-		-x, -y, -z,		0.0f, 1.0f,
-		 x, -y, -z,		1.0f, 1.0f,
-		 x, -y,  z,		1.0f, 0.0f,
-		 x, -y,  z,		1.0f, 0.0f,
-		-x, -y,  z,		0.0f, 0.0f,
-		-x, -y, -z,		0.0f, 1.0f,
-		 
-		-x,  y, -z,		0.0f, 1.0f,
-		 x,  y, -z,		1.0f, 1.0f,
-		 x,  y,  z,		1.0f, 0.0f,
-		 x,  y,  z,		1.0f, 0.0f,
-		-x,  y,  z,		0.0f, 0.0f,
-		-x,  y, -z,		0.0f, 1.0f
+		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+		 0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+
+		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		 0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		 0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+
+		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
 	};
-	array<vec3, 27> positions = {
-		vec3(center.x -   dx, center.y -   dy, center.z -   dz),
-		vec3(center.x + 0.0f, center.y -   dy, center.z -   dz),
-		vec3(center.x +   dx, center.y -   dy, center.z -   dz),
-		vec3(center.x -   dx, center.y + 0.0f, center.z -   dz),
-		vec3(center.x + 0.0f, center.y + 0.0f, center.z -   dz),
-		vec3(center.x +   dx, center.y + 0.0f, center.z -   dz),
-		vec3(center.x -   dx, center.y +   dy, center.z -   dz),
-		vec3(center.x + 0.0f, center.y +   dy, center.z -   dz),
-		vec3(center.x +   dx, center.y +   dy, center.z -   dz),
-
-		vec3(center.x -   dx, center.y -   dy, center.z + 0.0f),
-		vec3(center.x + 0.0f, center.y -   dy, center.z + 0.0f),
-		vec3(center.x +   dx, center.y -   dy, center.z + 0.0f),
-		vec3(center.x -   dx, center.y + 0.0f, center.z + 0.0f),
-		vec3(center.x + 0.0f, center.y + 0.0f, center.z + 0.0f),
-		vec3(center.x +   dx, center.y + 0.0f, center.z + 0.0f),
-		vec3(center.x -   dx, center.y +   dy, center.z + 0.0f),
-		vec3(center.x + 0.0f, center.y +   dy, center.z + 0.0f),
-		vec3(center.x +   dx, center.y +   dy, center.z + 0.0f),
-
-		vec3(center.x -   dx, center.y -   dy, center.z +   dz),
-		vec3(center.x + 0.0f, center.y -   dy, center.z +   dz),
-		vec3(center.x +   dx, center.y -   dy, center.z +   dz),
-		vec3(center.x -   dx, center.y + 0.0f, center.z +   dz),
-		vec3(center.x + 0.0f, center.y + 0.0f, center.z +   dz),
-		vec3(center.x +   dx, center.y + 0.0f, center.z +   dz),
-		vec3(center.x -   dx, center.y +   dy, center.z +   dz),
-		vec3(center.x + 0.0f, center.y +   dy, center.z +   dz),
-		vec3(center.x +   dx, center.y +   dy, center.z +   dz),
-	};
-
+	
 	GLuint VAO, VBO;
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
@@ -156,79 +126,36 @@ int main()
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
 
-	
-	array<mat4, 27> cubeTransforms;
-	
-	array<pair<size_t, size_t>, 54> connections;
+	GLfloat lineVertices[] = {
+		-0.5f, -0.5f, -0.5f,	
+		 1.0f, -0.5f, -0.5f,	
 
-	size_t dim = 3;
-	size_t i = 0;
-	size_t current = 0;
-	size_t neighbor = 0;
-	for (unsigned int z = 0; z < dim; z++)
-	{
-		for (unsigned int y = 0; y < dim; y++)
-		{
-			for (unsigned int x = 0; x < dim; x++)
-			{
-				current = x + (y * dim) + (z * dim * dim);
+		-0.5f, -0.5f, -0.5f,	
+		-0.5f,  1.0f, -0.5f,	
 
-				if (x + 1 < dim)
-				{
-					neighbor = (x + 1) + (y * dim) + (z * dim * dim);
-					connections[i] = { current, neighbor };
-					i++;
-				}
-
-				if (y + 1 < dim)
-				{
-					neighbor = x + ((y + 1) * dim) + (z * dim * dim);
-					connections[i] = { current, neighbor };
-					i++;
-				}
-
-				if (z + 1 < dim)
-				{
-					neighbor = x + (y * dim) + ((z + 1) * dim * dim);
-					connections[i] = { current, neighbor };
-					i++;
-				}
-			}
-		}
-	}
-
-	array<vec3, 108> lineVertices;
-	for (size_t i = 0; i < connections.size(); i++)
-	{
-		lineVertices[2 * i] = positions[connections[i].first];
-		lineVertices[2 * i + 1] = positions[connections[i].second];
-	}
+		-0.5f, -0.5f, -0.5f,	
+		-0.5f, -0.5f,  1.0f
+	};
 
 	GLuint lineVAO, lineVBO;
 	glGenVertexArrays(1, &lineVAO);
 	glGenBuffers(1, &lineVBO);
 	glBindVertexArray(lineVAO);
 	glBindBuffer(GL_ARRAY_BUFFER, lineVBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(lineVertices), lineVertices.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(lineVertices), lineVertices, GL_STATIC_DRAW);
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), 0);
 
-	unsigned int colorLoc = glGetUniformLocation(myShader.ID, "customColor");
-	const vec3 bgColor = normalize(vec4(13.0f, 0.0f, 26.0f, 255.0f));
-	const vec3 bgColor2 = normalize(vec4(59.0f, 57.0f, 42.0f, 255.0f));
-	const vec3 startColor = normalize(vec4(110.0f, 81.0f, 129.0f, 255.0f));
-	const vec3 endColor = normalize(vec4(108.0f, 237.0f, 237.0f, 255.0f));
-	const vec3 thirdColor = normalize(vec4(108.0f, 185.0f, 201.0f, 255.0f));
-	const vec3 fourthColor = normalize(vec4(111.0f, 29.0f, 92.0f, 255.0f));
-	const vec3 fifthColor = normalize(vec4(82.0f, 122.0f, 118.0f, 255.0f));
-	const vec3 sixthColor = normalize(vec4(115.0f, 48.0f, 62.0f, 255.0f));
-	vec4 customColor = vec4(startColor, 1.0f);
+	const vec4 bgColor = normalize(vec4(33.0f, 34.0f, 54.0f, 255.0f));
+	const vec3 noColor = vec3(0.0f);
+	const vec3 red = vec3(1.0f, 0.0f, 0.0f);
+	const vec3 green = vec3(0.0f, 1.0f, 0.0f);
+	const vec3 blue = vec3(0.0f, 0.0f, 1.0f);
 	
-	glLineWidth(1.0f);
-
-	float sphereRadius = 8.0f, t = 0.0f;
-	float rotationAmount = radians(90.0f);
-	vec3 spherePosition = vec3(0.0f), scaleAmount = vec3(1.0f), translation = vec3(0.0f), rotationAxis = vec3(0.0f), a = vec3(0.0f), b = vec3(0.0f);
+	myShader.use();
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, texture0);
+	glLineWidth(2.0f);
 	while (!glfwWindowShouldClose(window))
 	{ 
 		processInput(window);
@@ -237,103 +164,21 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		view = mat4(1.0f);
-		view = translate(view, vec3(0.0f, 0.0f, -40.0f));
-		view = rotate(view, radians(15.0f), vec3(1.0f, 0.0f, 0.0f));
+		view = translate(view, vec3(0.0f, 0.0f, -4.0f));
 		glUniformMatrix4fv(glGetUniformLocation(myShader.ID, "view"), 1, GL_FALSE, value_ptr(view));
 
-		myShader.use();
-		t = glfwGetTime();
-		rotationAxis = vec3(sin(0.55f * t), 0.0f, cos(0.55f * t));
-
-		// outer cubes
 		glBindVertexArray(VAO);
-		for (unsigned int i = 0; i < positions.size(); i++)
-		{
-			spherePosition = sphereRadius * normalize(positions[i]);
-			if (i % 2 == 0)
-			{
-				customColor = vec4(fifthColor, 0.0f);
-				translation = mix(positions[i], 1.5f * spherePosition, sin(half_pi<float>() * sin(0.5f * t)) * pi<float>() / 9.0f + 1.0f);
-			}
-			else
-			{
-				customColor = vec4(sixthColor, 0.0f);
-				translation = mix(positions[i], spherePosition, sin(half_pi<float>() * sin(0.5f * t + pi<float>())) * pi<float>() / 9.0f + 1.0f);
-			}
+		glUniform1i(glGetUniformLocation(myShader.ID, "useTexture"), GL_TRUE);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
 
-			glUniform4fv(colorLoc, 1, value_ptr(customColor));
-			
-			model = mat4(1.0f);
-			model = rotate(model, rotationAmount, rotationAxis);
-			model = translate(model, translation);
-			model = scale(model, scaleAmount);
-			glUniformMatrix4fv(glGetUniformLocation(myShader.ID, "model"), 1, GL_FALSE, value_ptr(model));
-			
-			glDrawArrays(GL_TRIANGLES, 0, 36);
-			
-			cubeTransforms[i] = scale(model, vec3(0.1f));
-		}
-		
-		model = mat4(1.0f);
-		glUniformMatrix4fv(glGetUniformLocation(myShader.ID, "model"), 1, GL_FALSE, value_ptr(model));
-
-		// lines connecting outer cubes
 		glBindVertexArray(lineVAO);
-		customColor = vec4(1.0f, 1.0f, 1.0f, 1.0f);
-		glUniform4fv(colorLoc, 1, value_ptr(customColor));
-		for (unsigned int i = 0; i < connections.size(); i++)
-		{
-			lineVertices[2 * i] = cubeTransforms[connections[i].first] * vec4(positions[connections[i].first], 1.0f);
-			lineVertices[2 * i + 1] = cubeTransforms[connections[i].second] * vec4(positions[connections[i].second], 1.0f);
-		}
-		glBindBuffer(GL_ARRAY_BUFFER, lineVBO);
-		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(lineVertices), lineVertices.data());
-		glDrawArrays(GL_LINES, 0, 108);
-
-		// smaller cubes
-		glBindVertexArray(VAO);
-		rotationAxis = vec3(0.0f, 1.0f, 0.0f);
-		for (unsigned int i = 0; i < positions.size(); i++)
-		{
-			spherePosition = 0.5f * sphereRadius * normalize(positions[i]);
-			if (i % 2 == 0)
-			{
-				customColor = vec4(fifthColor.r - 0.1f, fifthColor.g - 0.1f, fifthColor.b - 0.1f, 0.0f);
-			}
-			else
-			{
-				customColor = vec4(sixthColor.r - 0.1f, sixthColor.g - 0.1f, sixthColor.b - 0.1f, 0.0f);
-			}
-			translation = mix(spherePosition, positions[i], 0.5f * sin(sin(0.5f * t)) + 1.0f);
-			
-			glUniform4fv(colorLoc, 1, value_ptr(customColor));
-			
-			model = mat4(1.0f);
-			model = rotate(model, rotationAmount, rotationAxis);
-			model = translate(model, translation);
-			model = scale(model, vec3(0.5f));
-			glUniformMatrix4fv(glGetUniformLocation(myShader.ID, "model"), 1, GL_FALSE, value_ptr(model));
-
-			glDrawArrays(GL_TRIANGLES, 0, 36);
-
-			cubeTransforms[i] = scale(model, vec3(0.1f));
-		}
-
-		model = mat4(1.0f);
-		glUniformMatrix4fv(glGetUniformLocation(myShader.ID, "model"), 1, GL_FALSE, value_ptr(model));
-
-		// lines connecting inner cubes
-		glBindVertexArray(lineVAO);
-		customColor = vec4(0.7f, 0.7f, 0.7f, 1.0f);
-		glUniform4fv(colorLoc, 1, value_ptr(customColor));
-		for (unsigned int i = 0; i < connections.size(); i++)
-		{
-			lineVertices[2 * i] = cubeTransforms[connections[i].first] * vec4(positions[connections[i].first], 1.0f);
-			lineVertices[2 * i + 1] = cubeTransforms[connections[i].second] * vec4(positions[connections[i].second], 1.0f);
-		}
-		glBindBuffer(GL_ARRAY_BUFFER, lineVBO);
-		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(lineVertices), lineVertices.data());
-		glDrawArrays(GL_LINES, 0, 108);
+		glUniform1i(glGetUniformLocation(myShader.ID, "useTexture"), GL_FALSE);
+		glUniform3fv(glGetUniformLocation(myShader.ID, "aColor"), 1, value_ptr(red));
+		glDrawArrays(GL_LINES, 0, 2);
+		glUniform3fv(glGetUniformLocation(myShader.ID, "aColor"), 1, value_ptr(blue));
+		glDrawArrays(GL_LINES, 2, 2);
+		glUniform3fv(glGetUniformLocation(myShader.ID, "aColor"), 1, value_ptr(green));
+		glDrawArrays(GL_LINES, 4, 2);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
@@ -372,25 +217,19 @@ unsigned int loadTexture(const char* path, int* imageWidth, int* imageHeight)
 	if (!imageData)
 	{
 		cout << "Failed to load texture" << endl;
+		return 0;
 	}
 
 	if (strstr(path, ".png"))
 	{
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, *imageWidth, *imageHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
 	}
-	if (strstr(path, ".jpg") || strstr(path, ".jpeg"))
+	else if (strstr(path, ".jpg") || strstr(path, ".jpeg"))
 	{
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, *imageWidth, *imageHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, imageData);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, *imageWidth, *imageHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, imageData);
 	}
 	glGenerateMipmap(GL_TEXTURE_2D);
 	stbi_image_free(imageData);
 
 	return textureID;
-}
-
-float triangleWave(float time, float amplitude, float period, float verticalOffset, float phaseOffset)
-{
-	float a = 2.0f * amplitude / pi<float>();
-	float k = 2.0f * pi<float>() / period;
-	return a * asin(sin(k * time + phaseOffset)) + verticalOffset;
 }

@@ -4,9 +4,18 @@ out vec4 FragColor;
 
 in vec2 TexCoord;
 
-uniform vec4 customColor;
+uniform sampler2D texture0;
+uniform vec3 aColor;
+uniform bool useTexture;
 
 void main()
 {
-	FragColor = customColor;
+	if (useTexture)
+	{
+		FragColor = texture(texture0, TexCoord);
+	}
+	else
+	{
+		FragColor = vec4(aColor, 1.0);
+	}
 }
