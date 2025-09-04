@@ -1,0 +1,27 @@
+---
+layout: default
+---
+
+{% assign prev_order = page.order | minus: 1 %}
+{% assign next_order = page.order | plus: 1 %}
+{% assign prev_page = site.pages | where: "order", prev_order %}
+{% assign next_page = site.pages | where: "order", next_order %}
+
+<main>
+  {{ content }}
+</main>
+
+<div class="footer">
+  {% if prev_page %}
+    <a href="{{ site.baseurl }}{{ prev_page[0].url }}">← Previous<br>{{ prev_page[0].title }}</a>
+  {% else %}
+    <span></span>
+  {% endif %}
+  
+  {% if next_page %}
+    <a href="{{ site.baseurl }}{{ next_page[0].url }}">Next →<br>{{ next_page[0].title }}</a>
+  {% else %}
+    <span></span>
+  {% endif %}
+</div>
+

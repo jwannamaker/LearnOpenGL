@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>{{ page.title }}</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="{{ '/assets/css/syntax.css' | relative_url }}">
+  <style>
+    body {
+      font-family: Verdana, sans-serif;
+      background: #111;
+      color: #ddd;
+      padding: 2rem;
+    }
+
+    a {
+      color: #bbb
+    }
+
+    a:hover {
+      color: #9ba0ff
+    }
+
+    h1, h2 {
+      margin-top: 2rem;
+    }
+
+    .highlight {
+      background-color: #444;
+      padding: 1rem;
+      overflow-x: auto;
+      border-radius: 1rem;
+    }
+
+    .content-wrapper {
+      margin: 0 auto;
+      max-width: 900px;
+      padding-bottom: 4.5rem;
+    }
+
+    .thumb-grid {
+      display: grid;
+      flex-wrap: wrap;
+      align-items: center;
+      padding: 10px;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    }
+
+    .thumb-card {
+      max-width: 200px;
+      width: auto;
+      margin: 5px;
+      transition: background-color 0.5s ease;
+      background: #222;
+      border-radius: 10px;
+      padding: 10px;
+      text-align: center;
+      text-decoration: none;
+      color: white;
+    }
+
+    .thumb-card:hover {
+      background-color: #444;
+      color: #9ba0ff;
+    }
+
+    .thumb-card img {
+      width: 100%;
+      border-radius: 5px;
+      aspect-ratio: 1;
+      display: block;
+      object-fit: cover;
+    }
+
+    img, video, iframe {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+    }
+
+    iframe {
+      aspect-ratio: 1.5;
+    }
+
+    figure {
+      color: #ccc;
+      background-color: #222;
+      margin: 1rem 0rem;
+      padding: 1rem;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    figure figcaption {
+      margin-top: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .header {
+      overflow: hidden;
+      position: fixed;
+      margin: 0;
+      padding: 0 1rem;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3.5rem;
+      background-color: #000;
+      display: flex;
+      align-items: center;
+      justify-content: left;
+    }
+
+    .header a {
+      font-weight: bold;
+      display: block;
+      align-content: center;
+      padding: 0.5rem 1rem;
+      color: #bbb;
+      text-decoration: none;
+    }
+
+    .header a:hover {
+      background-color: #444;
+      color: #9ba0ff
+    }
+
+    .footer {
+      overflow: hidden;
+      position: fixed;
+      margin: 0;
+      padding: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 3.5rem;
+      background-color: #000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer a {
+      font-weight: bold;
+      display: block;
+      align-content: center;
+      padding: 0.5rem 1rem;
+      color: #bbb;
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      background-color: #444;
+      color: #9ba0ff
+    }
+  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+  <div class="header">
+    <a href="{{ site.baseurl }}">Home</a>
+    <a href="{{ site.baseurl }}/contact.html">Contact</a>
+    <a href="{{ site.baseurl }}/about.html">About</a>
+  </div>
+
+  <h1>{{ page.title }}</h1>
+
+  <div class="content-wrapper">{{ content }}</div>
+</body>
+
+</html>

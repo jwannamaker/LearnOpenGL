@@ -1,0 +1,19 @@
+---
+layout: default
+title: Gallery
+---
+
+<div class="thumb-grid">
+{% for section in site.data.content %}
+  {% for type in section %}
+    {% if type[0] != "title" and type[0] != "slug" %}
+      {% for item in type[1] %}
+        {% assign index = forloop.index %}
+          <a class="thumb-card" href="{{ site.baseurl }}/{{ section.slug }}/{{ type[0] }}/{{ index }}.html">
+            <img src="{{ site.baseurl }}/assets/{{ section.slug }}/{{ type[0] }}/{{ index }}/thumb.png" alt="{{ item.title }}">
+          </a>
+      {% endfor %}
+    {% endif %}
+  {% endfor %}
+{% endfor %}
+</div>
