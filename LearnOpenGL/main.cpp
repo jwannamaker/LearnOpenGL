@@ -20,6 +20,67 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
 unsigned int loadTexture(const char* path, int* imageWidth, int* imageHeight);
 
+struct Camera {
+	mat4 view;
+	vec3 position;
+
+	Camera() 
+	{ 
+		view = mat4(1.0f);
+		position = vec3(0.0f);
+	}
+	
+	void turn(vec2 amount)
+	{
+		view = rotate(view, amount.x * rotateSpeed(), up()); 
+		view = rotate(view, amount.y * rotateSpeed(), right());
+	}
+
+	vec3 front(void)
+	{
+		return vec3(view * vec4(0.0f, 0.0f, 1.0f, 1.0f));
+	}
+
+	vec3 right(void)
+	{
+		return vec3(view * vec4(1.0f, 0.0f, 0.0f, 1.0f));
+	}
+
+	vec3 up(void)
+	{
+		return cross(front(), right());
+	}
+
+	float rotateSpeed(void) { return radians(0.05f); }
+};
+
+void processInput(GLFWwindow* window, Camera& camera)
+{
+	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+	{
+		glfwSetWindowShouldClose(window, true);
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
+	{
+		camera.turn(vec2(+1.0f, 0.0f));
+
+	}
+	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
+	{
+		camera.turn(vec2(-1.0f, 0.0f));
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+	{
+		camera.turn(vec2(0.0f, -1.0f));
+	}
+	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+	{
+		camera.turn(vec2(0.0f, +1.0f));
+	}
+}
+
 int main()
 {
 	// Initialize and configure GLFW
@@ -60,14 +121,11 @@ int main()
 	glUniform1i(glGetUniformLocation(myShader.ID, "texture0"), 0);
 
 	// Setup model, view, and projection matrices
-	mat4 model = mat4(1.0f), view = mat4(1.0f), projection = mat4(1.0f);
-	model = rotate(model, radians(20.0f), vec3(1.0f, 0.0f, 0.0f));
-	model = rotate(model, radians(120.0f), vec3(0.0f, 1.0f, 0.0f));
-	float width = 1.0f;
-	float height = 2.0f;
-	projection = perspective(radians(45.0f), width / height, 0.1f, 100.0f);
+	mat4 model = mat4(1.0f), projection = mat4(1.0f);
+	Camera camera = Camera();
+	projection = perspective(radians(45.0f), 1.0f, 0.1f, 100.0f);
 	glUniformMatrix4fv(glGetUniformLocation(myShader.ID, "model"), 1, GL_FALSE, value_ptr(model));
-	glUniformMatrix4fv(glGetUniformLocation(myShader.ID, "view"), 1, GL_FALSE, value_ptr(view));
+	glUniformMatrix4fv(glGetUniformLocation(myShader.ID, "view"), 1, GL_FALSE, value_ptr(camera.view));
 	glUniformMatrix4fv(glGetUniformLocation(myShader.ID, "projection"), 1, GL_FALSE, value_ptr(projection));
 
 	// Setup vertex data/buffers and configure vertex attributes
@@ -158,14 +216,11 @@ int main()
 	glLineWidth(2.0f);
 	while (!glfwWindowShouldClose(window))
 	{ 
-		processInput(window);
+		processInput(window, camera);
+		glUniformMatrix4fv(glGetUniformLocation(myShader.ID, "view"), 1, GL_FALSE, value_ptr(camera.view));
 
 		glClearColor(bgColor.r, bgColor.g, bgColor.b, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		view = mat4(1.0f);
-		view = translate(view, vec3(0.0f, 0.0f, -4.0f));
-		glUniformMatrix4fv(glGetUniformLocation(myShader.ID, "view"), 1, GL_FALSE, value_ptr(view));
 
 		glBindVertexArray(VAO);
 		glUniform1i(glGetUniformLocation(myShader.ID, "useTexture"), GL_TRUE);
