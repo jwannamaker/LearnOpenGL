@@ -16,6 +16,15 @@ using namespace glm;
 const unsigned int WINDOW_WIDTH = 1000;
 const unsigned int WINDOW_HEIGHT = 1000;
 
+namespace Camera {
+	// Setup camera for walking around
+	vec3 position = vec3(0.0f, 0.0f, 3.0f);
+	vec3 front	  = vec3(0.0f, 0.0f, -1.0f);
+	vec3 up		  = vec3(0.0f, 1.0f, 0.0f);
+
+	const float speed = 0.0005f;
+}
+
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow* window);
 unsigned int loadTexture(const char* path, int* imageWidth, int* imageHeight);
@@ -58,23 +67,17 @@ int main()
 	int imageWidth, imageHeight;
 	GLuint texture0 = loadTexture("container.jpg", &imageWidth, &imageHeight);
 	glUniform1i(glGetUniformLocation(myShader.ID, "texture0"), 0);
-
-
-	// Setup camera and MVP matrices
-	float radius = 5.0f;
-	float cameraX = sin(glfwGetTime()) * radius;
-	float cameraY = sin(glfwGetTime());
-	float cameraZ = cos(glfwGetTime()) * radius;
 	
+	// Setup MVP matrices
 	mat4 model = mat4(1.0f);
 
-	mat4 view = lookAt(vec3(cameraX, 0.0f, cameraZ),		// position
-					   vec3(0.0f, 0.0f, 0.0f),				// target
-					   vec3(0.0f, 1.0f, 0.0f));				// up
+	mat4 view = lookAt(Camera::position,					// position
+					   Camera::position + Camera::front,	// target
+					   Camera::up);							// up
 	
 	mat4 projection = perspective(radians(45.0f), 1.0f, 0.1f, 100.0f);
-	glUniformMatrix4fv(glGetUniformLocation(myShader.ID, "model"), 1, GL_FALSE, value_ptr(model));
-	glUniformMatrix4fv(glGetUniformLocation(myShader.ID, "view"), 1, GL_FALSE, value_ptr(view));
+	glUniformMatrix4fv(glGetUniformLocation(myShader.ID, "model"),		1, GL_FALSE, value_ptr(model));
+	glUniformMatrix4fv(glGetUniformLocation(myShader.ID, "view"),		1, GL_FALSE, value_ptr(view));
 	glUniformMatrix4fv(glGetUniformLocation(myShader.ID, "projection"), 1, GL_FALSE, value_ptr(projection));
 
 	// Setup vertex data/buffers and configure vertex attributes
@@ -133,8 +136,8 @@ int main()
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
 
-	const vec4 bgColor = normalize(vec4(33.0f, 34.0f, 54.0f, 255.0f));
-	
+	const vec4 bgColor = normalize(vec4(108.0f, 185.0f, 201.0f, 255.0f));
+
 	myShader.use();
 	glBindVertexArray(VAO);
 	glActiveTexture(GL_TEXTURE0);
@@ -143,12 +146,7 @@ int main()
 	{ 
 		processInput(window);
 
-		cameraX = sin(glfwGetTime()) * radius;
-		cameraY = sin(glfwGetTime());
-		cameraZ = cos(glfwGetTime()) * radius;
-		view = lookAt(vec3(cameraX, cameraY, cameraZ),
-					  vec3(0.0f, 0.0f, 0.0f),
-					  vec3(0.0f, 1.0f, 0.0f));
+		view = lookAt(Camera::position, Camera::position + Camera::front, Camera::up);
 		glUniformMatrix4fv(glGetUniformLocation(myShader.ID, "view"), 1, GL_FALSE, value_ptr(view));
 
 		glClearColor(bgColor.r, bgColor.g, bgColor.b, 1.0f);
@@ -171,6 +169,22 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 
 void processInput(GLFWwindow* window)
 {
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+	{
+		Camera::position += Camera::speed * Camera::front;
+	}
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+	{
+		Camera::position -= Camera::speed * Camera::front;
+	}
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+	{
+		Camera::position -= Camera::speed * normalize(cross(Camera::front, Camera::up));
+	}
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+	{
+		Camera::position += Camera::speed * normalize(cross(Camera::front, Camera::up));
+	}
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 	{
 		glfwSetWindowShouldClose(window, true);
