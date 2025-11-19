@@ -17,12 +17,17 @@ const unsigned int WINDOW_WIDTH = 1000;
 const unsigned int WINDOW_HEIGHT = 1000;
 
 namespace Camera {
+	// Utility variables for movement smoothing
+	float deltaTime = 0.0f;
+	float lastFrame = 0.0f;
+	float currentFrame = 0.0f;
+	float speed = 0.0005f;
+
 	// Setup camera for walking around
 	vec3 position = vec3(0.0f, 0.0f, 3.0f);
 	vec3 front	  = vec3(0.0f, 0.0f, -1.0f);
 	vec3 up		  = vec3(0.0f, 1.0f, 0.0f);
 
-	const float speed = 0.0005f;
 }
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
@@ -145,6 +150,10 @@ int main()
 	while (!glfwWindowShouldClose(window))
 	{ 
 		processInput(window);
+		
+		Camera::currentFrame = glfwGetTime();
+		Camera::deltaTime = Camera::currentFrame - Camera::lastFrame;
+		Camera::lastFrame = Camera::currentFrame;
 
 		view = lookAt(Camera::position, Camera::position + Camera::front, Camera::up);
 		glUniformMatrix4fv(glGetUniformLocation(myShader.ID, "view"), 1, GL_FALSE, value_ptr(view));
@@ -169,6 +178,7 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 
 void processInput(GLFWwindow* window)
 {
+	Camera::speed = 2.5f * Camera::deltaTime;
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 	{
 		Camera::position += Camera::speed * Camera::front;
